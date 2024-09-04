@@ -100,6 +100,8 @@ namespace SinmaiAssist
             if (config.UnlockEvent) Patch(typeof(UnlockEvent));
             if(config.QuickBoot) Patch(typeof(QuickBoot));
 
+            Patch(typeof(DummyTouchPanel));
+            Patch(typeof(PrintUserData));
             
 
             MelonLogger.Msg("Loading completed");
