@@ -1,10 +1,12 @@
 ﻿using HarmonyLib;
+using MelonLoader;
 using Net;
 using Net.Packet;
 using System;
 using System.IO;
+using System.Reflection;
 using System.Text;
-using Utils;
+using static MelonLoader.MelonLogger;
 
 namespace Common
 {
@@ -16,33 +18,47 @@ namespace Common
             Response,
             Null
         }
+        private static bool isInsideProcImpl = false;
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(Packet), "set_State")]
-        public static void NetworkListener(Packet __instance)
+        public static void RequestListener(Packet __instance)
         {
-            HttpMessageType httpMessageType = HttpMessageType.Null;
-            string content = null;
+            
             if (__instance.State == PacketState.Ready)
             {
-                content = __instance.Query.GetRequest();
-                string baseUrl = (string) AccessTools.Field(typeof(Packet), "BaseUrl").GetValue(__instance);
-                //MelonLogger.Msg($"{baseUrl}{__instance.Query.Api} {content}");
-                httpMessageType = HttpMessageType.Request;
+                string content = __instance.Query.GetRequest();
+                string baseUrl = (string)AccessTools.Field(typeof(Packet), "BaseUrl").GetValue(__instance);
+                PrintNetworkLog(HttpMessageType.Request, __instance.Query, content);
+                //MelonLogger.Msg($"[Request] [{__instance.Query.Api}] -> {content}");
             }
-            if (__instance.State == PacketState.Done && __instance.Status == PacketStatus.Ok)
-            {
-                var clientField = AccessTools.Field(typeof(Packet), "Client");
-                NetHttpClient client = (NetHttpClient)clientField.GetValue(__instance);
-                byte[] encryptData = client.GetResponse().ToArray();
-                byte[] data = CipherAES.Decrypt(encryptData);
-                content = Encoding.UTF8.GetString(data);
-                //MelonLogger.Msg($"{__instance.Query.Api} Response: {content}");
-                httpMessageType = HttpMessageType.Response;
-            }
-            PrintNetworkLog(httpMessageType, __instance.Query, content);
         }
 
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(Encoding), "GetString", new[] { typeof(byte[]) })]
+        public static void ResponseListener(Packet __instance, ref string __result)
+        {
+            if (isInsideProcImpl)
+            {
+                string ccontent = __result;
+                PrintNetworkLog(HttpMessageType.Response, __instance.Query, ccontent);
+                //MelonLogger.Msg($"[Response] [{__instance.Query.Api}] -> {ccontent}");
+            }
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Packet), "ProcImpl")]
+        public static void ProcImplPrefix()
+        {
+            isInsideProcImpl = true;
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(Packet), "ProcImpl")]
+        public static void ProcImplPostfix()
+        {
+            isInsideProcImpl = false;
+        }
         private static void PrintNetworkLog(HttpMessageType httpMessageType, INetQuery query , string content)
         {
             if (httpMessageType == HttpMessageType.Null) return;
