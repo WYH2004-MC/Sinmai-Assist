@@ -22,6 +22,7 @@ namespace SinmaiAssist
         public bool SkipVersionCheck { get; private set; }
         public bool ShowVersionInfo { get; private set; }
         public bool ForceIsSDGB { get; private set; }
+        public bool SafeMode { get; private set; }
 
 
         public void initialize()
@@ -54,6 +55,7 @@ namespace SinmaiAssist
             // [ModSetting]
             ShowVersionInfo = iniFile.getValue("ModSetting", "ShowVersionInfo", defaultParam: false);
             ForceIsSDGB = iniFile.getValue("ModSetting", "ForceIsSDGB", defaultParam: false);
+            SafeMode = iniFile.getValue("ModSetting", "SafeMode", defaultParam: false);
 
         }
     }

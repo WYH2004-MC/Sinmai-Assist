@@ -7,6 +7,7 @@ using SDGB;
 using System;
 using System.IO;
 using UnityEngine;
+using static UnityEngine.UI.CanvasScaler;
 
 namespace SinmaiAssist
 {
@@ -26,8 +27,8 @@ namespace SinmaiAssist
         private ModGUI modGUI;
         public static ConfigManager config;
         public static bool IsSDGB = false;
-        public static string gameID = "";
-        public static string gameVersion = "";
+        public static string gameID = "SafeMode";
+        public static string gameVersion = "SafeMode";
 
         public override void OnInitializeMelon() {
             modGUI = new ModGUI();
@@ -43,6 +44,12 @@ namespace SinmaiAssist
             }
             config.initialize();
             ModGUI.DummyUserId = config.DefaultDummyUserId;
+
+            if (config.SafeMode)
+            {
+                MelonLogger.Warning("Safe mode is enabled, Disable all patch");
+                return;
+            }
 
             // 输出设备摄像头列表
             File.Delete($"{BuildInfo.Name}/WebCameraList.txt");
