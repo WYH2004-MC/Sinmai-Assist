@@ -98,6 +98,7 @@ namespace SinmaiAssist
             if (config.AutoPlay) Patch(typeof(AutoPlay));
             //if (config.AllCollection) Patch(typeof(AllCollection));
             if (config.UnlockEvent) Patch(typeof(UnlockEvent));
+            if(config.QuickBoot) Patch(typeof(QuickBoot));
 
             Patch(typeof(DummyTouchPanel));
             Patch(typeof(PrintUserData));

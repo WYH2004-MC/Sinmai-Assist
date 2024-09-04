@@ -1,4 +1,6 @@
-﻿using HarmonyLib;
+﻿using System;
+using HarmonyLib;
+using MelonLoader;
 using UnityEngine;
 
 namespace Common
@@ -9,7 +11,14 @@ namespace Common
         [HarmonyPatch(typeof(Main.GameMain), "LateInitialize", new System.Type[] { typeof(MonoBehaviour), typeof(Transform), typeof(Transform) })]
         public static bool LateInitialize(MonoBehaviour gameMainObject, ref Transform left, ref Transform right)
         {
-            GameObject.Find("Mask").SetActive(false);
+            try
+            {
+                GameObject.Find("Mask").SetActive(false);
+            }
+            catch (Exception e)
+            {
+                MelonLogger.Msg("Maybe the current Sinmai build does not have GameObject \"Mask\".");
+            }
             return true;
         }
     }
