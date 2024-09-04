@@ -89,7 +89,7 @@ namespace SinmaiAssist
             }
             if (config.DisableMask) Patch(typeof(DisableMask));
             if (config.SinglePlayer) Patch(typeof(SinglePlayer));
-            if (config.NetworkLogger) Patch(typeof(NetworkLogger));
+            // if (config.NetworkLogger) Patch(typeof(NetworkLogger));
             if (config.ForwardATouchRegionToButton) Patch(typeof(ForwardATouchRegionToButton));
             //if (config.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
             if (config.DisableReboot) Patch (typeof(DisableReboot));
@@ -98,9 +98,8 @@ namespace SinmaiAssist
             if (config.AutoPlay) Patch(typeof(AutoPlay));
             //if (config.AllCollection) Patch(typeof(AllCollection));
             if (config.UnlockEvent) Patch(typeof(UnlockEvent));
+            if(config.QuickBoot) Patch(typeof(QuickBoot));
 
-            Patch(typeof(DummyTouchPanel));
-            Patch(typeof(PrintUserData));
             
 
             MelonLogger.Msg("Loading completed");

@@ -17,6 +17,7 @@ namespace SinmaiAssist
         public bool ForwardATouchRegionToButton { get; private set; }
         public bool ForceCurrentIsBest { get; private set; }
         public string CustomVersionText { get; private set; }
+        public bool QuickBoot { get; private set; }
         public bool AutoPlay { get; private set; }
         public bool AllCollection {  get; private set; }
         public bool UnlockEvent { get; private set; }
@@ -45,6 +46,7 @@ namespace SinmaiAssist
             ForwardATouchRegionToButton = iniFile.getValue("Common", "ForwardATouchRegionToButton", defaultParam: false);
             ForceCurrentIsBest = iniFile.getValue("Common", "ForceCurrentIsBest", defaultParam: false);
             CustomVersionText = iniFile.getValue("Common", "CustomVersionText", defaultParam: null);
+            QuickBoot = iniFile.getValue("Common", "QuickBoot", defaultParam: false);
 
             // [Cheat]
             AutoPlay = iniFile.getValue("Cheat", "AutoPlay", defaultParam: false);

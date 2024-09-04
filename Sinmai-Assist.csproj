@@ -282,6 +282,7 @@
     <Compile Include="Common\ForwardATouchRegionToButton.cs" />
     <Compile Include="Common\NetworkLogger.cs" />
     <Compile Include="Common\PrintUserData.cs" />
+    <Compile Include="Common\QuickBoot.cs" />
     <Compile Include="Common\ShowFPS.cs" />
     <Compile Include="Common\SinglePlayer.cs" />
     <Compile Include="ConfigManager.cs" />
