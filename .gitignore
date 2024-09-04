@@ -371,6 +371,4 @@ MigrationBackup/
 # End of https://www.toptal.com/developers/gitignore/api/git,visualstudio
 
 Output
-Libs/MelonLoader.dll
-/packages/LavaGang.MelonLoader.0.6.1
 /.idea/.idea.Sinmai-Assist/.idea
