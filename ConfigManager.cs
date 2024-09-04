@@ -1,4 +1,5 @@
-﻿using MAI2System;
+﻿using Common;
+using MAI2System;
 
 namespace SinmaiAssist
 {
@@ -11,6 +12,7 @@ namespace SinmaiAssist
         public int CustomPhotoCameraId { get; private set; }
         public bool DisableMask { get; private set; }
         public bool ShowFPS { get; private set; }
+        public bool NetworkLogger {  get; private set; }
         public bool SinglePlayer { get; private set; }
         public bool ForwardATouchRegionToButton { get; private set; }
         public bool ForceCurrentIsBest { get; private set; }
@@ -38,6 +40,7 @@ namespace SinmaiAssist
             // [Common]
             DisableMask = iniFile.getValue("Common", "DisableMask", defaultParam: false);
             ShowFPS = iniFile.getValue("Common", "ShowFPS", defaultParam: false);
+            NetworkLogger = iniFile.getValue("Common", "NetworkLogger", defaultParam: false);
             SinglePlayer = iniFile.getValue("Common", "SinglePlayer", defaultParam: false);
             ForwardATouchRegionToButton = iniFile.getValue("Common", "ForwardATouchRegionToButton", defaultParam: false);
             ForceCurrentIsBest = iniFile.getValue("Common", "ForceCurrentIsBest", defaultParam: false);
