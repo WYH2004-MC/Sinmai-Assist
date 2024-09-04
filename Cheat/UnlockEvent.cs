@@ -21,7 +21,7 @@ namespace Cheat
             List<GameEvent> list = new List<GameEvent>();
             foreach (DirectoryInfo optFolder in new DirectoryInfo("./Sinmai_Data/StreamingAssets").EnumerateDirectories("*", SearchOption.AllDirectories))
             {
-                if (optFolder.Name.StartsWith("A") && int.TryParse(optFolder.Name.Replace("A", ""), out var optNumber))
+                if (optFolder.Name.StartsWith("A") && int.TryParse(optFolder.Name.Replace("A", ""), out var optNumber) && Directory.Exists($"./Sinmai_Data/StreamingAssets/{optFolder.Name}/event"))
                 {
                     try
                     {
