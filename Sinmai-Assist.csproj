@@ -296,6 +296,7 @@
     <Compile Include="Utils\CipherAES.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="config.ini" />
     <None Include="packages.config" />
     <None Include="README.md" />
   </ItemGroup>
