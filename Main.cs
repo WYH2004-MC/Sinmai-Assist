@@ -89,7 +89,7 @@ namespace SinmaiAssist
             }
             if (config.DisableMask) Patch(typeof(DisableMask));
             if (config.SinglePlayer) Patch(typeof(SinglePlayer));
-            // if (config.NetworkLogger) Patch(typeof(NetworkLogger));
+            if (config.NetworkLogger) Patch(typeof(NetworkLogger));
             if (config.ForwardATouchRegionToButton) Patch(typeof(ForwardATouchRegionToButton));
             //if (config.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
             if (config.DisableReboot) Patch (typeof(DisableReboot));
