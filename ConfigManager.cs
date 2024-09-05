@@ -21,6 +21,7 @@ namespace SinmaiAssist
         public bool AutoPlay { get; private set; }
         public bool AllCollection {  get; private set; }
         public bool UnlockEvent { get; private set; }
+        public bool ResetLoginBonusRecord { get; private set; }
         public bool DisableReboot { get; private set; }
         public bool SkipVersionCheck { get; private set; }
         public bool ShowVersionInfo { get; private set; }
@@ -52,7 +53,8 @@ namespace SinmaiAssist
             AutoPlay = iniFile.getValue("Cheat", "AutoPlay", defaultParam: false);
             AllCollection = iniFile.getValue("Cheat", "AllCollection", defaultParam: false);
             UnlockEvent = iniFile.getValue("Cheat", "UnlockEvent", defaultParam: false);
-
+            ResetLoginBonusRecord = iniFile.getValue("Cheat", "ResetLoginBonusRecord", defaultParam: false);
+            
             // [Fix]
             DisableReboot = iniFile.getValue("Fix", "DisableReboot", defaultParam: false);
             SkipVersionCheck = iniFile.getValue("Fix", "SkipVersionCheck", defaultParam: false);

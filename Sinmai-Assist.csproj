@@ -276,6 +276,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cheat\AutoPlay.cs" />
+    <Compile Include="Cheat\ForceCurrentIsBest.cs" />
+    <Compile Include="Cheat\ResetLoginBonusRecord.cs" />
     <Compile Include="Cheat\UnlockEvent.cs" />
     <Compile Include="Common\CustomVersionText.cs" />
     <Compile Include="Common\DisableMask.cs" />
