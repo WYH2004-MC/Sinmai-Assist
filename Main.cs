@@ -7,7 +7,6 @@ using SDGB;
 using System;
 using System.IO;
 using UnityEngine;
-using static UnityEngine.UI.CanvasScaler;
 
 namespace SinmaiAssist
 {
@@ -15,7 +14,7 @@ namespace SinmaiAssist
     {
         public const string Name = "Sinmai-Assist";
         public const string Description = "SlimMod Melon Version For Sinmai";
-        public const string Author = "Slim";
+        public const string Author = "Slim & Error063";
         public const string Company = null;
         public const string Version = "1.0.0";
         public const string DownloadLink = null;
