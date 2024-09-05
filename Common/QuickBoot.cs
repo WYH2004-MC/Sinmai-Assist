@@ -2,7 +2,10 @@
 using Process;
 using System;
 using System.Reflection;
+using MAI2.Util;
+using Manager.Achieve;
 using MelonLoader;
+using Util;
 
 namespace Common
 {
@@ -33,7 +36,18 @@ namespace Common
             FieldInfo _state = AccessTools.Field(typeof(StartupProcess), "_state");
             if (Convert.ToInt32(_state.GetValue(__instance)) == 3)
             {
+                FieldInfo _statusSubMsg = AccessTools.Field(typeof(StartupProcess), "_statusSubMsg");
+                string[] statusSubMsg = (string[])_statusSubMsg.GetValue(__instance);
+                statusSubMsg[6] = "Skip";
+                statusSubMsg[7] = "Skip";
+                statusSubMsg[8] = "Skip";
+                statusSubMsg[9] = "Skip";
+                statusSubMsg[10] = "Skip";
+                _statusSubMsg.SetValue(__instance, statusSubMsg);
+                Singleton<CollectionAchieve>.Instance.Configure();
+                Singleton<MapMaster>.Instance.Initialize();
                 _state.SetValue(__instance, Convert.ToByte(8));
+                return false;
             }
             return true;
         }
