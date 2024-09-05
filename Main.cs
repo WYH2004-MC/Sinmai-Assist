@@ -91,7 +91,8 @@ namespace SinmaiAssist
             if (config.SinglePlayer) Patch(typeof(SinglePlayer));
             if (config.NetworkLogger) Patch(typeof(NetworkLogger));
             if (config.ForwardATouchRegionToButton) Patch(typeof(ForwardATouchRegionToButton));
-            // if (config.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
+            // if (config.ForceCurrentIsBest)
+            // Patch(typeof(ForceCurrentIsBest));
             if (config.DisableReboot) Patch (typeof(DisableReboot));
             if (config.SkipVersionCheck) Patch(typeof(SkipVersionCheck));
             if (config.CustomVersionText != null) Patch(typeof(CustomVersionText));
@@ -100,7 +101,7 @@ namespace SinmaiAssist
             if (config.UnlockEvent) Patch(typeof(UnlockEvent));
             if(config.QuickBoot) Patch(typeof(QuickBoot));
             if(config.ResetLoginBonusRecord) Patch(typeof(ResetLoginBonusRecord));
-            
+            if (config.BlockCoin) Patch(typeof(BlockCoin));
             
             Patch(typeof(DummyTouchPanel));
             Patch(typeof(PrintUserData));

@@ -17,7 +17,7 @@ namespace Common
             }
             catch (Exception e)
             {
-                MelonLogger.Msg("Maybe the current Sinmai build does not have GameObject \"Mask\".");
+                MelonLogger.Warning("Maybe the current Sinmai build does not have GameObject \"Mask\".");
             }
             return true;
         }

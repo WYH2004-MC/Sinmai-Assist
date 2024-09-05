@@ -18,6 +18,7 @@ namespace SinmaiAssist
         public bool ForceCurrentIsBest { get; private set; }
         public string CustomVersionText { get; private set; }
         public bool QuickBoot { get; private set; }
+        public bool BlockCoin { get; private set; }
         public bool AutoPlay { get; private set; }
         public bool AllCollection {  get; private set; }
         public bool UnlockEvent { get; private set; }
@@ -48,7 +49,8 @@ namespace SinmaiAssist
             ForceCurrentIsBest = iniFile.getValue("Common", "ForceCurrentIsBest", defaultParam: false);
             CustomVersionText = iniFile.getValue("Common", "CustomVersionText", defaultParam: null);
             QuickBoot = iniFile.getValue("Common", "QuickBoot", defaultParam: false);
-
+            BlockCoin = iniFile.getValue("Common", "BlockCoin", defaultParam: false);
+            
             // [Cheat]
             AutoPlay = iniFile.getValue("Cheat", "AutoPlay", defaultParam: false);
             AllCollection = iniFile.getValue("Cheat", "AllCollection", defaultParam: false);

@@ -69,6 +69,7 @@
     <Reference Include="System.Core">
       <HintPath>Libs\System.Core.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Security">
       <HintPath>Libs\System.Security.dll</HintPath>
     </Reference>
@@ -279,6 +280,7 @@
     <Compile Include="Cheat\ForceCurrentIsBest.cs" />
     <Compile Include="Cheat\ResetLoginBonusRecord.cs" />
     <Compile Include="Cheat\UnlockEvent.cs" />
+    <Compile Include="Common\BlockCoin.cs" />
     <Compile Include="Common\CustomVersionText.cs" />
     <Compile Include="Common\DisableMask.cs" />
     <Compile Include="Common\ForwardATouchRegionToButton.cs" />
@@ -299,6 +301,7 @@
     <Compile Include="Utils\CipherAES.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="config.ini" />
     <None Include="packages.config" />
     <None Include="README.md" />
