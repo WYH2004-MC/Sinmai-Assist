@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Reflection;
 using HarmonyLib;
-using Manager;
-// using Manager;
 using Net.Packet;
 using Net.Packet.Mai2;
 using Net.VO;
