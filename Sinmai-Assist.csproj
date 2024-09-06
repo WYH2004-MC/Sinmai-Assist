@@ -294,6 +294,7 @@
     <Compile Include="Fix\DisableEncryption.cs" />
     <Compile Include="Fix\DisableReboot.cs" />
     <Compile Include="Fix\DummyTouchPanel.cs" />
+    <Compile Include="Fix\RewriteNoteJudgeSetting.cs" />
     <Compile Include="Fix\SkipVersionCheck.cs" />
     <Compile Include="ModGUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -311,7 +312,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /y "D:\#Code\Sinmai-Assist\Output\Sinmai-Assist.dll" "D:\SDGB1.40\App\Package\Mods\Sinmai-Assist.dll"
-</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

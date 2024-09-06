@@ -28,6 +28,10 @@ namespace SinmaiAssist
         public bool DisableEncryption { get; private set; }
         public bool DisableReboot { get; private set; }
         public bool SkipVersionCheck { get; private set; }
+        public bool RewriteNoteJudgeSetting { get; private set; }
+        public float AdjustTiming { get; private set; }
+        public float JudgeTiming { get; private set; }
+        
         public bool ShowVersionInfo { get; private set; }
         public bool ForceIsSDGB { get; private set; }
         public bool SafeMode { get; private set; }
@@ -65,6 +69,9 @@ namespace SinmaiAssist
             DisableEncryption = iniFile.getValue("Fix", "DisableEncryption", defaultParam: false);
             DisableReboot = iniFile.getValue("Fix", "DisableReboot", defaultParam: false);
             SkipVersionCheck = iniFile.getValue("Fix", "SkipVersionCheck", defaultParam: false);
+            RewriteNoteJudgeSetting = iniFile.getValue("Fix", "RewriteNoteJudgeSetting", defaultParam: false);
+            AdjustTiming = iniFile.getValue("Fix", "AdjustTiming", defaultParam: 0f);
+            JudgeTiming = iniFile.getValue("Fix", "JudgeTiming", defaultParam: 0f);
 
             // [ModSetting]
             ShowVersionInfo = iniFile.getValue("ModSetting", "ShowVersionInfo", defaultParam: false);

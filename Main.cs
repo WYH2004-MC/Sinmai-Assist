@@ -90,7 +90,7 @@ namespace SinmaiAssist
             if (config.SinglePlayer) Patch(typeof(SinglePlayer));
             if (config.NetworkLogger) Patch(typeof(NetworkLogger));
             if (config.ForwardATouchRegionToButton) Patch(typeof(ForwardATouchRegionToButton));
-            //if (config.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
+            if (config.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
             if (config.DisableEncryption) Patch(typeof(DisableEncryption));
             if (config.DisableReboot) Patch (typeof(DisableReboot));
             if (config.SkipVersionCheck) Patch(typeof(SkipVersionCheck));
@@ -98,9 +98,10 @@ namespace SinmaiAssist
             if (config.AutoPlay) Patch(typeof(AutoPlay));
             if (config.AllCollection) Patch(typeof(AllCollection));
             if (config.UnlockEvent) Patch(typeof(UnlockEvent));
-            if(config.QuickBoot) Patch(typeof(QuickBoot));
-            if(config.ResetLoginBonusRecord) Patch(typeof(ResetLoginBonusRecord));
+            if (config.QuickBoot) Patch(typeof(QuickBoot));
+            if (config.ResetLoginBonusRecord) Patch(typeof(ResetLoginBonusRecord));
             if (config.BlockCoin) Patch(typeof(BlockCoin));
+            if (config.RewriteNoteJudgeSetting && (config.AdjustTiming != 0 || config.JudgeTiming != 0)) Patch(typeof(RewriteNoteJudgeSetting));
             
             Patch(typeof(DummyTouchPanel));
             Patch(typeof(PrintUserData));
