@@ -30,9 +30,9 @@ namespace SinmaiAssist
         public static string gameVersion = "SafeMode";
 
         public override void OnInitializeMelon() {
+            PrintLogo();
             modGUI = new ModGUI();
             config = new ConfigManager();
-            PrintLogo();
 
             // 加载配置文件
             MelonLogger.Msg("Load Mod Config.");
@@ -95,13 +95,12 @@ namespace SinmaiAssist
             if (config.SkipVersionCheck) Patch(typeof(SkipVersionCheck));
             if (config.CustomVersionText != null) Patch(typeof(CustomVersionText));
             if (config.AutoPlay) Patch(typeof(AutoPlay));
-            //if (config.AllCollection) Patch(typeof(AllCollection));
+            if (config.AllCollection) Patch(typeof(AllCollection));
             if (config.UnlockEvent) Patch(typeof(UnlockEvent));
             if(config.QuickBoot) Patch(typeof(QuickBoot));
 
             Patch(typeof(DummyTouchPanel));
             Patch(typeof(PrintUserData));
-            
 
             MelonLogger.Msg("Loading completed");
         }
@@ -140,6 +139,7 @@ namespace SinmaiAssist
                 "\r\n                                                                 " +
                 "\r\n=================================================================" +
                 $"\r\n Version: {BuildInfo.Version}     Author: {BuildInfo.Author}");
+            MelonLogger.Warning("This is a cheat mod. Use at your own risk!");
         }
     }
 }

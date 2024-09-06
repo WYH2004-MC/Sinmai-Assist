@@ -275,6 +275,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cheat\AllCollection.cs" />
     <Compile Include="Cheat\AutoPlay.cs" />
     <Compile Include="Cheat\UnlockEvent.cs" />
     <Compile Include="Common\CustomVersionText.cs" />
