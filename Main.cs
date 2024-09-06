@@ -91,6 +91,7 @@ namespace SinmaiAssist
             if (config.NetworkLogger) Patch(typeof(NetworkLogger));
             if (config.ForwardATouchRegionToButton) Patch(typeof(ForwardATouchRegionToButton));
             //if (config.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
+            if (config.DisableEncryption) Patch(typeof(DisableEncryption));
             if (config.DisableReboot) Patch (typeof(DisableReboot));
             if (config.SkipVersionCheck) Patch(typeof(SkipVersionCheck));
             if (config.CustomVersionText != null) Patch(typeof(CustomVersionText));

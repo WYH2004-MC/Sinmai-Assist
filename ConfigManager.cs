@@ -1,4 +1,5 @@
 ﻿using Common;
+using Fix;
 using MAI2System;
 
 namespace SinmaiAssist
@@ -22,6 +23,7 @@ namespace SinmaiAssist
         public bool AutoPlay { get; private set; }
         public bool AllCollection {  get; private set; }
         public bool UnlockEvent { get; private set; }
+        public bool DisableEncryption { get; private set; }
         public bool DisableReboot { get; private set; }
         public bool SkipVersionCheck { get; private set; }
         public bool ShowVersionInfo { get; private set; }
@@ -56,6 +58,7 @@ namespace SinmaiAssist
             UnlockEvent = iniFile.getValue("Cheat", "UnlockEvent", defaultParam: false);
 
             // [Fix]
+            DisableEncryption = iniFile.getValue("Fix", "DisableEncryption", defaultParam: false);
             DisableReboot = iniFile.getValue("Fix", "DisableReboot", defaultParam: false);
             SkipVersionCheck = iniFile.getValue("Fix", "SkipVersionCheck", defaultParam: false);
 
