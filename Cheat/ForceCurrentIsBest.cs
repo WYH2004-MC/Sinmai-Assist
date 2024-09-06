@@ -1,8 +1,9 @@
 ﻿using HarmonyLib;
+using Manager.UserDatas;
 using MelonLoader;
 using Process;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection.Emit;
 
 namespace Cheat
@@ -15,30 +16,23 @@ namespace Cheat
         {
             var codes = new List<CodeInstruction>(instructions);
             bool isFound = false;
-            CodeInstruction ldloc = null;
-            CodeInstruction brtrue = null;
 
-            // 遍历所有的 IL 指令
+            var targetMethod = typeof(List<UserScore>).GetMethod("Find", new[] { typeof(Predicate<UserScore>) });
+
             for (int i = 0; i < codes.Count - 1; i++)
             {
-                if (codes[i].opcode == OpCodes.Ldloc_S && codes[i + 1].opcode == OpCodes.Brtrue)
+                if (codes[i].opcode == OpCodes.Callvirt && codes[i].operand == targetMethod)
                 {
-                    if (codes[i].operand.ToString().Contains("Manager.UserDatas.UserScore"))
-                    {
-                        MelonLogger.Msg($"Found! {codes[i].operand}");
-                        
-                        codes[i+1].opcode = OpCodes.Pop;
-                        codes[i+1].operand = null;
-
-                        isFound = true;
-                        break;
-                    }
+                    codes[i] = new CodeInstruction(OpCodes.Ldnull);
+                    codes.RemoveRange(i-10, 10);
+                    isFound = true;
+                    break;
                 }
             }
             if (!isFound)
-                MelonLogger.Warning("Failed to patch ForceCurrentIsBest, 'if(userScore == null)' Not Found!");
+                MelonLogger.Warning("Failed to patch ForceCurrentIsBest, Method Not Found!");
 
-            return codes.AsEnumerable();
+            return codes;
         }
     }
 }

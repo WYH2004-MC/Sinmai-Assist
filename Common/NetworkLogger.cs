@@ -45,7 +45,7 @@ namespace Common
         {
             try
             {
-                if (isInsideProcImpl)
+                if (isInsideProcImpl && __instance.State == PacketState.Process)
                 {
                     string ccontent = __result;
                     PrintNetworkLog(HttpMessageType.Response, __instance.Query, ccontent);
