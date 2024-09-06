@@ -90,7 +90,7 @@ namespace SinmaiAssist
             if (config.SinglePlayer) Patch(typeof(SinglePlayer));
             if (config.NetworkLogger) Patch(typeof(NetworkLogger));
             if (config.ForwardATouchRegionToButton) Patch(typeof(ForwardATouchRegionToButton));
-            //if (config.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
+            if (config.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
             if (config.DisableEncryption) Patch(typeof(DisableEncryption));
             if (config.DisableReboot) Patch (typeof(DisableReboot));
             if (config.SkipVersionCheck) Patch(typeof(SkipVersionCheck));

@@ -17,12 +17,12 @@ namespace SinmaiAssist
         public bool NetworkLoggerPrintToConsole { get; private set; }
         public bool SinglePlayer { get; private set; }
         public bool ForwardATouchRegionToButton { get; private set; }
-        public bool ForceCurrentIsBest { get; private set; }
         public string CustomVersionText { get; private set; }
         public bool QuickBoot { get; private set; }
         public bool AutoPlay { get; private set; }
         public bool AllCollection {  get; private set; }
         public bool UnlockEvent { get; private set; }
+        public bool ForceCurrentIsBest { get; private set; }
         public bool DisableEncryption { get; private set; }
         public bool DisableReboot { get; private set; }
         public bool SkipVersionCheck { get; private set; }
@@ -48,7 +48,6 @@ namespace SinmaiAssist
             NetworkLoggerPrintToConsole = iniFile.getValue("Common", "NetworkLoggerPrintToConsole", defaultParam: false);
             SinglePlayer = iniFile.getValue("Common", "SinglePlayer", defaultParam: false);
             ForwardATouchRegionToButton = iniFile.getValue("Common", "ForwardATouchRegionToButton", defaultParam: false);
-            ForceCurrentIsBest = iniFile.getValue("Common", "ForceCurrentIsBest", defaultParam: false);
             CustomVersionText = iniFile.getValue("Common", "CustomVersionText", defaultParam: null);
             QuickBoot = iniFile.getValue("Common", "QuickBoot", defaultParam: false);
 
@@ -56,6 +55,7 @@ namespace SinmaiAssist
             AutoPlay = iniFile.getValue("Cheat", "AutoPlay", defaultParam: false);
             AllCollection = iniFile.getValue("Cheat", "AllCollection", defaultParam: false);
             UnlockEvent = iniFile.getValue("Cheat", "UnlockEvent", defaultParam: false);
+            ForceCurrentIsBest = iniFile.getValue("Cheat", "ForceCurrentIsBest", defaultParam: false);
 
             // [Fix]
             DisableEncryption = iniFile.getValue("Fix", "DisableEncryption", defaultParam: false);
