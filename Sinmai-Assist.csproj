@@ -276,6 +276,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cheat\AllCollection.cs" />
     <Compile Include="Cheat\AutoPlay.cs" />
     <Compile Include="Cheat\ForceCurrentIsBest.cs" />
     <Compile Include="Cheat\ResetLoginBonusRecord.cs" />
@@ -290,6 +291,7 @@
     <Compile Include="Common\ShowFPS.cs" />
     <Compile Include="Common\SinglePlayer.cs" />
     <Compile Include="ConfigManager.cs" />
+    <Compile Include="Fix\DisableEncryption.cs" />
     <Compile Include="Fix\DisableReboot.cs" />
     <Compile Include="Fix\DummyTouchPanel.cs" />
     <Compile Include="Fix\SkipVersionCheck.cs" />

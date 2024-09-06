@@ -1,4 +1,5 @@
 ﻿using Common;
+using Fix;
 using MAI2System;
 
 namespace SinmaiAssist
@@ -13,6 +14,7 @@ namespace SinmaiAssist
         public bool DisableMask { get; private set; }
         public bool ShowFPS { get; private set; }
         public bool NetworkLogger {  get; private set; }
+        public bool NetworkLoggerPrintToConsole { get; private set; }
         public bool SinglePlayer { get; private set; }
         public bool ForwardATouchRegionToButton { get; private set; }
         public bool ForceCurrentIsBest { get; private set; }
@@ -23,6 +25,7 @@ namespace SinmaiAssist
         public bool AllCollection {  get; private set; }
         public bool UnlockEvent { get; private set; }
         public bool ResetLoginBonusRecord { get; private set; }
+        public bool DisableEncryption { get; private set; }
         public bool DisableReboot { get; private set; }
         public bool SkipVersionCheck { get; private set; }
         public bool ShowVersionInfo { get; private set; }
@@ -44,6 +47,7 @@ namespace SinmaiAssist
             DisableMask = iniFile.getValue("Common", "DisableMask", defaultParam: false);
             ShowFPS = iniFile.getValue("Common", "ShowFPS", defaultParam: false);
             NetworkLogger = iniFile.getValue("Common", "NetworkLogger", defaultParam: false);
+            NetworkLoggerPrintToConsole = iniFile.getValue("Common", "NetworkLoggerPrintToConsole", defaultParam: false);
             SinglePlayer = iniFile.getValue("Common", "SinglePlayer", defaultParam: false);
             ForwardATouchRegionToButton = iniFile.getValue("Common", "ForwardATouchRegionToButton", defaultParam: false);
             ForceCurrentIsBest = iniFile.getValue("Common", "ForceCurrentIsBest", defaultParam: false);
@@ -58,6 +62,7 @@ namespace SinmaiAssist
             ResetLoginBonusRecord = iniFile.getValue("Cheat", "ResetLoginBonusRecord", defaultParam: false);
             
             // [Fix]
+            DisableEncryption = iniFile.getValue("Fix", "DisableEncryption", defaultParam: false);
             DisableReboot = iniFile.getValue("Fix", "DisableReboot", defaultParam: false);
             SkipVersionCheck = iniFile.getValue("Fix", "SkipVersionCheck", defaultParam: false);
 

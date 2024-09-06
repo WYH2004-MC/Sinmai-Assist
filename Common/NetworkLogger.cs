@@ -2,16 +2,16 @@
 using MelonLoader;
 using Net;
 using Net.Packet;
+using SinmaiAssist;
 using System;
 using System.IO;
-using System.Reflection;
 using System.Text;
-using static MelonLoader.MelonLogger;
 
 namespace Common
 {
     public class NetworkLogger
     {
+        public static IntPtr NetConsole;
         private enum HttpMessageType
         {
             Request,
@@ -24,13 +24,18 @@ namespace Common
         [HarmonyPatch(typeof(Packet), "set_State")]
         public static void RequestListener(Packet __instance)
         {
-            
-            if (__instance.State == PacketState.Ready)
+            try
             {
-                string content = __instance.Query.GetRequest();
-                string baseUrl = (string)AccessTools.Field(typeof(Packet), "BaseUrl").GetValue(__instance);
-                PrintNetworkLog(HttpMessageType.Request, __instance.Query, content);
-                //MelonLogger.Msg($"[Request] [{__instance.Query.Api}] -> {content}");
+                if (__instance.State == PacketState.Ready)
+                {
+                    string content = __instance.Query.GetRequest();
+                    string baseUrl = (string)AccessTools.Field(typeof(Packet), "BaseUrl").GetValue(__instance);
+                    PrintNetworkLog(HttpMessageType.Request, __instance.Query, content);
+                }
+            }
+            catch (Exception e)
+            {
+                MelonLogger.Error(e);
             }
         }
 
@@ -38,11 +43,17 @@ namespace Common
         [HarmonyPatch(typeof(Encoding), "GetString", new[] { typeof(byte[]) })]
         public static void ResponseListener(Packet __instance, ref string __result)
         {
-            if (isInsideProcImpl)
+            try
             {
-                string ccontent = __result;
-                PrintNetworkLog(HttpMessageType.Response, __instance.Query, ccontent);
-                //MelonLogger.Msg($"[Response] [{__instance.Query.Api}] -> {ccontent}");
+                if (isInsideProcImpl)
+                {
+                    string ccontent = __result;
+                    PrintNetworkLog(HttpMessageType.Response, __instance.Query, ccontent);
+                }
+            }
+            catch (Exception e)
+            {
+                MelonLogger.Error(e);
             }
         }
 
@@ -59,7 +70,7 @@ namespace Common
         {
             isInsideProcImpl = false;
         }
-        private static void PrintNetworkLog(HttpMessageType httpMessageType, INetQuery query , string content)
+        private static void PrintNetworkLog(HttpMessageType httpMessageType, INetQuery query, string content)
         {
             if (httpMessageType == HttpMessageType.Null) return;
             DateTime now = DateTime.Now;
@@ -71,6 +82,9 @@ namespace Common
                 Directory.CreateDirectory($"{SinmaiAssist.BuildInfo.Name}/NetworkLogs");
             }
             File.AppendAllText(Path.Combine($"{SinmaiAssist.BuildInfo.Name}/NetworkLogs/" + now.ToString("yyyy-MM-dd") + ".log"), LogText);
+
+            if (SinmaiAssist.SinmaiAssist.config.NetworkLoggerPrintToConsole) 
+                MelonLogger.Msg($"[NetworkLogger] [{httpMessageType}] [{query.Api}] -> {content}");
         }
     }
 }

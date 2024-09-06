@@ -7,7 +7,6 @@ using SDGB;
 using System;
 using System.IO;
 using UnityEngine;
-using static UnityEngine.UI.CanvasScaler;
 
 namespace SinmaiAssist
 {
@@ -15,7 +14,7 @@ namespace SinmaiAssist
     {
         public const string Name = "Sinmai-Assist";
         public const string Description = "SlimMod Melon Version For Sinmai";
-        public const string Author = "Slim";
+        public const string Author = "Slim & Error063";
         public const string Company = null;
         public const string Version = "1.0.0";
         public const string DownloadLink = null;
@@ -31,9 +30,9 @@ namespace SinmaiAssist
         public static string gameVersion = "SafeMode";
 
         public override void OnInitializeMelon() {
+            PrintLogo();
             modGUI = new ModGUI();
             config = new ConfigManager();
-            PrintLogo();
 
             // 加载配置文件
             MelonLogger.Msg("Load Mod Config.");
@@ -91,13 +90,13 @@ namespace SinmaiAssist
             if (config.SinglePlayer) Patch(typeof(SinglePlayer));
             if (config.NetworkLogger) Patch(typeof(NetworkLogger));
             if (config.ForwardATouchRegionToButton) Patch(typeof(ForwardATouchRegionToButton));
-            // if (config.ForceCurrentIsBest)
-            // Patch(typeof(ForceCurrentIsBest));
+            //if (config.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
+            if (config.DisableEncryption) Patch(typeof(DisableEncryption));
             if (config.DisableReboot) Patch (typeof(DisableReboot));
             if (config.SkipVersionCheck) Patch(typeof(SkipVersionCheck));
             if (config.CustomVersionText != null) Patch(typeof(CustomVersionText));
             if (config.AutoPlay) Patch(typeof(AutoPlay));
-            //if (config.AllCollection) Patch(typeof(AllCollection));
+            if (config.AllCollection) Patch(typeof(AllCollection));
             if (config.UnlockEvent) Patch(typeof(UnlockEvent));
             if(config.QuickBoot) Patch(typeof(QuickBoot));
             if(config.ResetLoginBonusRecord) Patch(typeof(ResetLoginBonusRecord));
@@ -105,7 +104,6 @@ namespace SinmaiAssist
             
             Patch(typeof(DummyTouchPanel));
             Patch(typeof(PrintUserData));
-            
 
             MelonLogger.Msg("Loading completed");
         }
@@ -144,6 +142,7 @@ namespace SinmaiAssist
                 "\r\n                                                                 " +
                 "\r\n=================================================================" +
                 $"\r\n Version: {BuildInfo.Version}     Author: {BuildInfo.Author}");
+            MelonLogger.Warning("This is a cheat mod. Use at your own risk!");
         }
     }
 }
