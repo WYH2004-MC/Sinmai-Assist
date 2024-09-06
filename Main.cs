@@ -98,8 +98,11 @@ namespace SinmaiAssist
             if (config.AutoPlay) Patch(typeof(AutoPlay));
             if (config.AllCollection) Patch(typeof(AllCollection));
             if (config.UnlockEvent) Patch(typeof(UnlockEvent));
-            if(config.QuickBoot) Patch(typeof(QuickBoot));
-
+            if (config.QuickBoot) Patch(typeof(QuickBoot));
+            if (config.ResetLoginBonusRecord) Patch(typeof(ResetLoginBonusRecord));
+            if (config.BlockCoin) Patch(typeof(BlockCoin));
+            if (config.RewriteNoteJudgeSetting && (config.AdjustTiming != 0 || config.JudgeTiming != 0)) Patch(typeof(RewriteNoteJudgeSetting));
+            
             Patch(typeof(DummyTouchPanel));
             Patch(typeof(PrintUserData));
 

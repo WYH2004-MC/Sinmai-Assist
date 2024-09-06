@@ -16,6 +16,7 @@ namespace Cheat
         {
             var codes = new List<CodeInstruction>(instructions);
             bool isFound = false;
+
             var targetMethod = typeof(List<UserScore>).GetMethod("Find", new[] { typeof(Predicate<UserScore>) });
 
             for (int i = 0; i < codes.Count - 1; i++)

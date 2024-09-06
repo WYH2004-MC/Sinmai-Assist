@@ -19,13 +19,19 @@ namespace SinmaiAssist
         public bool ForwardATouchRegionToButton { get; private set; }
         public string CustomVersionText { get; private set; }
         public bool QuickBoot { get; private set; }
+        public bool BlockCoin { get; private set; }
         public bool AutoPlay { get; private set; }
         public bool AllCollection {  get; private set; }
         public bool UnlockEvent { get; private set; }
+        public bool ResetLoginBonusRecord { get; private set; }
         public bool ForceCurrentIsBest { get; private set; }
         public bool DisableEncryption { get; private set; }
         public bool DisableReboot { get; private set; }
         public bool SkipVersionCheck { get; private set; }
+        public bool RewriteNoteJudgeSetting { get; private set; }
+        public float AdjustTiming { get; private set; }
+        public float JudgeTiming { get; private set; }
+        
         public bool ShowVersionInfo { get; private set; }
         public bool ForceIsSDGB { get; private set; }
         public bool SafeMode { get; private set; }
@@ -50,17 +56,22 @@ namespace SinmaiAssist
             ForwardATouchRegionToButton = iniFile.getValue("Common", "ForwardATouchRegionToButton", defaultParam: false);
             CustomVersionText = iniFile.getValue("Common", "CustomVersionText", defaultParam: null);
             QuickBoot = iniFile.getValue("Common", "QuickBoot", defaultParam: false);
-
+            BlockCoin = iniFile.getValue("Common", "BlockCoin", defaultParam: false);
+            
             // [Cheat]
             AutoPlay = iniFile.getValue("Cheat", "AutoPlay", defaultParam: false);
             AllCollection = iniFile.getValue("Cheat", "AllCollection", defaultParam: false);
             UnlockEvent = iniFile.getValue("Cheat", "UnlockEvent", defaultParam: false);
+            ResetLoginBonusRecord = iniFile.getValue("Cheat", "ResetLoginBonusRecord", defaultParam: false);
             ForceCurrentIsBest = iniFile.getValue("Cheat", "ForceCurrentIsBest", defaultParam: false);
 
             // [Fix]
             DisableEncryption = iniFile.getValue("Fix", "DisableEncryption", defaultParam: false);
             DisableReboot = iniFile.getValue("Fix", "DisableReboot", defaultParam: false);
             SkipVersionCheck = iniFile.getValue("Fix", "SkipVersionCheck", defaultParam: false);
+            RewriteNoteJudgeSetting = iniFile.getValue("Fix", "RewriteNoteJudgeSetting", defaultParam: false);
+            AdjustTiming = iniFile.getValue("Fix", "AdjustTiming", defaultParam: 0f);
+            JudgeTiming = iniFile.getValue("Fix", "JudgeTiming", defaultParam: 0f);
 
             // [ModSetting]
             ShowVersionInfo = iniFile.getValue("ModSetting", "ShowVersionInfo", defaultParam: false);
