@@ -312,7 +312,6 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>$(ProjectDir)\PostBuild.bat</PostBuildEvent>
   </PropertyGroup>
 </Project>
