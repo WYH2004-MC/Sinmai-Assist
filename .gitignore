@@ -373,3 +373,4 @@ MigrationBackup/
 Output
 /.idea/.idea.Sinmai-Assist/.idea
 /packages/LavaGang.MelonLoader.0.6.4
+/PostBuild.bat
