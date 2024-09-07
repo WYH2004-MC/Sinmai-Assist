@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Fix
 {
-    public class DummyTouchPanel
+    public class FixDebugInput
     {
         [HarmonyPrefix]
         [HarmonyPatch(typeof(DebugInput), "GetKey")]

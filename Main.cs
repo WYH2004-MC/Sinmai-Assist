@@ -105,14 +105,15 @@ namespace SinmaiAssist
             if (config.SkipVersionCheck) Patch(typeof(SkipVersionCheck));
 
             //Cheat
-            if (config.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
             if (config.AutoPlay) Patch(typeof(AutoPlay));
+            //if (config.FastSkip) Patch(typeof(FastSkip));
             if (config.AllCollection) Patch(typeof(AllCollection));
             if (config.UnlockEvent) Patch(typeof(UnlockEvent));
             if (config.ResetLoginBonusRecord) Patch(typeof(ResetLoginBonusRecord));
-            
+            if (config.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
+
             // 默认加载项
-            Patch(typeof(DummyTouchPanel));
+            Patch(typeof(FixDebugInput));
             Patch(typeof(PrintUserData));
 
             MelonLogger.Msg("Loading completed");

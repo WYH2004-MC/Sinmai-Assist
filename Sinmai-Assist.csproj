@@ -278,6 +278,7 @@
   <ItemGroup>
     <Compile Include="Cheat\AllCollection.cs" />
     <Compile Include="Cheat\AutoPlay.cs" />
+    <Compile Include="Cheat\FastSkip.cs" />
     <Compile Include="Cheat\ForceCurrentIsBest.cs" />
     <Compile Include="Cheat\ResetLoginBonusRecord.cs" />
     <Compile Include="Cheat\UnlockEvent.cs" />
@@ -294,7 +295,7 @@
     <Compile Include="ConfigManager.cs" />
     <Compile Include="Fix\DisableEncryption.cs" />
     <Compile Include="Fix\DisableReboot.cs" />
-    <Compile Include="Fix\DummyTouchPanel.cs" />
+    <Compile Include="Fix\FixDebugInput.cs" />
     <Compile Include="Fix\RewriteNoteJudgeSetting.cs" />
     <Compile Include="Fix\SkipVersionCheck.cs" />
     <Compile Include="ModGUI.cs" />
