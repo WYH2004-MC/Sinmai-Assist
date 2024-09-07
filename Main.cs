@@ -74,6 +74,7 @@ namespace SinmaiAssist
             }
 
             // 加载Patch
+            // SDGB
             if (config.DummyLogin) Patch(typeof(DummyLogin));
             if (config.CustomCameraId)
             {
@@ -86,24 +87,31 @@ namespace SinmaiAssist
                     Patch(typeof(CustomCameraId));
                 }
             }
+
+            // Common
             if (config.DisableMask) Patch(typeof(DisableMask));
             if (config.SinglePlayer) Patch(typeof(SinglePlayer));
             if (config.NetworkLogger) Patch(typeof(NetworkLogger));
             if (config.ForwardATouchRegionToButton) Patch(typeof(ForwardATouchRegionToButton));
-            if (config.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
-            if (config.DisableEncryption) Patch(typeof(DisableEncryption));
-            if (config.DisableReboot) Patch (typeof(DisableReboot));
-            if (config.SkipVersionCheck) Patch(typeof(SkipVersionCheck));
             if (config.CustomVersionText != null) Patch(typeof(CustomVersionText));
-            if (config.AutoPlay) Patch(typeof(AutoPlay));
-            if (config.AllCollection) Patch(typeof(AllCollection));
-            if (config.UnlockEvent) Patch(typeof(UnlockEvent));
             if (config.QuickBoot) Patch(typeof(QuickBoot));
-            if (config.ResetLoginBonusRecord) Patch(typeof(ResetLoginBonusRecord));
             if (config.BlockCoin) Patch(typeof(BlockCoin));
             if (config.SkipWarningScreen) Patch(typeof(SkipWarningScreen));
             if (config.RewriteNoteJudgeSetting && (config.AdjustTiming != 0 || config.JudgeTiming != 0)) Patch(typeof(RewriteNoteJudgeSetting));
+
+            //Fix
+            if (config.DisableEncryption) Patch(typeof(DisableEncryption));
+            if (config.DisableReboot) Patch (typeof(DisableReboot));
+            if (config.SkipVersionCheck) Patch(typeof(SkipVersionCheck));
+
+            //Cheat
+            if (config.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
+            if (config.AutoPlay) Patch(typeof(AutoPlay));
+            if (config.AllCollection) Patch(typeof(AllCollection));
+            if (config.UnlockEvent) Patch(typeof(UnlockEvent));
+            if (config.ResetLoginBonusRecord) Patch(typeof(ResetLoginBonusRecord));
             
+            // 默认加载项
             Patch(typeof(DummyTouchPanel));
             Patch(typeof(PrintUserData));
 
