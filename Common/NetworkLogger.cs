@@ -11,7 +11,7 @@ namespace Common
 {
     public class NetworkLogger
     {
-        public static IntPtr NetConsole;
+        private static readonly object logLock = new object();
         private enum HttpMessageType
         {
             Request,
@@ -19,23 +19,18 @@ namespace Common
             Null
         }
         private static bool isInsideProcImpl = false;
+        private static string NowApi = "";
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(Packet), "set_State")]
         public static void RequestListener(Packet __instance)
         {
-            try
+            if (__instance.State == PacketState.Ready)
             {
-                if (__instance.State == PacketState.Ready)
-                {
-                    string content = __instance.Query.GetRequest();
-                    string baseUrl = (string)AccessTools.Field(typeof(Packet), "BaseUrl").GetValue(__instance);
-                    PrintNetworkLog(HttpMessageType.Request, __instance.Query, content);
-                }
-            }
-            catch (Exception e)
-            {
-                MelonLogger.Error(e);
+                string content = __instance.Query.GetRequest();
+                string baseUrl = (string)AccessTools.Field(typeof(Packet), "BaseUrl").GetValue(__instance);
+                NowApi = __instance.Query.Api;
+                PrintNetworkLog(HttpMessageType.Request, NowApi, content);
             }
         }
 
@@ -43,17 +38,10 @@ namespace Common
         [HarmonyPatch(typeof(Encoding), "GetString", new[] { typeof(byte[]) })]
         public static void ResponseListener(Packet __instance, ref string __result)
         {
-            try
+            if (isInsideProcImpl && __instance.State == PacketState.Process)
             {
-                if (isInsideProcImpl && __instance.State == PacketState.Process)
-                {
-                    string ccontent = __result;
-                    PrintNetworkLog(HttpMessageType.Response, __instance.Query, ccontent);
-                }
-            }
-            catch (Exception e)
-            {
-                MelonLogger.Error(e);
+                string ccontent = __result;
+                PrintNetworkLog(HttpMessageType.Response, NowApi, ccontent);
             }
         }
 
@@ -70,21 +58,32 @@ namespace Common
         {
             isInsideProcImpl = false;
         }
-        private static void PrintNetworkLog(HttpMessageType httpMessageType, INetQuery query, string content)
+        private static void PrintNetworkLog(HttpMessageType httpMessageType, string api, string content)
         {
             if (httpMessageType == HttpMessageType.Null) return;
-            DateTime now = DateTime.Now;
-            string LogText = now.ToString("[yyyy-MM-dd HH:mm:ss.fff] ");
-            LogText += $"[{httpMessageType}] [{query.Api}] -> {content}\n";
-
-            if (!Directory.Exists(Path.Combine($"{SinmaiAssist.BuildInfo.Name}/NetworkLogs")))
+            try
             {
-                Directory.CreateDirectory($"{SinmaiAssist.BuildInfo.Name}/NetworkLogs");
-            }
-            File.AppendAllText(Path.Combine($"{SinmaiAssist.BuildInfo.Name}/NetworkLogs/" + now.ToString("yyyy-MM-dd") + ".log"), LogText);
+                DateTime now = DateTime.Now;
+                string logText = now.ToString("[HH:mm:ss.fff] ");
+                logText += $"[{httpMessageType}] [{api}] -> {content}\n";
 
-            if (SinmaiAssist.SinmaiAssist.config.NetworkLoggerPrintToConsole) 
-                MelonLogger.Msg($"[NetworkLogger] [{httpMessageType}] [{query.Api}] -> {content}");
+                if (SinmaiAssist.SinmaiAssist.config.NetworkLoggerPrintToConsole)
+                    MelonLogger.Msg($"[NetworkLogger] [{httpMessageType}] [{api}] -> {content}");
+
+                lock (logLock)
+                {
+                    string logDir = Path.Combine($"{SinmaiAssist.BuildInfo.Name}/NetworkLogs");
+                    if (!Directory.Exists(logDir))
+                    {
+                        Directory.CreateDirectory(logDir);
+                    }
+                    File.AppendAllText(Path.Combine(logDir, now.ToString("yyyy-MM-dd") + ".log"), logText);
+                }
+            }
+            catch (Exception e)
+            { 
+                MelonLogger.Error(e);
+            }
         }
     }
 }
