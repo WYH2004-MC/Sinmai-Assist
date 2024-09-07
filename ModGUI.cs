@@ -141,6 +141,8 @@ namespace SinmaiAssist
                 $"Data Version: {Singleton<SystemConfig>.Instance.config.dataVersionInfo.versionNo.versionString} {Singleton<SystemConfig>.Instance.config.dataVersionInfo.versionNo.releaseNoAlphabet}\n" +
                 $"Keychip: {AMDaemon.System.KeychipId}"
                 );
+            if (SinmaiAssist.config.SafeMode)
+                VersionText += "\nSafe Mode";
             GUI.Label(new Rect(10+2, 40+2, 500, 30), VersionText, TextShadowStyle);
             GUI.Label(new Rect(10, 40, 500, 30), VersionText, TextStyle);
         }
