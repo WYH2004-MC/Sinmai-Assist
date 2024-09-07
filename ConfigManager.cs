@@ -18,6 +18,7 @@ namespace SinmaiAssist
         public bool SinglePlayer { get; private set; }
         public bool ForwardATouchRegionToButton { get; private set; }
         public string CustomVersionText { get; private set; }
+        public bool SkipWarningScreen { get; private set; }
         public bool QuickBoot { get; private set; }
         public bool BlockCoin { get; private set; }
         public bool AutoPlay { get; private set; }
@@ -55,6 +56,7 @@ namespace SinmaiAssist
             SinglePlayer = iniFile.getValue("Common", "SinglePlayer", defaultParam: false);
             ForwardATouchRegionToButton = iniFile.getValue("Common", "ForwardATouchRegionToButton", defaultParam: false);
             CustomVersionText = iniFile.getValue("Common", "CustomVersionText", defaultParam: null);
+            SkipWarningScreen = iniFile.getValue("Common", "SkipWarningScreen", defaultParam: false);
             QuickBoot = iniFile.getValue("Common", "QuickBoot", defaultParam: false);
             BlockCoin = iniFile.getValue("Common", "BlockCoin", defaultParam: false);
             

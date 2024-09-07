@@ -26,8 +26,8 @@ namespace SinmaiAssist
         private ModGUI modGUI;
         public static ConfigManager config;
         public static bool IsSDGB = false;
-        public static string gameID = "SafeMode";
-        public static string gameVersion = "SafeMode";
+        public static string gameID = "";
+        public static string gameVersion = "";
 
         public override void OnInitializeMelon() {
             PrintLogo();
@@ -43,12 +43,6 @@ namespace SinmaiAssist
             }
             config.initialize();
             ModGUI.DummyUserId = config.DefaultDummyUserId;
-
-            if (config.SafeMode)
-            {
-                MelonLogger.Warning("Safe mode is enabled, Disable all patch");
-                return;
-            }
 
             // 输出设备摄像头列表
             File.Delete($"{BuildInfo.Name}/WebCameraList.txt");
@@ -72,6 +66,12 @@ namespace SinmaiAssist
             gameID = AMDaemon.System.GameId;
             if (gameID == "SDGB" || config.ForceIsSDGB) IsSDGB = true;
             MelonLogger.Msg($"GameId: {gameID} isSDGB: {IsSDGB}");
+
+            if (config.SafeMode)
+            {
+                MelonLogger.Warning("Safe mode is enabled, Disable all patch");
+                return;
+            }
 
             // 加载Patch
             if (config.DummyLogin) Patch(typeof(DummyLogin));
@@ -101,6 +101,7 @@ namespace SinmaiAssist
             if (config.QuickBoot) Patch(typeof(QuickBoot));
             if (config.ResetLoginBonusRecord) Patch(typeof(ResetLoginBonusRecord));
             if (config.BlockCoin) Patch(typeof(BlockCoin));
+            if (config.SkipWarningScreen) Patch(typeof(SkipWarningScreen));
             if (config.RewriteNoteJudgeSetting && (config.AdjustTiming != 0 || config.JudgeTiming != 0)) Patch(typeof(RewriteNoteJudgeSetting));
             
             Patch(typeof(DummyTouchPanel));
