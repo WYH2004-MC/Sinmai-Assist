@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using Cheat;
+using Common;
 using Fix;
 using MAI2System;
 
@@ -22,6 +23,7 @@ namespace SinmaiAssist
         public bool QuickBoot { get; private set; }
         public bool BlockCoin { get; private set; }
         public bool AutoPlay { get; private set; }
+        public bool FastSkip { get; private set; }
         public bool AllCollection {  get; private set; }
         public bool UnlockEvent { get; private set; }
         public bool ResetLoginBonusRecord { get; private set; }
@@ -32,7 +34,6 @@ namespace SinmaiAssist
         public bool RewriteNoteJudgeSetting { get; private set; }
         public float AdjustTiming { get; private set; }
         public float JudgeTiming { get; private set; }
-        
         public bool ShowVersionInfo { get; private set; }
         public bool ForceIsSDGB { get; private set; }
         public bool SafeMode { get; private set; }
@@ -62,6 +63,7 @@ namespace SinmaiAssist
             
             // [Cheat]
             AutoPlay = iniFile.getValue("Cheat", "AutoPlay", defaultParam: false);
+            FastSkip = iniFile.getValue("Cheat", "FastSkip", defaultParam: false);
             AllCollection = iniFile.getValue("Cheat", "AllCollection", defaultParam: false);
             UnlockEvent = iniFile.getValue("Cheat", "UnlockEvent", defaultParam: false);
             ResetLoginBonusRecord = iniFile.getValue("Cheat", "ResetLoginBonusRecord", defaultParam: false);

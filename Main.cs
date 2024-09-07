@@ -106,7 +106,7 @@ namespace SinmaiAssist
 
             //Cheat
             if (config.AutoPlay) Patch(typeof(AutoPlay));
-            //if (config.FastSkip) Patch(typeof(FastSkip));
+            if (config.FastSkip) Patch(typeof(FastSkip));
             if (config.AllCollection) Patch(typeof(AllCollection));
             if (config.UnlockEvent) Patch(typeof(UnlockEvent));
             if (config.ResetLoginBonusRecord) Patch(typeof(ResetLoginBonusRecord));
