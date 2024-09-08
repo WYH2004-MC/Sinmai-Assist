@@ -26,8 +26,8 @@ namespace SinmaiAssist
         private ModGUI modGUI;
         public static ConfigManager config;
         public static bool IsSDGB = false;
-        public static string gameID = "SafeMode";
-        public static string gameVersion = "SafeMode";
+        public static string gameID = "";
+        public static string gameVersion = "";
 
         public override void OnInitializeMelon() {
             PrintLogo();
@@ -43,12 +43,6 @@ namespace SinmaiAssist
             }
             config.initialize();
             ModGUI.DummyUserId = config.DefaultDummyUserId;
-
-            if (config.SafeMode)
-            {
-                MelonLogger.Warning("Safe mode is enabled, Disable all patch");
-                return;
-            }
 
             // 输出设备摄像头列表
             File.Delete($"{BuildInfo.Name}/WebCameraList.txt");
@@ -73,7 +67,14 @@ namespace SinmaiAssist
             if (gameID == "SDGB" || config.ForceIsSDGB) IsSDGB = true;
             MelonLogger.Msg($"GameId: {gameID} isSDGB: {IsSDGB}");
 
+            if (config.SafeMode)
+            {
+                MelonLogger.Warning("Safe mode is enabled, Disable all patch");
+                return;
+            }
+
             // 加载Patch
+            // SDGB
             if (config.DummyLogin) Patch(typeof(DummyLogin));
             if (config.CustomCameraId)
             {
@@ -86,24 +87,33 @@ namespace SinmaiAssist
                     Patch(typeof(CustomCameraId));
                 }
             }
+
+            // Common
             if (config.DisableMask) Patch(typeof(DisableMask));
             if (config.SinglePlayer) Patch(typeof(SinglePlayer));
             if (config.NetworkLogger) Patch(typeof(NetworkLogger));
             if (config.ForwardATouchRegionToButton) Patch(typeof(ForwardATouchRegionToButton));
-            if (config.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
+            if (config.CustomVersionText != null) Patch(typeof(CustomVersionText));
+            if (config.QuickBoot) Patch(typeof(QuickBoot));
+            if (config.BlockCoin) Patch(typeof(BlockCoin));
+            if (config.SkipWarningScreen) Patch(typeof(SkipWarningScreen));
+            if (config.RewriteNoteJudgeSetting && (config.AdjustTiming != 0 || config.JudgeTiming != 0)) Patch(typeof(RewriteNoteJudgeSetting));
+
+            //Fix
             if (config.DisableEncryption) Patch(typeof(DisableEncryption));
             if (config.DisableReboot) Patch (typeof(DisableReboot));
             if (config.SkipVersionCheck) Patch(typeof(SkipVersionCheck));
-            if (config.CustomVersionText != null) Patch(typeof(CustomVersionText));
+
+            //Cheat
             if (config.AutoPlay) Patch(typeof(AutoPlay));
+            if (config.FastSkip) Patch(typeof(FastSkip));
             if (config.AllCollection) Patch(typeof(AllCollection));
             if (config.UnlockEvent) Patch(typeof(UnlockEvent));
-            if (config.QuickBoot) Patch(typeof(QuickBoot));
             if (config.ResetLoginBonusRecord) Patch(typeof(ResetLoginBonusRecord));
-            if (config.BlockCoin) Patch(typeof(BlockCoin));
-            if (config.RewriteNoteJudgeSetting && (config.AdjustTiming != 0 || config.JudgeTiming != 0)) Patch(typeof(RewriteNoteJudgeSetting));
-            
-            Patch(typeof(DummyTouchPanel));
+            if (config.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
+
+            // 默认加载项
+            Patch(typeof(FixDebugInput));
             Patch(typeof(PrintUserData));
 
             MelonLogger.Msg("Loading completed");

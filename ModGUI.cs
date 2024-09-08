@@ -18,6 +18,7 @@ namespace SinmaiAssist
         }
         public static string DummyQrCode;
         public static string DummyUserId = "0";
+        public static string achivementInput = "0";
         public static bool QrLoginFlag = false;
         public static bool UserIdLoginFlag = false;
 
@@ -26,6 +27,7 @@ namespace SinmaiAssist
         private GUIStyle TextStyle;
         private GUIStyle TextShadowStyle;
         private GUIStyle BigTextStyle;
+        private GUIStyle errorStyle;
         private Single PanelWidth;
         private int buttonsPerRow;
         private Toolbar toolbar = Toolbar.AutoPlay;
@@ -37,6 +39,7 @@ namespace SinmaiAssist
             TextStyle = new GUIStyle();
             TextShadowStyle = new GUIStyle();
             BigTextStyle = new GUIStyle();
+            errorStyle = new GUIStyle();
             TextStyle.fontSize = 24;
             TextStyle.normal.textColor = Color.white;
             TextStyle.alignment = TextAnchor.UpperLeft;
@@ -46,6 +49,7 @@ namespace SinmaiAssist
             BigTextStyle.fontSize = 40;
             BigTextStyle.alignment = TextAnchor.MiddleCenter;
             BigTextStyle.normal.textColor = Color.white;
+            errorStyle.normal.textColor = Color.red;
             PanelWidth = 300f;
             buttonsPerRow = 3;
         }
@@ -63,7 +67,7 @@ namespace SinmaiAssist
             GUILayout.EndVertical();
             GUILayout.BeginVertical(GUILayout.Width(PanelWidth), GUILayout.Height(280f));
             if (toolbar == Toolbar.AutoPlay && SinmaiAssist.config.AutoPlay) AutoPlayPanel();
-            else if (toolbar == Toolbar.FastSkip) FastSkipPanel();
+            else if (toolbar == Toolbar.FastSkip && SinmaiAssist.config.FastSkip) FastSkipPanel();
             else if (toolbar == Toolbar.DummyLogin && SinmaiAssist.config.DummyLogin && SinmaiAssist.IsSDGB) DummyLoginPanel();
             else DisablePanel();
             GUILayout.EndVertical();
@@ -87,7 +91,34 @@ namespace SinmaiAssist
 
         private void FastSkipPanel()
         {
-            GUILayout.Label("施工中.", BigTextStyle, GUILayout.Width(PanelWidth), GUILayout.Height(280f));
+            FastSkip.SkipButton = false;
+            GUILayout.Label($"Skip Mode: {(FastSkip.CustomSkip ? "Custom" : "Default")}");
+            if (GUILayout.Button("Skip", new GUIStyle(GUI.skin.button){ fontSize=20 }, GUILayout.Height(45f))) FastSkip.SkipButton = true;
+            GUILayout.Label($"Mode Setting", new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter });
+            if (GUILayout.Button("Default")) FastSkip.CustomSkip = false;
+            if (GUILayout.Button("Custom")) FastSkip.CustomSkip = true;
+            if (FastSkip.CustomSkip)
+            {
+                GUILayout.Label($"Custom Setting", new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter });
+                GUILayout.Label($"Custom Achivement(0 - 101): ");
+                achivementInput = GUILayout.TextField(achivementInput);
+                if (int.TryParse(achivementInput, out int achivementValue))
+                {
+                    if (achivementValue >= 0f && achivementValue <= 101f)
+                    {
+                        FastSkip.CustomAchivement = achivementValue;
+                        GUILayout.Label($"Custom Achivement: {achivementValue} %");
+                    }
+                    else
+                    {
+                        GUILayout.Label("Error: Please enter a value between 0 and 101.", errorStyle);
+                    }
+                }
+                else
+                {
+                    GUILayout.Label("Error: Please enter a valid int value.", errorStyle);
+                }
+            }
         }
 
         private void DummyLoginPanel()
@@ -141,6 +172,8 @@ namespace SinmaiAssist
                 $"Data Version: {Singleton<SystemConfig>.Instance.config.dataVersionInfo.versionNo.versionString} {Singleton<SystemConfig>.Instance.config.dataVersionInfo.versionNo.releaseNoAlphabet}\n" +
                 $"Keychip: {AMDaemon.System.KeychipId}"
                 );
+            if (SinmaiAssist.config.SafeMode)
+                VersionText += "\nSafe Mode";
             GUI.Label(new Rect(10+2, 40+2, 500, 30), VersionText, TextShadowStyle);
             GUI.Label(new Rect(10, 40, 500, 30), VersionText, TextStyle);
         }
