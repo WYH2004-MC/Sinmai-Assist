@@ -80,7 +80,7 @@ namespace SinmaiAssist
         {
             GUILayout.Label($"IsAutoPlay: {AutoPlay.IsAutoPlay()}");
             GUILayout.Label($"Mode: {AutoPlay.autoPlayMode}");
-            if (GUILayout.Button("Critical")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.Critical;
+            if (GUILayout.Button("Critical (AP+)")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.Critical;
             if (GUILayout.Button("Perfect")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.Perfect;
             if (GUILayout.Button("Great")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.Great;
             if (GUILayout.Button("Good")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.Good;
