@@ -24,6 +24,7 @@ namespace SinmaiAssist
         public bool BlockCoin { get; private set; }
         public bool AutoPlay { get; private set; }
         public bool FastSkip { get; private set; }
+        public bool ChartTimer { get; private set; }
         public bool AllCollection {  get; private set; }
         public bool UnlockEvent { get; private set; }
         public bool ResetLoginBonusRecord { get; private set; }
@@ -64,6 +65,7 @@ namespace SinmaiAssist
             // [Cheat]
             AutoPlay = iniFile.getValue("Cheat", "AutoPlay", defaultParam: false);
             FastSkip = iniFile.getValue("Cheat", "FastSkip", defaultParam: false);
+            ChartTimer = iniFile.getValue("Cheat", "ChartTimer", defaultParam: false);
             AllCollection = iniFile.getValue("Cheat", "AllCollection", defaultParam: false);
             UnlockEvent = iniFile.getValue("Cheat", "UnlockEvent", defaultParam: false);
             ResetLoginBonusRecord = iniFile.getValue("Cheat", "ResetLoginBonusRecord", defaultParam: false);
