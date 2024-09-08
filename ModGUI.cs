@@ -176,6 +176,8 @@ namespace SinmaiAssist
                 $"Data Version: {Singleton<SystemConfig>.Instance.config.dataVersionInfo.versionNo.versionString} {Singleton<SystemConfig>.Instance.config.dataVersionInfo.versionNo.releaseNoAlphabet}");
             VersionText.AppendLine($"Keychip: {AMDaemon.System.KeychipId}");
             VersionText.AppendLine($"UserId: {Singleton<UserDataManager>.Instance.GetUserData(0L).Detail.UserID} | {Singleton<UserDataManager>.Instance.GetUserData(1L).Detail.UserID}");
+            if (SinmaiAssist.config.SafeMode)
+                VersionText.AppendLine("Safe Mode");
             GUI.Label(new Rect(10+2, 40+2, 500, 30), VersionText.ToString(), TextShadowStyle);
             GUI.Label(new Rect(10, 40, 500, 30), VersionText.ToString(), TextStyle);
         }
