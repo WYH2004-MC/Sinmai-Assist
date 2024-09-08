@@ -116,6 +116,7 @@ namespace SinmaiAssist
             // 默认加载项
             Patch(typeof(FixDebugInput));
             Patch(typeof(PrintUserData));
+            Patch(typeof(InputManager));
 
             MelonLogger.Msg("Loading completed");
         }

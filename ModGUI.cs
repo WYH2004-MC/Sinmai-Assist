@@ -179,6 +179,8 @@ namespace SinmaiAssist
                 obj.SetActive(true);
             }
             if (GUILayout.Button("InvalidCastException")) throw new InvalidCastException("Debug");
+            GUILayout.Label($"Test Tools", MiddleStyle);
+            if (GUILayout.Button("TouchArea Display")) Common.InputManager.TouchAreaDisplayButton = true;
         }
 
         private void DisablePanel()
