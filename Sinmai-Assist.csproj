@@ -311,9 +311,11 @@
     <None Include="packages.config" />
     <None Include="README.md" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="PostBuild.bat" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>$(ProjectDir)\PostBuild.bat</PostBuildEvent>
+    <PostBuildEvent>$(ProjectDir)PostBuild.bat</PostBuildEvent>
   </PropertyGroup>
 </Project>

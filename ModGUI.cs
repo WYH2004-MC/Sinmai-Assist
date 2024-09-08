@@ -2,6 +2,9 @@
 using MAI2.Util;
 using MAI2System;
 using System;
+using System.Text;
+using Manager;
+using Manager.UserDatas;
 using UnityEngine;
 
 namespace SinmaiAssist
@@ -23,7 +26,7 @@ namespace SinmaiAssist
         public static bool UserIdLoginFlag = false;
 
         private Rect PanelWindow;
-        private string VersionText;
+        private StringBuilder VersionText = new StringBuilder();
         private GUIStyle TextStyle;
         private GUIStyle TextShadowStyle;
         private GUIStyle BigTextStyle;
@@ -49,7 +52,6 @@ namespace SinmaiAssist
             BigTextStyle.fontSize = 40;
             BigTextStyle.alignment = TextAnchor.MiddleCenter;
             BigTextStyle.normal.textColor = Color.white;
-            errorStyle.normal.textColor = Color.red;
             PanelWidth = 300f;
             buttonsPerRow = 3;
         }
@@ -165,17 +167,17 @@ namespace SinmaiAssist
 
         private void ShowVersionInfo()
         {
-            VersionText = (
-                $"{BuildInfo.Name} {BuildInfo.Version}\n" +
-                $"Powered by MelonLoader\n" +
-                $"Client Version: {SinmaiAssist.gameID} {SinmaiAssist.gameVersion}\n" +
-                $"Data Version: {Singleton<SystemConfig>.Instance.config.dataVersionInfo.versionNo.versionString} {Singleton<SystemConfig>.Instance.config.dataVersionInfo.versionNo.releaseNoAlphabet}\n" +
-                $"Keychip: {AMDaemon.System.KeychipId}"
-                );
-            if (SinmaiAssist.config.SafeMode)
-                VersionText += "\nSafe Mode";
-            GUI.Label(new Rect(10+2, 40+2, 500, 30), VersionText, TextShadowStyle);
-            GUI.Label(new Rect(10, 40, 500, 30), VersionText, TextStyle);
+            VersionText.Clear();
+            VersionText.AppendLine($"{BuildInfo.Name} {BuildInfo.Version}");
+            VersionText.AppendLine("Powered by MelonLoader");
+            VersionText.AppendLine($"Client Version: {SinmaiAssist.gameID} {SinmaiAssist.gameVersion}");
+            VersionText.AppendLine($"Current Title Server: {Singleton<OperationManager>.Instance.GetBaseUri()}");
+            VersionText.AppendLine(
+                $"Data Version: {Singleton<SystemConfig>.Instance.config.dataVersionInfo.versionNo.versionString} {Singleton<SystemConfig>.Instance.config.dataVersionInfo.versionNo.releaseNoAlphabet}");
+            VersionText.AppendLine($"Keychip: {AMDaemon.System.KeychipId}");
+            VersionText.AppendLine($"UserId: {Singleton<UserDataManager>.Instance.GetUserData(0L).Detail.UserID} | {Singleton<UserDataManager>.Instance.GetUserData(1L).Detail.UserID}");
+            GUI.Label(new Rect(10+2, 40+2, 500, 30), VersionText.ToString(), TextShadowStyle);
+            GUI.Label(new Rect(10, 40, 500, 30), VersionText.ToString(), TextStyle);
         }
     }
 }
