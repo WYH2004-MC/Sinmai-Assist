@@ -278,6 +278,7 @@
   <ItemGroup>
     <Compile Include="Cheat\AllCollection.cs" />
     <Compile Include="Cheat\AutoPlay.cs" />
+    <Compile Include="Cheat\ChartTimer.cs" />
     <Compile Include="Cheat\FastSkip.cs" />
     <Compile Include="Cheat\ForceCurrentIsBest.cs" />
     <Compile Include="Cheat\ResetLoginBonusRecord.cs" />

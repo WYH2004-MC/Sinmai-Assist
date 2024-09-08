@@ -1,6 +1,7 @@
 ﻿using Cheat;
 using MAI2.Util;
 using MAI2System;
+using Mono.Unix.Native;
 using System;
 using System.Text;
 using Manager;
@@ -15,8 +16,8 @@ namespace SinmaiAssist
         {
             AutoPlay,
             FastSkip,
+            ChartTimer,
             DummyLogin,
-
             Debug
         }
         public static string DummyQrCode;
@@ -27,6 +28,8 @@ namespace SinmaiAssist
 
         private Rect PanelWindow;
         private StringBuilder VersionText = new StringBuilder();
+        private string VersionText;
+        private GUIStyle MiddleStyle;
         private GUIStyle TextStyle;
         private GUIStyle TextShadowStyle;
         private GUIStyle BigTextStyle;
@@ -39,10 +42,14 @@ namespace SinmaiAssist
         public ModGUI()
         {
             PanelWindow = new Rect();
+            MiddleStyle = new GUIStyle();
             TextStyle = new GUIStyle();
             TextShadowStyle = new GUIStyle();
             BigTextStyle = new GUIStyle();
             errorStyle = new GUIStyle();
+            MiddleStyle.fontSize = 12;
+            MiddleStyle.normal.textColor = Color.white;
+            MiddleStyle.alignment = TextAnchor.MiddleCenter;
             TextStyle.fontSize = 24;
             TextStyle.normal.textColor = Color.white;
             TextStyle.alignment = TextAnchor.UpperLeft;
@@ -71,7 +78,9 @@ namespace SinmaiAssist
             GUILayout.BeginVertical(GUILayout.Width(PanelWidth), GUILayout.Height(280f));
             if (toolbar == Toolbar.AutoPlay && SinmaiAssist.config.AutoPlay) AutoPlayPanel();
             else if (toolbar == Toolbar.FastSkip && SinmaiAssist.config.FastSkip) FastSkipPanel();
+            else if (toolbar == Toolbar.ChartTimer && SinmaiAssist.config.ChartTimer) ChartTimerPanel();
             else if (toolbar == Toolbar.DummyLogin && SinmaiAssist.config.DummyLogin && SinmaiAssist.IsSDGB) DummyLoginPanel();
+            else if (toolbar == Toolbar.Debug) DebugPanel();
             else DisablePanel();
             GUILayout.EndVertical();
             GUI.DragWindow();
@@ -97,12 +106,12 @@ namespace SinmaiAssist
             FastSkip.SkipButton = false;
             GUILayout.Label($"Skip Mode: {(FastSkip.CustomSkip ? "Custom" : "Default")}");
             if (GUILayout.Button("Skip", new GUIStyle(GUI.skin.button){ fontSize=20 }, GUILayout.Height(45f))) FastSkip.SkipButton = true;
-            GUILayout.Label($"Mode Setting", new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter });
+            GUILayout.Label($"Mode Setting", MiddleStyle);
             if (GUILayout.Button("Default")) FastSkip.CustomSkip = false;
             if (GUILayout.Button("Custom")) FastSkip.CustomSkip = true;
             if (FastSkip.CustomSkip)
             {
-                GUILayout.Label($"Custom Setting", new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter });
+                GUILayout.Label($"Custom Setting", MiddleStyle);
                 GUILayout.Label($"Custom Achivement(0 - 101): ");
                 achivementInput = GUILayout.TextField(achivementInput);
                 if (int.TryParse(achivementInput, out int achivementValue))
@@ -124,6 +133,34 @@ namespace SinmaiAssist
             }
         }
 
+        private void ChartTimerPanel()
+        {
+            GUIStyle buttonStyle = new GUIStyle(GUI.skin.button) { fontSize = 24 };
+            ChartTimer.ButtonStatus = ChartTimer.Button.None;
+            Manager.NotesManager notesManager = new Manager.NotesManager();
+            GUILayout.Label($"Timer Status: {(notesManager.IsPlaying() ? (ChartTimer.IsPlaying ? "Playing" : "Paused") : "Not Play")}");
+            GUILayout.Label($"Timer:", new GUIStyle(GUI.skin.label) { fontSize = 20 });
+            GUILayout.Label($"{ChartTimer.Timer.ToString("0000000.0000")}", new GUIStyle(MiddleStyle) { fontSize = 20 });
+            if (GUILayout.Button($"{(ChartTimer.IsPlaying ? "Pause" : "Play")}", buttonStyle, GUILayout.Height(45f))) ChartTimer.ButtonStatus = ChartTimer.Button.Pause;
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("<<<", buttonStyle, GUILayout.Height(45f))) ChartTimer.ButtonStatus = ChartTimer.Button.TimeSkipSub3;
+            if (GUILayout.Button("<<", buttonStyle, GUILayout.Height(45f))) ChartTimer.ButtonStatus = ChartTimer.Button.TimeSkipSub2;
+            if (GUILayout.Button("<", buttonStyle, GUILayout.Height(45f))) ChartTimer.ButtonStatus = ChartTimer.Button.TimeSkipSub;
+            if (GUILayout.Button(">", buttonStyle, GUILayout.Height(45f))) ChartTimer.ButtonStatus = ChartTimer.Button.TimeSkipAdd;
+            if (GUILayout.Button(">>", buttonStyle, GUILayout.Height(45f))) ChartTimer.ButtonStatus = ChartTimer.Button.TimeSkipAdd2;
+            if (GUILayout.Button(">>>", buttonStyle, GUILayout.Height(45f))) ChartTimer.ButtonStatus = ChartTimer.Button.TimeSkipAdd3;
+            GUILayout.EndHorizontal();
+            if (GUILayout.Button("Reset", buttonStyle, GUILayout.Height(45f))) ChartTimer.ButtonStatus = ChartTimer.Button.Reset;
+            GUILayout.Label(
+                "While paused, you can use the LeftArrow and RightArrow keys to perform small range fast forward or rewind.",
+                new GUIStyle(GUI.skin.label)
+                {
+                    fontSize = 12,
+                    wordWrap = true
+                }
+                );
+        }
+
         private void DummyLoginPanel()
         {
             GUILayout.Label("QrCode:");
@@ -133,6 +170,17 @@ namespace SinmaiAssist
             GUILayout.Label("UserID:");
             DummyUserId = GUILayout.TextField(DummyUserId, GUILayout.Height(20f));
             if (GUILayout.Button("UserId Login")) UserIdLoginFlag = true;
+        }
+
+        private void DebugPanel()
+        {
+            GUILayout.Label($"Throw Exception Test", MiddleStyle);
+            if (GUILayout.Button("NullReferenceException"))
+            {
+                GameObject obj = null;
+                obj.SetActive(true);
+            }
+            if (GUILayout.Button("InvalidCastException")) throw new InvalidCastException("Debug");
         }
 
         private void DisablePanel()
