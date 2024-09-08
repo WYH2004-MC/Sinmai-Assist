@@ -60,22 +60,20 @@ namespace Cheat
                             }
                             NotesManager.StartPlay(0);
                             NotesManager.Pause(true);
-                            bool IsPartyPlay = (bool)IsPartyPlayMethod.Invoke(__instance, null);MelonLogger.Msg($"CustomSkip 3");
-                            Singleton<GamePlayManager>.Instance.Initialize(IsPartyPlay);MelonLogger.Msg($"CustomSkip 4");
-                            uint maxCombo = 0u;MelonLogger.Msg($"CustomSkip 5");
+                            bool IsPartyPlay = (bool)IsPartyPlayMethod.Invoke(__instance, null);
+                            Singleton<GamePlayManager>.Instance.Initialize(IsPartyPlay);
+                            uint maxCombo = 0u;
                             for (int i = 0; i < monitors.Length; i++)
                             {
-                                MelonLogger.Msg($"CustomSkip For2 - {i}");
                                 if (Singleton<UserDataManager>.Instance.GetUserData(i).IsEntry)
                                 {
-                                    monitors[i].ForceAchivement(CustomAchivement, 0); MelonLogger.Msg($"CustomSkip For2 - {i} - 1");
-                                    maxCombo += Singleton<GamePlayManager>.Instance.GetGameScore(i).MaxCombo; MelonLogger.Msg($"CustomSkip For2 - {i} - 2");
+                                    monitors[i].ForceAchivement(CustomAchivement, 0); 
+                                    maxCombo += Singleton<GamePlayManager>.Instance.GetGameScore(i).MaxCombo;
                                 }
                             }
-                            GameScoreList gameScore = Singleton<GamePlayManager>.Instance.GetGameScore(2); MelonLogger.Msg($"CustomSkip 6");
+                            GameScoreList gameScore = Singleton<GamePlayManager>.Instance.GetGameScore(2);
                             if (gameScore.IsEnable && !gameScore.IsHuman())
                             {
-                                MelonLogger.Msg($"CustomSkip 7");
                                 for (int i = 0; i < 2; i++)
                                 {
                                     if (Singleton<UserDataManager>.Instance.GetUserData(i).IsEntry && GameManager.SelectGhostID[i] != GhostManager.GhostTarget.End)
@@ -86,7 +84,6 @@ namespace Cheat
                                     }
                                 }
                             }
-                            MelonLogger.Msg($"CustomSkip 8");
                             for (int i = 0; i < monitors.Length; i++)
                             {
                                 if (Singleton<UserDataManager>.Instance.GetUserData(i).IsEntry)
@@ -94,7 +91,6 @@ namespace Cheat
                                     Singleton<GamePlayManager>.Instance.GetGameScore(i).SetChain(maxCombo);
                                 }
                             }
-                            MelonLogger.Msg($"CustomSkip Done");
                         }
                         if (IsSkip)
                         {
