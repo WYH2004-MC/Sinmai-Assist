@@ -19,8 +19,8 @@ namespace Cheat
             Good,
             Random,
             RandomAllPerfect,
-            RandomFullComblePlus,
-            RandomFullComble
+            RandomFullComboPlus,
+            RandomFullCombo
         }
 
         public static readonly ReadOnlyCollection<NoteJudge.ETiming> RandCriticalTiming = Array.AsReadOnly(new NoteJudge.ETiming[5]
@@ -78,7 +78,7 @@ namespace Cheat
                 case AutoPlayMode.RandomAllPerfect:
                     __result = RandCriticalTiming[num2];
                     break;
-                case AutoPlayMode.RandomFullComblePlus:
+                case AutoPlayMode.RandomFullComboPlus:
                     if (num >= 10)
                     {
                         __result = RandCriticalTiming[num2];
@@ -95,7 +95,7 @@ namespace Cheat
                         }
                     }
                     break;
-                case AutoPlayMode.RandomFullComble:
+                case AutoPlayMode.RandomFullCombo:
                     if (num >= 80)
                     {
                         __result = RandCriticalTiming[num2];
@@ -139,7 +139,7 @@ namespace Cheat
 
             if (NotesManager.GetCurrentMsec() > appearMsec - 4.1666665f && IsAutoPlay())
             {
-                if ((autoPlayMode == AutoPlayMode.RandomAllPerfect || autoPlayMode == AutoPlayMode.RandomFullComble || autoPlayMode == AutoPlayMode.RandomFullComblePlus) && isExNote)
+                if ((autoPlayMode == AutoPlayMode.RandomAllPerfect || autoPlayMode == AutoPlayMode.RandomFullCombo || autoPlayMode == AutoPlayMode.RandomFullComboPlus) && isExNote)
                 {
                     AccessTools.Field(typeof(NoteBase), "JudgeResult").SetValue(__instance, NoteJudge.ETiming.Critical);
                 }
@@ -177,8 +177,8 @@ namespace Cheat
             judgeResult = (IsAutoPlay() ? GameManager.AutoJudge() : NoteJudge.GetSlideJudgeTiming(ref judgeTimingDiffMsec, Singleton<GamePlayManager>.Instance.GetGameScore(__instance.MonitorId).UserOption.GetJudgeTimingFrame(), (EJudgeType)judgeTypeField.GetValue(__instance), (int)lastWaitTimeForJudgeField.GetValue(__instance)));
 
             if (autoPlayMode == AutoPlayMode.RandomAllPerfect ||
-                autoPlayMode == AutoPlayMode.RandomFullComblePlus ||
-                autoPlayMode == AutoPlayMode.RandomFullComble)
+                autoPlayMode == AutoPlayMode.RandomFullComboPlus ||
+                autoPlayMode == AutoPlayMode.RandomFullCombo)
             {
                 judgeResult = NoteJudge.ETiming.Critical;
             }
@@ -222,8 +222,8 @@ namespace Cheat
             ETiming judgeResult = (ETiming) judgeResultField.GetValue(__instance);
             judgeResult = NoteJudge.GetJudgeTiming(ref judgeTimingDiffMsec, Singleton<GamePlayManager>.Instance.GetGameScore(__instance.MonitorId).UserOption.GetJudgeTimingFrame(), (EJudgeType)judgeTypeField.GetValue(__instance));
             if (autoPlayMode == AutoPlayMode.RandomAllPerfect ||
-                autoPlayMode == AutoPlayMode.RandomFullComblePlus ||
-                autoPlayMode == AutoPlayMode.RandomFullComble)
+                autoPlayMode == AutoPlayMode.RandomFullComboPlus ||
+                autoPlayMode == AutoPlayMode.RandomFullCombo)
             {
                 judgeResult = NoteJudge.ETiming.Critical;
             }
@@ -269,8 +269,8 @@ namespace Cheat
             var playJudgeSeMethod = AccessTools.Method(typeof(TouchNoteB), "PlayJudgeSe");
             float appearMsec = (float) AccessTools.Field(typeof(NoteBase), "AppearMsec").GetValue(__instance);
             if ((autoPlayMode == AutoPlayMode.RandomAllPerfect ||
-                autoPlayMode == AutoPlayMode.RandomFullComblePlus ||
-                autoPlayMode == AutoPlayMode.RandomFullComble) &&
+                autoPlayMode == AutoPlayMode.RandomFullComboPlus ||
+                autoPlayMode == AutoPlayMode.RandomFullCombo) &&
                 NotesManager.GetCurrentMsec() > appearMsec - 4.1666665f &&
                 IsAutoPlay())
             {

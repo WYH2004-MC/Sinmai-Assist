@@ -86,8 +86,8 @@ namespace SinmaiAssist
             if (GUILayout.Button("Good")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.Good;
             if (GUILayout.Button("Random")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.Random;
             if (GUILayout.Button("RandomAllPerfect")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.RandomAllPerfect;
-            if (GUILayout.Button("RandomFullComblePlus")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.RandomFullComblePlus;
-            if (GUILayout.Button("RandomFullComble")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.RandomFullComble;
+            if (GUILayout.Button("RandomFullComboPlus")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.RandomFullComboPlus;
+            if (GUILayout.Button("RandomFullCombo")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.RandomFullCombo;
             if (GUILayout.Button("None")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.None;
         }
 
