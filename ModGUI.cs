@@ -52,6 +52,7 @@ namespace SinmaiAssist
             BigTextStyle.fontSize = 40;
             BigTextStyle.alignment = TextAnchor.MiddleCenter;
             BigTextStyle.normal.textColor = Color.white;
+            errorStyle.normal.textColor = Color.red;
             PanelWidth = 300f;
             buttonsPerRow = 3;
         }
