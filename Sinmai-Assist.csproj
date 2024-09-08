@@ -310,6 +310,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="config - en_US.ini" />
+    <None Include="config - zh_CN.ini" />
     <None Include="config.ini" />
     <None Include="packages.config" />
     <None Include="README.md" />
