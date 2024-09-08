@@ -6,6 +6,8 @@ using SinmaiAssist;
 using System;
 using System.IO;
 using System.Text;
+using MAI2.Util;
+using Manager;
 
 namespace Common
 {
@@ -28,8 +30,9 @@ namespace Common
             if (__instance.State == PacketState.Ready)
             {
                 string content = __instance.Query.GetRequest();
-                string baseUrl = (string)AccessTools.Field(typeof(Packet), "BaseUrl").GetValue(__instance);
-                NowApi = __instance.Query.Api;
+                // string baseUrl = (string)AccessTools.Field(typeof(Packet), "BaseUrl").GetValue(__instance);
+                var baseUrl = Singleton<OperationManager>.Instance.GetBaseUri();
+                NowApi = baseUrl + __instance.Query.Api;
                 PrintNetworkLog(HttpMessageType.Request, NowApi, content);
             }
         }

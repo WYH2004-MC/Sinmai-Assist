@@ -3,6 +3,9 @@ using MAI2.Util;
 using MAI2System;
 using Mono.Unix.Native;
 using System;
+using System.Text;
+using Manager;
+using Manager.UserDatas;
 using UnityEngine;
 
 namespace SinmaiAssist
@@ -24,6 +27,7 @@ namespace SinmaiAssist
         public static bool UserIdLoginFlag = false;
 
         private Rect PanelWindow;
+        private StringBuilder VersionText = new StringBuilder();
         private string VersionText;
         private GUIStyle MiddleStyle;
         private GUIStyle TextStyle;
@@ -86,14 +90,14 @@ namespace SinmaiAssist
         {
             GUILayout.Label($"IsAutoPlay: {AutoPlay.IsAutoPlay()}");
             GUILayout.Label($"Mode: {AutoPlay.autoPlayMode}");
-            if (GUILayout.Button("Critical")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.Critical;
+            if (GUILayout.Button("Critical (AP+)")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.Critical;
             if (GUILayout.Button("Perfect")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.Perfect;
             if (GUILayout.Button("Great")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.Great;
             if (GUILayout.Button("Good")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.Good;
             if (GUILayout.Button("Random")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.Random;
             if (GUILayout.Button("RandomAllPerfect")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.RandomAllPerfect;
-            if (GUILayout.Button("RandomFullComblePlus")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.RandomFullComblePlus;
-            if (GUILayout.Button("RandomFullComble")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.RandomFullComble;
+            if (GUILayout.Button("RandomFullComboPlus")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.RandomFullComboPlus;
+            if (GUILayout.Button("RandomFullCombo")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.RandomFullCombo;
             if (GUILayout.Button("None")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.None;
         }
 
@@ -212,17 +216,19 @@ namespace SinmaiAssist
 
         private void ShowVersionInfo()
         {
-            VersionText = (
-                $"{BuildInfo.Name} {BuildInfo.Version}\n" +
-                $"Powered by MelonLoader\n" +
-                $"Client Version: {SinmaiAssist.gameID} {SinmaiAssist.gameVersion}\n" +
-                $"Data Version: {Singleton<SystemConfig>.Instance.config.dataVersionInfo.versionNo.versionString} {Singleton<SystemConfig>.Instance.config.dataVersionInfo.versionNo.releaseNoAlphabet}\n" +
-                $"Keychip: {AMDaemon.System.KeychipId}"
-                );
+            VersionText.Clear();
+            VersionText.AppendLine($"{BuildInfo.Name} {BuildInfo.Version}");
+            VersionText.AppendLine("Powered by MelonLoader");
+            VersionText.AppendLine($"Client Version: {SinmaiAssist.gameID} {SinmaiAssist.gameVersion}");
+            VersionText.AppendLine($"Current Title Server: {Singleton<OperationManager>.Instance.GetBaseUri()}");
+            VersionText.AppendLine(
+                $"Data Version: {Singleton<SystemConfig>.Instance.config.dataVersionInfo.versionNo.versionString} {Singleton<SystemConfig>.Instance.config.dataVersionInfo.versionNo.releaseNoAlphabet}");
+            VersionText.AppendLine($"Keychip: {AMDaemon.System.KeychipId}");
+            VersionText.AppendLine($"UserId: {Singleton<UserDataManager>.Instance.GetUserData(0L).Detail.UserID} | {Singleton<UserDataManager>.Instance.GetUserData(1L).Detail.UserID}");
             if (SinmaiAssist.config.SafeMode)
-                VersionText += "\nSafe Mode";
-            GUI.Label(new Rect(10+2, 40+2, 500, 30), VersionText, TextShadowStyle);
-            GUI.Label(new Rect(10, 40, 500, 30), VersionText, TextStyle);
+                VersionText.AppendLine("Safe Mode");
+            GUI.Label(new Rect(10+2, 40+2, 500, 30), VersionText.ToString(), TextShadowStyle);
+            GUI.Label(new Rect(10, 40, 500, 30), VersionText.ToString(), TextStyle);
         }
     }
 }

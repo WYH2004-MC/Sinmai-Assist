@@ -1,5 +1,9 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Reflection;
+using HarmonyLib;
+using Net.Packet;
 using Net.Packet.Mai2;
+using Net.VO;
 using Net.VO.Mai2;
 
 namespace Cheat
