@@ -1,12 +1,11 @@
 ﻿using Cheat;
 using MAI2.Util;
 using MAI2System;
-using Mono.Unix.Native;
+using Manager;
 using System;
 using System.Text;
-using Manager;
-using Manager.UserDatas;
 using UnityEngine;
+using Utils;
 
 namespace SinmaiAssist
 {
@@ -28,7 +27,6 @@ namespace SinmaiAssist
 
         private Rect PanelWindow;
         private StringBuilder VersionText = new StringBuilder();
-        private string VersionText;
         private GUIStyle MiddleStyle;
         private GUIStyle TextStyle;
         private GUIStyle TextShadowStyle;
@@ -181,6 +179,8 @@ namespace SinmaiAssist
                 obj.SetActive(true);
             }
             if (GUILayout.Button("InvalidCastException")) throw new InvalidCastException("Debug");
+            GUILayout.Label($"Test Tools", MiddleStyle);
+            if (GUILayout.Button("TouchArea Display")) Common.InputManager.TouchAreaDisplayButton = true;
         }
 
         private void DisablePanel()
@@ -220,9 +220,9 @@ namespace SinmaiAssist
             VersionText.AppendLine($"{BuildInfo.Name} {BuildInfo.Version}");
             VersionText.AppendLine("Powered by MelonLoader");
             VersionText.AppendLine($"Client Version: {SinmaiAssist.gameID} {SinmaiAssist.gameVersion}");
-            VersionText.AppendLine($"Current Title Server: {Singleton<OperationManager>.Instance.GetBaseUri()}");
             VersionText.AppendLine(
                 $"Data Version: {Singleton<SystemConfig>.Instance.config.dataVersionInfo.versionNo.versionString} {Singleton<SystemConfig>.Instance.config.dataVersionInfo.versionNo.releaseNoAlphabet}");
+            VersionText.AppendLine($"Current Title Server: {Server.GetTitleServerUri()}");
             VersionText.AppendLine($"Keychip: {AMDaemon.System.KeychipId}");
             VersionText.AppendLine($"UserId: {Singleton<UserDataManager>.Instance.GetUserData(0L).Detail.UserID} | {Singleton<UserDataManager>.Instance.GetUserData(1L).Detail.UserID}");
             if (SinmaiAssist.config.SafeMode)

@@ -37,7 +37,7 @@ namespace Common
             FieldInfo touchAreaField = AccessTools.Field(typeof(MeshButton), "touchArea");
             FieldInfo vertexArrayField = AccessTools.Field(typeof(MeshButton), "vertexArray");
 
-            touchAreaField.SetValue(__instance, (InputManager.TouchPanelArea)Enum.Parse(typeof(InputManager.TouchPanelArea), __instance.name));
+            touchAreaField.SetValue(__instance, (Manager.InputManager.TouchPanelArea)Enum.Parse(typeof(Manager.InputManager.TouchPanelArea), __instance.name));
 
             Vector2[] vertexArray = new Vector2[customGraphic.vertex.Count];
             for (int i = 0; i < customGraphic.vertex.Count; i++)
