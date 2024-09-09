@@ -5,7 +5,7 @@ using MAI2System;
 
 namespace SinmaiAssist
 {
-    public class ConfigManager
+    public class ConfigManagerIni
     {
         public bool DummyLogin { get; private set; }
         public string DefaultDummyUserId { get; private set; }
