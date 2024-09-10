@@ -1,89 +1,121 @@
-﻿using Cheat;
-using Common;
-using Fix;
-using MAI2System;
+﻿using System.IO;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace SinmaiAssist
 {
-    public class ConfigManagerIni
+    public class ConfigManager
     {
-        public bool DummyLogin { get; private set; }
-        public string DefaultDummyUserId { get; private set; }
-        public bool CustomCameraId { get; private set; }
-        public int CustomQrCameraId { get; private set; }
-        public int CustomPhotoCameraId { get; private set; }
-        public bool DisableMask { get; private set; }
-        public bool ShowFPS { get; private set; }
-        public bool NetworkLogger {  get; private set; }
-        public bool NetworkLoggerPrintToConsole { get; private set; }
-        public bool SinglePlayer { get; private set; }
-        public bool ForwardATouchRegionToButton { get; private set; }
-        public string CustomVersionText { get; private set; }
-        public bool SkipWarningScreen { get; private set; }
-        public bool QuickBoot { get; private set; }
-        public bool BlockCoin { get; private set; }
-        public bool AutoPlay { get; private set; }
-        public bool FastSkip { get; private set; }
-        public bool ChartTimer { get; private set; }
-        public bool AllCollection {  get; private set; }
-        public bool UnlockEvent { get; private set; }
-        public bool ResetLoginBonusRecord { get; private set; }
-        public bool ForceCurrentIsBest { get; private set; }
-        public bool DisableEncryption { get; private set; }
-        public bool DisableReboot { get; private set; }
-        public bool SkipVersionCheck { get; private set; }
-        public bool RewriteNoteJudgeSetting { get; private set; }
-        public float AdjustTiming { get; private set; }
-        public float JudgeTiming { get; private set; }
-        public bool ShowVersionInfo { get; private set; }
-        public bool ForceIsSDGB { get; private set; }
-        public bool SafeMode { get; private set; }
+        private Config _config;
 
-
-        public void initialize()
+        // 初始化方法，加载配置文件
+        public void Initialize(string yamlFilePath)
         {
-            IniFile iniFile = new IniFile($"{BuildInfo.Name}/Config.ini");
-            // [SDGB]
-            DummyLogin = iniFile.getValue("SDGB", "DummyLogin", defaultParam: false);
-            DefaultDummyUserId = iniFile.getValue("SDGB", "DefaultDummyUserId", defaultParam: "0");
-            CustomCameraId = iniFile.getValue("SDGB", "CustomCameraId", defaultParam: false);
-            CustomQrCameraId = iniFile.getValue("SDGB", "CustomQrCameraId", defaultParam: 0);
-            CustomPhotoCameraId = iniFile.getValue("SDGB", "CustomPhotoCameraId", defaultParam: 0);
+            var deserializer = new DeserializerBuilder()
+                  .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                  .Build();
 
-            // [Common]
-            DisableMask = iniFile.getValue("Common", "DisableMask", defaultParam: false);
-            ShowFPS = iniFile.getValue("Common", "ShowFPS", defaultParam: false);
-            NetworkLogger = iniFile.getValue("Common", "NetworkLogger", defaultParam: false);
-            NetworkLoggerPrintToConsole = iniFile.getValue("Common", "NetworkLoggerPrintToConsole", defaultParam: false);
-            SinglePlayer = iniFile.getValue("Common", "SinglePlayer", defaultParam: false);
-            ForwardATouchRegionToButton = iniFile.getValue("Common", "ForwardATouchRegionToButton", defaultParam: false);
-            CustomVersionText = iniFile.getValue("Common", "CustomVersionText", defaultParam: null);
-            SkipWarningScreen = iniFile.getValue("Common", "SkipWarningScreen", defaultParam: false);
-            QuickBoot = iniFile.getValue("Common", "QuickBoot", defaultParam: false);
-            BlockCoin = iniFile.getValue("Common", "BlockCoin", defaultParam: false);
-            
-            // [Cheat]
-            AutoPlay = iniFile.getValue("Cheat", "AutoPlay", defaultParam: false);
-            FastSkip = iniFile.getValue("Cheat", "FastSkip", defaultParam: false);
-            ChartTimer = iniFile.getValue("Cheat", "ChartTimer", defaultParam: false);
-            AllCollection = iniFile.getValue("Cheat", "AllCollection", defaultParam: false);
-            UnlockEvent = iniFile.getValue("Cheat", "UnlockEvent", defaultParam: false);
-            ResetLoginBonusRecord = iniFile.getValue("Cheat", "ResetLoginBonusRecord", defaultParam: false);
-            ForceCurrentIsBest = iniFile.getValue("Cheat", "ForceCurrentIsBest", defaultParam: false);
+            _config = deserializer.Deserialize<Config>(File.ReadAllText(yamlFilePath));
+        }
 
-            // [Fix]
-            DisableEncryption = iniFile.getValue("Fix", "DisableEncryption", defaultParam: false);
-            DisableReboot = iniFile.getValue("Fix", "DisableReboot", defaultParam: false);
-            SkipVersionCheck = iniFile.getValue("Fix", "SkipVersionCheck", defaultParam: false);
-            RewriteNoteJudgeSetting = iniFile.getValue("Fix", "RewriteNoteJudgeSetting", defaultParam: false);
-            AdjustTiming = iniFile.getValue("Fix", "AdjustTiming", defaultParam: 0f);
-            JudgeTiming = iniFile.getValue("Fix", "JudgeTiming", defaultParam: 0f);
+        // 提供公共属性访问
+        public ChinaConfig China => _config.China;
+        public CommonConfig Common => _config.Common;
+        public CheatConfig Cheat => _config.Cheat;
+        public FixConfig Fix => _config.Fix;
+        public ModSettingConfig ModSetting => _config.ModSetting;
 
-            // [ModSetting]
-            ShowVersionInfo = iniFile.getValue("ModSetting", "ShowVersionInfo", defaultParam: false);
-            ForceIsSDGB = iniFile.getValue("ModSetting", "ForceIsSDGB", defaultParam: false);
-            SafeMode = iniFile.getValue("ModSetting", "SafeMode", defaultParam: false);
-
+        public string GetConfigAsYaml()
+        {
+            var serializer = new SerializerBuilder().Build();
+            return serializer.Serialize(_config);
         }
     }
+
+    public class Config
+    {
+        public ChinaConfig China { get; set; }
+        public CommonConfig Common { get; set; }
+        public CheatConfig Cheat { get; set; }
+        public FixConfig Fix { get; set; }
+        public ModSettingConfig ModSetting { get; set; }
+    }
+
+    public class ChinaConfig
+    {
+        public DummyLoginConfig DummyLogin { get; set; }
+        public CustomCameraIdConfig CustomCameraId { get; set; }
+    }
+
+    public class DummyLoginConfig
+    {
+        public bool Enable { get; set; }
+        public int DefaultUserId { get; set; }
+    }
+
+    public class CustomCameraIdConfig
+    {
+        public bool Enable { get; set; }
+        public int QrCameraId { get; set; }
+        public int PhotoCameraId { get; set; }
+    }
+
+    public class CommonConfig
+    {
+        public bool DisableMask { get; set; }
+        public bool ShowFPS { get; set; }
+        public bool SinglePlayer { get; set; }
+        public bool ForwardATouchRegionToButton { get; set; }
+        public bool SkipWarningScreen { get; set; }
+        public bool QuickBoot { get; set; }
+        public bool BlockCoin { get; set; }
+        public NetworkLoggerConfig NetworkLogger { get; set; }
+        public CustomVersionTextConfig CustomVersionText { get; set; }
+    }
+
+    public class NetworkLoggerConfig
+    {
+        public bool Enable { get; set; }
+        public bool PrintToConsole { get; set; }
+    }
+
+    public class CustomVersionTextConfig
+    {
+        public bool Enable { get; set; }
+        public string VersionText { get; set; }
+    }
+
+    public class CheatConfig
+    {
+        public bool AutoPlay { get; set; }
+        public bool FastSkip { get; set; }
+        public bool ChartTimer { get; set; }
+        public bool AllCollection { get; set; }
+        public bool UnlockEvent { get; set; }
+        public bool ResetLoginBonusRecord { get; set; }
+        public bool ForceCurrentIsBest { get; set; }
+    }
+
+    public class FixConfig
+    {
+        public bool DisableEncryption { get; set; }
+        public bool DisableReboot { get; set; }
+        public bool SkipVersionCheck { get; set; }
+        public RewriteNoteJudgeTimingConfig RewriteNoteJudgeTiming { get; set; }
+    }
+
+    public class RewriteNoteJudgeTimingConfig
+    {
+        public bool Enable { get; set; }
+        public float AdjustTiming { get; set; }
+        public float JudgeTiming { get; set; }
+    }
+
+    public class ModSettingConfig
+    {
+        public bool ShowInfo { get; set; }
+        public bool ForceIsChinaBuild { get; set; }
+        public bool SafeMode { get; set; }
+    }
 }
+   

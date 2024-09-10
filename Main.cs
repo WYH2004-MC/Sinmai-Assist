@@ -24,7 +24,7 @@ namespace SinmaiAssist
     public class SinmaiAssist : MelonMod
     {
         private ModGUI modGUI;
-        public static ConfigManagerYaml config;
+        public static ConfigManager config;
         public static bool IsSDGB = false;
         public static string gameID = "";
         public static string gameVersion = "";
@@ -32,17 +32,20 @@ namespace SinmaiAssist
         public override void OnInitializeMelon() {
             PrintLogo();
             modGUI = new ModGUI();
-            config = new ConfigManagerYaml();
+            config = new ConfigManager();
 
             // 加载配置文件
             MelonLogger.Msg("Load Mod Config.");
-            if (!File.Exists($"{BuildInfo.Name}/Config.ini"))
+            string yamlFilePath = $"{BuildInfo.Name}/config.yml";
+            if (!File.Exists(yamlFilePath))
             {
-                MelonLogger.Error($"Path: \"{BuildInfo.Name}/Config.ini\" Not Found.");
+                MelonLogger.Error($"Path: \"{yamlFilePath}\" Not Found.");
                 return;
             }
-            config.Initialize();
-            ModGUI.DummyUserId = config.DefaultDummyUserId;
+            config.Initialize(yamlFilePath);
+            MelonLogger.Msg(config.Common.CustomVersionText.VersionText);
+            ModGUI.DummyUserId = config.China.DummyLogin.DefaultUserId.ToString();
+
 
             // 输出设备摄像头列表
             File.Delete($"{BuildInfo.Name}/WebCameraList.txt");
@@ -64,10 +67,10 @@ namespace SinmaiAssist
 
             // 检测游戏版本并判断是否为 SDGB
             gameID = AMDaemon.System.GameId;
-            if (gameID == "SDGB" || config.ForceIsChinaBuild) IsSDGB = true;
+            if (gameID == "SDGB" || config.ModSetting.ForceIsChinaBuild) IsSDGB = true;
             MelonLogger.Msg($"GameId: {gameID} isSDGB: {IsSDGB}");
 
-            if (config.SafeMode)
+            if (config.ModSetting.SafeMode)
             {
                 MelonLogger.Warning("Safe mode is enabled, Disable all patch");
                 return;
@@ -75,10 +78,10 @@ namespace SinmaiAssist
 
             // 加载Patch
             // SDGB
-            if (config.DummyLogin) Patch(typeof(DummyLogin));
-            if (config.CustomCameraId)
+            if (config.China.DummyLogin.Enable) Patch(typeof(DummyLogin));
+            if (config.China.CustomCameraId.Enable)
             {
-                if (config.DummyLogin)
+                if (config.China.DummyLogin.Enable)
                 {
                     MelonLogger.Warning("DummyLogin enabled, CustomCameraId has been automatically disabled.");
                 }
@@ -89,29 +92,29 @@ namespace SinmaiAssist
             }
 
             // Common
-            if (config.DisableMask) Patch(typeof(DisableMask));
-            if (config.SinglePlayer) Patch(typeof(SinglePlayer));
-            if (config.NetworkLogger) Patch(typeof(NetworkLogger));
-            if (config.ForwardATouchRegionToButton) Patch(typeof(ForwardATouchRegionToButton));
-            if (config.CustomVersionText != null) Patch(typeof(CustomVersionText));
-            if (config.QuickBoot) Patch(typeof(QuickBoot));
-            if (config.BlockCoin) Patch(typeof(BlockCoin));
-            if (config.SkipWarningScreen) Patch(typeof(SkipWarningScreen));
-            if (config.RewriteNoteJudgeSetting && (config.AdjustTiming != 0 || config.JudgeTiming != 0)) Patch(typeof(RewriteNoteJudgeSetting));
+            if (config.Common.DisableMask) Patch(typeof(DisableMask));
+            if (config.Common.SinglePlayer) Patch(typeof(SinglePlayer));
+            if (config.Common.ForwardATouchRegionToButton) Patch(typeof(ForwardATouchRegionToButton));
+            if (config.Common.QuickBoot) Patch(typeof(QuickBoot));
+            if (config.Common.BlockCoin) Patch(typeof(BlockCoin));
+            if (config.Common.SkipWarningScreen) Patch(typeof(SkipWarningScreen));
+            if (config.Common.NetworkLogger.Enable) Patch(typeof(NetworkLogger));
+            if (config.Common.CustomVersionText.Enable) Patch(typeof(CustomVersionText));
 
             //Fix
-            if (config.DisableEncryption) Patch(typeof(DisableEncryption));
-            if (config.DisableReboot) Patch (typeof(DisableReboot));
-            if (config.SkipVersionCheck) Patch(typeof(SkipVersionCheck));
+            if (config.Fix.DisableEncryption) Patch(typeof(DisableEncryption));
+            if (config.Fix.DisableReboot) Patch (typeof(DisableReboot));
+            if (config.Fix.SkipVersionCheck) Patch(typeof(SkipVersionCheck));
+            if (config.Fix.RewriteNoteJudgeTiming.Enable) Patch(typeof(RewriteNoteJudgeTiming));
 
             //Cheat
-            if (config.AutoPlay) Patch(typeof(AutoPlay));
-            if (config.FastSkip) Patch(typeof(FastSkip));
-            if (config.ChartTimer) Patch(typeof(ChartTimer));
-            if (config.AllCollection) Patch(typeof(AllCollection));
-            if (config.UnlockEvent) Patch(typeof(UnlockEvent));
-            if (config.ResetLoginBonusRecord) Patch(typeof(ResetLoginBonusRecord));
-            if (config.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
+            if (config.Cheat.AutoPlay) Patch(typeof(AutoPlay));
+            if (config.Cheat.FastSkip) Patch(typeof(FastSkip));
+            if (config.Cheat.ChartTimer) Patch(typeof(ChartTimer));
+            if (config.Cheat.AllCollection) Patch(typeof(AllCollection));
+            if (config.Cheat.UnlockEvent) Patch(typeof(UnlockEvent));
+            if (config.Cheat.ResetLoginBonusRecord) Patch(typeof(ResetLoginBonusRecord));
+            if (config.Cheat.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
 
             // 默认加载项
             Patch(typeof(FixDebugInput));
@@ -129,7 +132,7 @@ namespace SinmaiAssist
         public override void OnGUI()
         {
             modGUI.OnGUI();
-            if (config.ShowFPS) ShowFPS.OnGUI();
+            if (config.Common.ShowFPS) ShowFPS.OnGUI();
         }
 
         private static bool Patch(Type type)

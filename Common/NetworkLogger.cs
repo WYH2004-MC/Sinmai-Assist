@@ -1,13 +1,11 @@
 ﻿using HarmonyLib;
+using MAI2.Util;
+using Manager;
 using MelonLoader;
-using Net;
 using Net.Packet;
-using SinmaiAssist;
 using System;
 using System.IO;
 using System.Text;
-using MAI2.Util;
-using Manager;
 
 namespace Common
 {
@@ -70,7 +68,7 @@ namespace Common
                 string logText = now.ToString("[HH:mm:ss.fff] ");
                 logText += $"[{httpMessageType}] [{api}] -> {content}\n";
 
-                if (SinmaiAssist.SinmaiAssist.config.NetworkLoggerPrintToConsole)
+                if (SinmaiAssist.SinmaiAssist.config.Common.NetworkLogger.PrintToConsole)
                     MelonLogger.Msg($"[NetworkLogger] [{httpMessageType}] [{api}] -> {content}");
 
                 lock (logLock)

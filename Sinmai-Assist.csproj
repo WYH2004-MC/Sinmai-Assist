@@ -297,11 +297,10 @@
     <Compile Include="Common\SinglePlayer.cs" />
     <Compile Include="Common\SkipWarningScreen.cs" />
     <Compile Include="ConfigManager.cs" />
-    <Compile Include="ConfigManagerYaml.cs" />
     <Compile Include="Fix\DisableEncryption.cs" />
     <Compile Include="Fix\DisableReboot.cs" />
     <Compile Include="Fix\FixDebugInput.cs" />
-    <Compile Include="Fix\RewriteNoteJudgeSetting.cs" />
+    <Compile Include="Fix\RewriteNoteJudgeTiming.cs" />
     <Compile Include="Fix\SkipVersionCheck.cs" />
     <Compile Include="ModGUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -314,14 +313,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="config - en_US.ini" />
-    <None Include="config - zh_CN.ini" />
-    <None Include="config.ini" />
+    <None Include="config - zh_CN.yml" />
     <None Include="packages.config" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="config.yaml" />
+    <None Include="config.yml" />
     <Content Include="PostBuild.bat" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

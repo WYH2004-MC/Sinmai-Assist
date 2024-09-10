@@ -36,7 +36,7 @@ namespace Fix
 
         public static bool Prefix(byte[] data, ref byte[] __result)
         {
-            if (SinmaiAssist.SinmaiAssist.config.DisableEncryption)
+            if (SinmaiAssist.SinmaiAssist.config.Fix.DisableEncryption && !SinmaiAssist.SinmaiAssist.config.ModSetting.SafeMode)
             {
                 __result = data;
                 return false;
@@ -55,7 +55,7 @@ namespace Fix
 
         public static bool Prefix(byte[] encryptData, ref byte[] __result)
         {
-            if (SinmaiAssist.SinmaiAssist.config.DisableEncryption)
+            if (SinmaiAssist.SinmaiAssist.config.Fix.DisableEncryption && !SinmaiAssist.SinmaiAssist.config.ModSetting.SafeMode)
             {
                 __result = encryptData;
                 return false;

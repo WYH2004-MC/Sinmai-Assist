@@ -1,0 +1,46 @@
+﻿china:
+  dummyLogin:
+    enable: false
+    defaultUserId: 0
+  customCameraId: 
+    enable : false
+    qrCameraId: 0
+    photoCameraId: 0
+ 
+common:
+  disableMask: false
+  showFPS: false
+  singlePlayer: false 
+  forwardATouchRegionToButton: false
+  skipWarningScreen: false
+  quickBoot: false
+  blockCoin: false
+  networkLogger:
+    enable: false
+    printToConsole: false
+  customVersionText:
+    enable: false
+    versionText: ""
+
+cheat:
+  autoPlay: false
+  fastSkip: false
+  chartTimer: false
+  allCollection: false
+  unlockEvent: false
+  resetLoginBonusRecord: false
+  forceCurrentIsBest: false
+
+fix:
+  disableEncryption: false
+  disableReboot: false
+  skipVersionCheck: false
+  rewriteNoteJudgeTiming:
+    enable: false
+    adjustTiming: 0.0
+    judgeTiming: 0.0
+
+modSetting:
+  showInfo: false
+  forceIsChinaBuild: false
+  safeMode: false

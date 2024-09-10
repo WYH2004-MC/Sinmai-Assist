@@ -65,7 +65,7 @@ namespace SinmaiAssist
         public void OnGUI()
         {
             PanelWindow = GUILayout.Window(10086, PanelWindow, MainPanel, $"{BuildInfo.Name} {BuildInfo.Version}");
-            if (SinmaiAssist.config.ShowVersionInfo) ShowVersionInfo();
+            if (SinmaiAssist.config.ModSetting.ShowInfo) ShowVersionInfo();
         }
 
         private void MainPanel(int id)
@@ -74,10 +74,10 @@ namespace SinmaiAssist
             ToolBarPanel();
             GUILayout.EndVertical();
             GUILayout.BeginVertical(GUILayout.Width(PanelWidth), GUILayout.Height(280f));
-            if (toolbar == Toolbar.AutoPlay && SinmaiAssist.config.AutoPlay) AutoPlayPanel();
-            else if (toolbar == Toolbar.FastSkip && SinmaiAssist.config.FastSkip) FastSkipPanel();
-            else if (toolbar == Toolbar.ChartTimer && SinmaiAssist.config.ChartTimer) ChartTimerPanel();
-            else if (toolbar == Toolbar.DummyLogin && SinmaiAssist.config.DummyLogin && SinmaiAssist.IsSDGB) DummyLoginPanel();
+            if (toolbar == Toolbar.AutoPlay && SinmaiAssist.config.Cheat.AutoPlay) AutoPlayPanel();
+            else if (toolbar == Toolbar.FastSkip && SinmaiAssist.config.Cheat.FastSkip) FastSkipPanel();
+            else if (toolbar == Toolbar.ChartTimer && SinmaiAssist.config.Cheat.ChartTimer) ChartTimerPanel();
+            else if (toolbar == Toolbar.DummyLogin && SinmaiAssist.config.China.DummyLogin.Enable && SinmaiAssist.IsSDGB) DummyLoginPanel();
             else if (toolbar == Toolbar.Debug) DebugPanel();
             else DisablePanel();
             GUILayout.EndVertical();
@@ -225,7 +225,7 @@ namespace SinmaiAssist
             VersionText.AppendLine($"Current Title Server: {Server.GetTitleServerUri()}");
             VersionText.AppendLine($"Keychip: {AMDaemon.System.KeychipId}");
             VersionText.AppendLine($"UserId: {Singleton<UserDataManager>.Instance.GetUserData(0L).Detail.UserID} | {Singleton<UserDataManager>.Instance.GetUserData(1L).Detail.UserID}");
-            if (SinmaiAssist.config.SafeMode)
+            if (SinmaiAssist.config.ModSetting.SafeMode)
                 VersionText.AppendLine("Safe Mode");
             GUI.Label(new Rect(10+2, 40+2, 500, 30), VersionText.ToString(), TextShadowStyle);
             GUI.Label(new Rect(10, 40, 500, 30), VersionText.ToString(), TextStyle);

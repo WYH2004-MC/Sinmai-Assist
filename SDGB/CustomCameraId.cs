@@ -20,8 +20,8 @@ namespace SDGB
         {
             var webcamtexField = AccessTools.Field(typeof(CameraManager), "_webcamtex");
             WebCamTexture[] Webcamtex = new WebCamTexture[2];
-            int CustomQrCameraId = SinmaiAssist.SinmaiAssist.config.CustomQrCameraId;
-            int CustomPhotoCameraId = SinmaiAssist.SinmaiAssist.config.CustomPhotoCameraId;
+            int CustomQrCameraId = SinmaiAssist.SinmaiAssist.config.China.CustomCameraId.QrCameraId;
+            int CustomPhotoCameraId = SinmaiAssist.SinmaiAssist.config.China.CustomCameraId.PhotoCameraId;
             int QrCameraId = ((CustomQrCameraId < WebCamTexture.devices.Length) ? CustomQrCameraId : 0);
             int PhotoCameraId = ((CustomPhotoCameraId < WebCamTexture.devices.Length) ? CustomPhotoCameraId : 0);
             Webcamtex[QrCameraId] = new WebCamTexture(WebCamTexture.devices[QrCameraId].name, QrCameraParam.Width, QrCameraParam.Height, QrCameraParam.Fps);

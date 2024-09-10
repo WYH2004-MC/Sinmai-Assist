@@ -1,0 +1,46 @@
+﻿china:
+  dummyLogin: # 虚拟登录
+    enable: false #是否启用
+    defaultUserId: 0 #默认用户ID
+  customCameraId: #自定义相机ID
+    enable : false #是否启用
+    qrCameraId: 0 #扫描二维码相机ID
+    photoCameraId: 0 #拍照相机ID
+ 
+common:
+  disableMask: false #禁用遮罩
+  showFPS: false #显示FPS
+  singlePlayer: false #单人模式
+  forwardATouchRegionToButton: false #将触摸区域的操作转发到按钮
+  skipWarningScreen: false #跳过警告界面
+  quickBoot: false #快速启动
+  blockCoin: false #禁用点数消耗
+  networkLogger: #网络日志
+    enable: false #是否启用
+    printToConsole: false #是否输出到控制台
+  customVersionText: #自定义版本文本
+    enable: false #是否启用
+    versionText: "" #版本文本
+
+cheat:
+  autoPlay: false #自动游玩 
+  fastSkip: false #快速跳过
+  chartTimer: false #铺面计时器(歌曲进度控制)
+  allCollection: false #解锁全部收藏品
+  unlockEvent: false #解锁全部活动
+  resetLoginBonusRecord: false #重置登录奖励记录
+  forceCurrentIsBest: false #强制当前游玩成绩为新成绩(会对Bast50造成改动)
+
+fix:
+  disableEncryption: false #禁用加密
+  disableReboot: false #禁用自动重启
+  skipVersionCheck: false #登录时跳过版本检查
+  rewriteNoteJudgeTiming: #重写覆盖游戏音符判定 (如填10,则游戏内+1.0)
+    enable: false #是否启用
+    adjustTiming: 0.0 #音频延迟(单位:ms)
+    judgeTiming: 0.0 #判定延迟(单位:帧)
+
+modSetting:
+  showInfo: false #显示信息
+  forceIsChinaBuild: false #强制加载SDGB only的补丁
+  safeMode: false #启用安全模式
