@@ -7,7 +7,7 @@ namespace Common
     public class ForwardATouchRegionToButton
     {
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(InputManager), "GetButtonDown")]
+        [HarmonyPatch(typeof(Manager.InputManager), "GetButtonDown")]
         public static void GetButtonDown(ref bool __result, int monitorId, ButtonSetting button)
         {
             if (__result) return;
@@ -22,7 +22,7 @@ namespace Common
         }
 
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(InputManager), "GetButtonPush")]
+        [HarmonyPatch(typeof(Manager.InputManager), "GetButtonPush")]
         public static void GetButtonPush(ref bool __result, int monitorId, ButtonSetting button)
         {
             if (__result) return;
@@ -30,7 +30,7 @@ namespace Common
         }
 
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(InputManager), "GetButtonLongPush")]
+        [HarmonyPatch(typeof(Manager.InputManager), "GetButtonLongPush")]
         public static void GetButtonLongPush(ref bool __result, int monitorId, ButtonSetting button, long msec)
         {
             if (__result) return;

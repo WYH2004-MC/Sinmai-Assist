@@ -274,6 +274,9 @@
     <Reference Include="UnityEngine.XRModule">
       <HintPath>Libs\UnityEngine.XRModule.dll</HintPath>
     </Reference>
+    <Reference Include="YamlDotNet, Version=16.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
+      <HintPath>packages\YamlDotNet.16.1.0\lib\net47\YamlDotNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cheat\AllCollection.cs" />
@@ -294,6 +297,7 @@
     <Compile Include="Common\SinglePlayer.cs" />
     <Compile Include="Common\SkipWarningScreen.cs" />
     <Compile Include="ConfigManager.cs" />
+    <Compile Include="ConfigManagerYaml.cs" />
     <Compile Include="Fix\DisableEncryption.cs" />
     <Compile Include="Fix\DisableReboot.cs" />
     <Compile Include="Fix\FixDebugInput.cs" />
@@ -317,6 +321,7 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="config.yaml" />
     <Content Include="PostBuild.bat" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

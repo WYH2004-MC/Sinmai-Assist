@@ -24,7 +24,7 @@ namespace SinmaiAssist
     public class SinmaiAssist : MelonMod
     {
         private ModGUI modGUI;
-        public static ConfigManager config;
+        public static ConfigManagerYaml config;
         public static bool IsSDGB = false;
         public static string gameID = "";
         public static string gameVersion = "";
@@ -32,7 +32,7 @@ namespace SinmaiAssist
         public override void OnInitializeMelon() {
             PrintLogo();
             modGUI = new ModGUI();
-            config = new ConfigManager();
+            config = new ConfigManagerYaml();
 
             // 加载配置文件
             MelonLogger.Msg("Load Mod Config.");
@@ -41,7 +41,7 @@ namespace SinmaiAssist
                 MelonLogger.Error($"Path: \"{BuildInfo.Name}/Config.ini\" Not Found.");
                 return;
             }
-            config.initialize();
+            config.Initialize();
             ModGUI.DummyUserId = config.DefaultDummyUserId;
 
             // 输出设备摄像头列表
@@ -64,7 +64,7 @@ namespace SinmaiAssist
 
             // 检测游戏版本并判断是否为 SDGB
             gameID = AMDaemon.System.GameId;
-            if (gameID == "SDGB" || config.ForceIsSDGB) IsSDGB = true;
+            if (gameID == "SDGB" || config.ForceIsChinaBuild) IsSDGB = true;
             MelonLogger.Msg($"GameId: {gameID} isSDGB: {IsSDGB}");
 
             if (config.SafeMode)
