@@ -5,6 +5,7 @@ using Monitor;
 using System;
 using System.Collections.ObjectModel;
 using static NoteJudge;
+using MelonLoader;
 
 namespace Cheat
 {
@@ -45,6 +46,14 @@ namespace Cheat
         {
             __result = IsAutoPlay();
             return false;
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(GameManager), "set_AutoPlay")]
+        public static void AutoPlayUpdate()
+        {
+            var mode = GameManager.AutoPlay;
+            autoPlayMode = (AutoPlayMode) mode;
         }
 
         [HarmonyPostfix]
@@ -133,6 +142,7 @@ namespace Cheat
         [HarmonyPatch(typeof(NoteBase), "SetAutoPlayJudge")]
         public static bool NoteBaseAutoPlayJudge(NoteBase __instance)
         {
+            if (!IsAutoPlay()) return true;
             var appearMsec = (float)AccessTools.Field(typeof(NoteBase), "AppearMsec").GetValue(__instance);
             var isExNote = (bool)AccessTools.Field(typeof(NoteBase), "IsExNote").GetValue(__instance);
             var playJudgeSeMethod = AccessTools.Method(typeof(NoteBase), "PlayJudgeSe");
@@ -156,6 +166,7 @@ namespace Cheat
         [HarmonyPatch(typeof(SlideRoot), "Judge")]
         public static bool SlideRootJudge(SlideRoot __instance, ref bool __result)
         {
+            if (!IsAutoPlay()) return true;
             var isNoteCheckTimeStartMethod = AccessTools.Method(typeof(SlideRoot), "IsNoteCheckTimeStart");
             bool isNoteCheckTimeStart = (bool)isNoteCheckTimeStartMethod.Invoke(__instance, new object[] { Singleton<GamePlayManager>.Instance.GetGameScore(__instance.MonitorId).UserOption.GetJudgeTimingFrame() });
             if (!isNoteCheckTimeStart)
@@ -201,6 +212,7 @@ namespace Cheat
         [HarmonyPatch(typeof(TouchNoteB), "Judge")]
         public static bool TouchNoteBJudge(TouchNoteB __instance, ref bool __result)
         {
+            if (!IsAutoPlay()) return true;
             var isNoteCheckTimeStartMethod = AccessTools.Method(typeof(NoteBase), "IsNoteCheckTimeStart");
             bool isNoteCheckTimeStart = (bool)isNoteCheckTimeStartMethod.Invoke(__instance, new object[] { Singleton<GamePlayManager>.Instance.GetGameScore(__instance.MonitorId).UserOption.GetJudgeTimingFrame() });
             if (isNoteCheckTimeStart)
@@ -265,6 +277,7 @@ namespace Cheat
         [HarmonyPatch(typeof(TouchNoteB), "NoteCheck")]
         public static void NoteCheck(TouchNoteB __instance) 
         {
+            if (!IsAutoPlay()) return;
             var judgeResultField = AccessTools.Field(typeof(NoteBase), "JudgeResult");
             var playJudgeSeMethod = AccessTools.Method(typeof(TouchNoteB), "PlayJudgeSe");
             float appearMsec = (float) AccessTools.Field(typeof(NoteBase), "AppearMsec").GetValue(__instance);

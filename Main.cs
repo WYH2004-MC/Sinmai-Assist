@@ -43,7 +43,6 @@ namespace SinmaiAssist
                 return;
             }
             config.Initialize(yamlFilePath);
-            MelonLogger.Msg(config.Common.CustomVersionText.VersionText);
             ModGUI.DummyUserId = config.China.DummyLogin.DefaultUserId.ToString();
 
 
