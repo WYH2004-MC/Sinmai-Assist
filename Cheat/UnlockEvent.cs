@@ -19,14 +19,29 @@ namespace Cheat
             if (__result != PacketState.Done) return;
             NetQuery<GameEventRequestVO, GameEventResponseVO> netQuery = __instance.Query as NetQuery<GameEventRequestVO, GameEventResponseVO>;
             List<GameEvent> list = new List<GameEvent>();
-            foreach (DirectoryInfo optFolder in new DirectoryInfo("./Sinmai_Data/StreamingAssets").EnumerateDirectories("*", SearchOption.AllDirectories))
+            
+            ReadAllEvents("./Sinmai_Data/StreamingAssets/", ref list);
+            if (Directory.Exists("./option"))
             {
-                if (optFolder.Name.StartsWith("A") && int.TryParse(optFolder.Name.Replace("A", ""), out var optNumber) && Directory.Exists($"./Sinmai_Data/StreamingAssets/{optFolder.Name}/event"))
+                ReadAllEvents("./option", ref list);
+            }
+            
+            netQuery.Response.gameEventList = list.ToArray();
+            FieldInfo onDoneField = typeof(PacketGetGameEvent).GetField("_onDone", BindingFlags.NonPublic | BindingFlags.Instance);
+            Action<GameEvent[]> onDone = (Action<GameEvent[]>)onDoneField.GetValue(__instance);
+            onDone?.Invoke(netQuery.Response.gameEventList ?? Array.Empty<GameEvent>());
+        }
+
+        private static void ReadAllEvents(string path, ref List<GameEvent> list)
+        {
+            foreach (DirectoryInfo optFolder in new DirectoryInfo(path).EnumerateDirectories("*", SearchOption.AllDirectories))
+            {
+                var eventPath = Path.Combine(path, optFolder.Name, "event");
+                if (int.TryParse(optFolder.Name.Substring(1), out var optNumber) && Directory.Exists(eventPath))
                 {
                     try
                     {
-                        foreach (DirectoryInfo eventFolder in new DirectoryInfo(
-                                         $"./Sinmai_Data/StreamingAssets/{optFolder.Name}/event")
+                        foreach (DirectoryInfo eventFolder in new DirectoryInfo(eventPath)
                                      .EnumerateDirectories("*", SearchOption.AllDirectories))
                         {
                             try
@@ -54,11 +69,6 @@ namespace Cheat
                     }
                 }
             }
-            
-            netQuery.Response.gameEventList = list.ToArray();
-            FieldInfo onDoneField = typeof(PacketGetGameEvent).GetField("_onDone", BindingFlags.NonPublic | BindingFlags.Instance);
-            Action<GameEvent[]> onDone = (Action<GameEvent[]>)onDoneField.GetValue(__instance);
-            onDone?.Invoke(netQuery.Response.gameEventList ?? Array.Empty<GameEvent>());
         }
     }
 }
