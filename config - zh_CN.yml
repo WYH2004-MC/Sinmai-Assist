@@ -42,5 +42,6 @@ fix:
 
 modSetting:
   showInfo: false #显示信息
+  showPanel: false #显示面板
   forceIsChinaBuild: false #强制加载SDGB only的补丁
   safeMode: false #启用安全模式

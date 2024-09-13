@@ -114,6 +114,7 @@ namespace SinmaiAssist
     public class ModSettingConfig
     {
         public bool ShowInfo { get; set; }
+        public bool ShowPanel { get; set; }
         public bool ForceIsChinaBuild { get; set; }
         public bool SafeMode { get; set; }
     }

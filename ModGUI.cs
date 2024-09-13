@@ -64,7 +64,7 @@ namespace SinmaiAssist
 
         public void OnGUI()
         {
-            PanelWindow = GUILayout.Window(10086, PanelWindow, MainPanel, $"{BuildInfo.Name} {BuildInfo.Version}");
+            if (SinmaiAssist.config.ModSetting.ShowPanel) PanelWindow = GUILayout.Window(10086, PanelWindow, MainPanel, $"{BuildInfo.Name} {BuildInfo.Version}");
             if (SinmaiAssist.config.ModSetting.ShowInfo) ShowVersionInfo();
         }
 
