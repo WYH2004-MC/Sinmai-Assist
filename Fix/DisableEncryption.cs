@@ -3,11 +3,11 @@ using Net;
 using Net.Packet;
 using System.Collections.Generic;
 using System.Reflection;
-using Utils;
+
 
 namespace Fix
 {
-    public class DisableEncryption
+    public class DisableEncryption 
     {
         [HarmonyPrefix]
         [HarmonyPatch(typeof(NetHttpClient), "CheckServerHash")]
@@ -24,43 +24,26 @@ namespace Fix
             __result = srcStr.Replace("MaimaiExp", "").Replace("MaimaiChn", "");
             return false;
         }
-    }
 
-    [HarmonyPatch]
-    public class Encrypt
-    {
+        [HarmonyTargetMethods]
         public static IEnumerable<MethodBase> TargetMethods()
         {
-            return new[] { AccessTools.Method("Net.CipherAES:Encrypt") };
+            yield return AccessTools.Method("Net.CipherAES:Encrypt");
+            yield return AccessTools.Method("Net.CipherAES:Decrypt");
         }
 
-        public static bool Prefix(byte[] data, ref byte[] __result)
+        [HarmonyPrefix]
+        public static bool Encrypt(byte[] data, ref byte[] __result)
         {
-            if (SinmaiAssist.SinmaiAssist.config.Fix.DisableEncryption && !SinmaiAssist.SinmaiAssist.config.ModSetting.SafeMode)
-            {
-                __result = data;
-                return false;
-            }
-            else { return true;}
-        }
-    }
-
-    [HarmonyPatch]
-    public class Decrypt
-    {
-        public static IEnumerable<MethodBase> TargetMethods()
-        {
-            return new[] { AccessTools.Method("Net.CipherAES:Decrypt") };
+            __result = data;
+            return false;
         }
 
-        public static bool Prefix(byte[] encryptData, ref byte[] __result)
+        [HarmonyPrefix]
+        public static bool Decrypt(byte[] encryptData, ref byte[] __result)
         {
-            if (SinmaiAssist.SinmaiAssist.config.Fix.DisableEncryption && !SinmaiAssist.SinmaiAssist.config.ModSetting.SafeMode)
-            {
-                __result = encryptData;
-                return false;
-            }
-            else { return true;}
+            __result = encryptData;
+            return false;
         }
     }
 }

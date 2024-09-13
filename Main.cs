@@ -28,7 +28,7 @@ namespace SinmaiAssist
         public static ConfigManager config;
         public static bool IsSDGB = false;
         public static string gameID = "Unknown";
-        public static string gameVersion = "Unknown";
+        public static uint gameVersion = 00000;
 
         public override void OnInitializeMelon() {
             PrintLogo();
@@ -68,8 +68,7 @@ namespace SinmaiAssist
             try
             {
                 gameID = (string) typeof(ConstParameter).GetField("GameIDStr", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).GetValue(null);
-                uint NowGameVersion = (uint) typeof(ConstParameter).GetField("NowGameVersion", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).GetValue(null);
-                gameVersion = NowGameVersion.ToString();
+                gameVersion = (uint) typeof(ConstParameter).GetField("NowGameVersion", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).GetValue(null);
             }
             catch (Exception e) 
             {
