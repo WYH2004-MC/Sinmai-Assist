@@ -7,9 +7,16 @@ namespace Utils
     {
         public static string GetTitleServerUri()
         {
-            string uri = Singleton<OperationManager>.Instance.GetBaseUri();
-            if (uri.Contains("maimai-gm.wahlap.com")) { return "CN Wahlap Official"; }
-            return uri;
+            try
+            {
+                string uri = Singleton<OperationManager>.Instance.GetBaseUri();
+                if (uri.Contains("maimai-gm.wahlap.com")) { return "CN Wahlap Official"; }
+                if (uri.Contains("aquadx.hydev.org")) { return "AquaDX Network"; }
+                return uri;
+            }catch
+            {
+                return "Unknown";
+            }
         }
     }
 }

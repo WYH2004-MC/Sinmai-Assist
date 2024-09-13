@@ -42,5 +42,6 @@ fix:
 
 modSetting:
   showInfo: false
+  showPanel: false
   forceIsChinaBuild: false
   safeMode: false

@@ -6,6 +6,7 @@ using MelonLoader;
 using SDGB;
 using System;
 using System.IO;
+using System.Reflection;
 using UnityEngine;
 
 namespace SinmaiAssist
@@ -26,8 +27,8 @@ namespace SinmaiAssist
         private ModGUI modGUI;
         public static ConfigManager config;
         public static bool IsSDGB = false;
-        public static string gameID = "";
-        public static string gameVersion = "";
+        public static string gameID = "Unknown";
+        public static uint gameVersion = 00000;
 
         public override void OnInitializeMelon() {
             PrintLogo();
@@ -43,8 +44,6 @@ namespace SinmaiAssist
                 return;
             }
             config.Initialize(yamlFilePath);
-            MelonLogger.Msg(config.Common.CustomVersionText.VersionText);
-            ModGUI.DummyUserId = config.China.DummyLogin.DefaultUserId.ToString();
 
 
             // 输出设备摄像头列表
@@ -66,9 +65,18 @@ namespace SinmaiAssist
             File.AppendAllText($"{BuildInfo.Name}/WebCameraList.txt", CameraList);
 
             // 检测游戏版本并判断是否为 SDGB
-            gameID = AMDaemon.System.GameId;
+            try
+            {
+                gameID = (string) typeof(ConstParameter).GetField("GameIDStr", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).GetValue(null);
+                gameVersion = (uint) typeof(ConstParameter).GetField("NowGameVersion", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).GetValue(null);
+            }
+            catch (Exception e) 
+            {
+                MelonLogger.Error("Failed to get GameIDStr and GameVersion");
+                MelonLogger.Error(e);
+            }
             if (gameID == "SDGB" || config.ModSetting.ForceIsChinaBuild) IsSDGB = true;
-            MelonLogger.Msg($"GameId: {gameID} isSDGB: {IsSDGB}");
+            MelonLogger.Msg($"GameInfo: {gameID} {gameVersion} - isSDGB: {IsSDGB}");
 
             if (config.ModSetting.SafeMode)
             {
@@ -122,11 +130,6 @@ namespace SinmaiAssist
             Patch(typeof(InputManager));
 
             MelonLogger.Msg("Loading completed");
-        }
-
-        public override void OnLateInitializeMelon()
-        {
-            gameVersion = ConstParameter.NowGameVersion.ToString();
         }
 
         public override void OnGUI()
