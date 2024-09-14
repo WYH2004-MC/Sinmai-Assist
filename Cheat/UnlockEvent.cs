@@ -34,38 +34,26 @@ namespace Cheat
 
         private static void ReadAllEvents(string path, ref List<GameEvent> list)
         {
-            foreach (DirectoryInfo optFolder in new DirectoryInfo(path).EnumerateDirectories("*", SearchOption.AllDirectories))
+            var rootDir = new DirectoryInfo(path);
+
+            foreach (var optFolder in rootDir.EnumerateDirectories("*", SearchOption.AllDirectories))
             {
-                var eventPath = Path.Combine(path, optFolder.Name, "event");
+                var eventPath = Path.Combine(optFolder.FullName, "event");
                 if (int.TryParse(optFolder.Name.Substring(1), out var optNumber) && Directory.Exists(eventPath))
                 {
-                    try
+                    var dir = new DirectoryInfo(eventPath);
+                    foreach (var eventFolder in dir.EnumerateDirectories("*", SearchOption.AllDirectories))
                     {
-                        foreach (DirectoryInfo eventFolder in new DirectoryInfo(eventPath)
-                                     .EnumerateDirectories("*", SearchOption.AllDirectories))
+                        if (eventFolder.Name.StartsWith("event") && int.TryParse(eventFolder.Name.Replace("event", ""), out var eventId))
                         {
-                            try
+                            list.Add(new GameEvent
                             {
-                                if (eventFolder.Name.StartsWith("event") &&
-                                    int.TryParse(eventFolder.Name.Replace("event", ""), out var eventId))
-                                {
-                                    var item = default(GameEvent);
-                                    item.id = eventId;
-                                    item.startDate = "2000-01-01 00:00:00";
-                                    item.endDate = "2077-07-21 11:45:14";
-                                    item.type = 1;
-                                    list.Add(item);
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                continue;
-                            }
+                                id = eventId,
+                                startDate = "2000-01-01 00:00:00",
+                                endDate = "2077-07-21 11:45:14",
+                                type = 1
+                            });
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        continue;
                     }
                 }
             }

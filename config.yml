@@ -10,7 +10,9 @@
 common:
   disableMask: false
   showFPS: false
-  singlePlayer: false 
+  singlePlayer: 
+    enable: false
+    hideSubMonitor: false
   forwardATouchRegionToButton: false
   skipWarningScreen: false
   quickBoot: false
