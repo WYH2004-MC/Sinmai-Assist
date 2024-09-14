@@ -585,7 +585,6 @@
     <Compile Include="Common\DisableMask.cs" />
     <Compile Include="Common\ForwardATouchRegionToButton.cs" />
     <Compile Include="Common\Graphic.cs" />
-    <Compile Include="Common\HideSubMonitor.cs" />
     <Compile Include="Common\NetworkLogger.cs" />
     <Compile Include="Common\PrintUserData.cs" />
     <Compile Include="Common\QuickBoot.cs" />
