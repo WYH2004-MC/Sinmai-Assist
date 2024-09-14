@@ -10,7 +10,9 @@
 common:
   disableMask: false #禁用遮罩
   showFPS: false #显示FPS
-  singlePlayer: false #单人模式
+  singlePlayer: #单人模式
+    enable: false # 是否启用
+    hideSubMonitor: false # 隐藏副屏
   forwardATouchRegionToButton: false #将触摸区域的操作转发到按钮
   skipWarningScreen: false #跳过警告界面
   quickBoot: false #快速启动

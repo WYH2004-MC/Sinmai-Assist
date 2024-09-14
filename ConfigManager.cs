@@ -64,13 +64,19 @@ namespace SinmaiAssist
     {
         public bool DisableMask { get; set; }
         public bool ShowFPS { get; set; }
-        public bool SinglePlayer { get; set; }
         public bool ForwardATouchRegionToButton { get; set; }
         public bool SkipWarningScreen { get; set; }
         public bool QuickBoot { get; set; }
         public bool BlockCoin { get; set; }
+        public SinglePlayerConfig SinglePlayer { get; set; }
         public NetworkLoggerConfig NetworkLogger { get; set; }
         public CustomVersionTextConfig CustomVersionText { get; set; }
+    }
+
+    public class SinglePlayerConfig
+    {
+        public bool Enable { get; set; }
+        public bool HideSubMonitor { get; set; }
     }
 
     public class NetworkLoggerConfig

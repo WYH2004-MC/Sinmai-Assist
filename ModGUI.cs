@@ -4,6 +4,7 @@ using MAI2System;
 using Manager;
 using System;
 using System.Text;
+using Common;
 using UnityEngine;
 using Utils;
 
@@ -17,14 +18,18 @@ namespace SinmaiAssist
             FastSkip,
             ChartTimer,
             DummyLogin,
+            Graphic,
             Debug
         }
         public static string DummyQrCode;
         public static string DummyUserId = "0";
         public static string achivementInput = "0";
+        public static string screenWidth = $"{Graphic.GetResolutionWidth()}";
+        public static string screenHeight = $"{Graphic.GetResolutionHeight()}";
+        public static string frameRate = $"{Graphic.GetMaxFrameRate()}";
         public static bool QrLoginFlag = false;
         public static bool UserIdLoginFlag = false;
-
+        
         private Rect PanelWindow;
         private StringBuilder VersionText = new StringBuilder();
         private GUIStyle MiddleStyle;
@@ -64,7 +69,17 @@ namespace SinmaiAssist
 
         public void OnGUI()
         {
-            if (SinmaiAssist.config.ModSetting.ShowPanel) PanelWindow = GUILayout.Window(10086, PanelWindow, MainPanel, $"{BuildInfo.Name} {BuildInfo.Version}");
+            if (DebugInput.GetKey(KeyCode.Backspace))
+                SinmaiAssist.config.ModSetting.ShowPanel = false;
+            if (DebugInput.GetKey(KeyCode.Delete) || SinmaiAssist.config.ModSetting.ShowPanel)
+            {
+                PanelWindow = GUILayout.Window(10086, PanelWindow, MainPanel, $"{BuildInfo.Name} {BuildInfo.Version}");
+                SinmaiAssist.config.ModSetting.ShowPanel = true;
+            }
+            else
+            {
+                PanelWindow = new Rect();
+            }
             if (SinmaiAssist.config.ModSetting.ShowInfo) ShowVersionInfo();
         }
 
@@ -78,10 +93,39 @@ namespace SinmaiAssist
             else if (toolbar == Toolbar.FastSkip && SinmaiAssist.config.Cheat.FastSkip) FastSkipPanel();
             else if (toolbar == Toolbar.ChartTimer && SinmaiAssist.config.Cheat.ChartTimer) ChartTimerPanel();
             else if (toolbar == Toolbar.DummyLogin && SinmaiAssist.config.China.DummyLogin.Enable && SinmaiAssist.IsSDGB) DummyLoginPanel();
+            else if (toolbar == Toolbar.Graphic) GraphicPanel();
             else if (toolbar == Toolbar.Debug) DebugPanel();
             else DisablePanel();
             GUILayout.EndVertical();
             GUI.DragWindow();
+        }
+
+        private void GraphicPanel()
+        {
+            if (GUILayout.Button("Toggle full screen", GUILayout.Height(50))) Graphic.ToggleFullscreen();
+            GUILayout.Label($"Custom Graphic Settings", MiddleStyle);
+            GUILayout.BeginHorizontal();
+            GUILayout.BeginVertical();
+            GUILayout.Label($"Width:");
+            screenWidth = GUILayout.TextField(screenWidth);
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical();
+            GUILayout.Label($"Height:");
+            screenHeight = GUILayout.TextField(screenHeight);
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical();
+            GUILayout.Label($"Max FPS (Unlimited is -1):");
+            frameRate = GUILayout.TextField(frameRate);
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+            if (GUILayout.Button("Apply", GUILayout.Height(20)) && int.TryParse(screenWidth, out int widthValue) && int.TryParse(screenHeight, out int heightValue) && int.TryParse(frameRate, out int fpsValue))
+            {
+                if (widthValue >= 360f && heightValue >= 360f)
+                {
+                    Graphic.SetResolution(widthValue, heightValue);
+                    Graphic.SetMaxFrameRate(fpsValue);
+                }
+            }
         }
 
         private void AutoPlayPanel()
@@ -181,6 +225,9 @@ namespace SinmaiAssist
             if (GUILayout.Button("InvalidCastException")) throw new InvalidCastException("Debug");
             GUILayout.Label($"Test Tools", MiddleStyle);
             if (GUILayout.Button("TouchArea Display")) Common.InputManager.TouchAreaDisplayButton = true;
+            GUILayout.Label("");
+            if (GUILayout.Button("Toggle Show Info")) SinmaiAssist.config.ModSetting.ShowInfo = !SinmaiAssist.config.ModSetting.ShowInfo;
+            if (GUILayout.Button("Toggle Show FPS")) SinmaiAssist.config.Common.ShowFPS = !SinmaiAssist.config.Common.ShowFPS;
         }
 
         private void DisablePanel()
