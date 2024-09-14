@@ -3,9 +3,9 @@ using MAI2.Util;
 using Manager;
 using MelonLoader;
 using Net.Packet;
+using Net.VO;
 using System;
 using System.IO;
-using System.Text;
 
 namespace Common
 {
@@ -36,15 +36,28 @@ namespace Common
         }
 
         [HarmonyPostfix]
+        [HarmonyPatch(typeof(NetQuery<VOSerializer, VOSerializer>), "SetResponse")]
+        public static void ResponseListener(ref string str)
+        {
+            if (isInsideProcImpl)
+            {
+                string ccontent = str;
+                PrintNetworkLog(HttpMessageType.Response, NowApi, ccontent);
+            }
+        }
+
+        /* Not available
+        [HarmonyPostfix]
         [HarmonyPatch(typeof(Encoding), "GetString", new[] { typeof(byte[]) })]
         public static void ResponseListener(Packet __instance, ref string __result)
         {
-            if (isInsideProcImpl && __instance.State == PacketState.Process)
+            if (isInsideProcImpl)
             {
                 string ccontent = __result;
                 PrintNetworkLog(HttpMessageType.Response, NowApi, ccontent);
             }
         }
+        */
 
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Packet), "ProcImpl")]
