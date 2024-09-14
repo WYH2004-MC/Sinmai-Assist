@@ -140,14 +140,23 @@ namespace SinmaiAssist
 
         private static bool Patch(Type type)
         {
-            MelonLogger.Msg($"- Patch: {type}");
-            if (!IsSDGB && type.ToString().Contains("SDGB"))
+            try
             {
-                MelonLogger.Warning($"Patch {type} failed, because game is not SDGB. ");
+                MelonLogger.Msg($"- Patch: {type}");
+                if (!IsSDGB && type.ToString().Contains("SDGB"))
+                {
+                    MelonLogger.Warning($"Patch {type} failed, because game is not SDGB. ");
+                    return false;
+                }
+                HarmonyLib.Harmony.CreateAndPatchAll(type);
+                return true;
+            }
+            catch (Exception e)
+            {
+                MelonLogger.Error($"Patch {type} failed.");
+                MelonLogger.Error(e.StackTrace);
                 return false;
             }
-            HarmonyLib.Harmony.CreateAndPatchAll(type);
-            return true;
         }
 
         private static void PrintLogo()
