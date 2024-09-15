@@ -29,7 +29,8 @@ namespace SinmaiAssist
         public static string frameRate = $"{Graphic.GetMaxFrameRate()}";
         public static bool QrLoginFlag = false;
         public static bool UserIdLoginFlag = false;
-        
+        private bool BackspaceKeyDown = false;
+
         private Rect PanelWindow;
         private StringBuilder VersionText = new StringBuilder();
         private GUIStyle MiddleStyle;
@@ -70,8 +71,16 @@ namespace SinmaiAssist
         public void OnGUI()
         {
             if (DebugInput.GetKey(KeyCode.Backspace))
-                SinmaiAssist.config.ModSetting.ShowPanel = false;
-            if (DebugInput.GetKey(KeyCode.Delete) || SinmaiAssist.config.ModSetting.ShowPanel)
+            {
+                if(!BackspaceKeyDown) SinmaiAssist.config.ModSetting.ShowPanel = !SinmaiAssist.config.ModSetting.ShowPanel;
+                BackspaceKeyDown = true;
+            }
+            else
+            {
+                BackspaceKeyDown = false;
+            }
+                
+            if (SinmaiAssist.config.ModSetting.ShowPanel)
             {
                 PanelWindow = GUILayout.Window(10086, PanelWindow, MainPanel, $"{BuildInfo.Name} {BuildInfo.Version}");
                 SinmaiAssist.config.ModSetting.ShowPanel = true;
@@ -225,7 +234,6 @@ namespace SinmaiAssist
             if (GUILayout.Button("InvalidCastException")) throw new InvalidCastException("Debug");
             GUILayout.Label($"Test Tools", MiddleStyle);
             if (GUILayout.Button("TouchArea Display")) Common.InputManager.TouchAreaDisplayButton = true;
-            GUILayout.Label("");
             if (GUILayout.Button("Toggle Show Info")) SinmaiAssist.config.ModSetting.ShowInfo = !SinmaiAssist.config.ModSetting.ShowInfo;
             if (GUILayout.Button("Toggle Show FPS")) SinmaiAssist.config.Common.ShowFPS = !SinmaiAssist.config.Common.ShowFPS;
         }
