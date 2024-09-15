@@ -62,6 +62,8 @@ namespace SinmaiAssist
 
     public class CommonConfig
     {
+        public bool InfinityTimer { get; set; }
+
         public bool DisableMask { get; set; }
         public bool ShowFPS { get; set; }
         public bool ForwardATouchRegionToButton { get; set; }
@@ -100,6 +102,8 @@ namespace SinmaiAssist
         public bool UnlockEvent { get; set; }
         public bool ResetLoginBonusRecord { get; set; }
         public bool ForceCurrentIsBest { get; set; }
+        public bool SetAllCharacterAsSameAndLock { get; set; }
+        public bool IgnoreAnyGameInformation { get; set; }
     }
 
     public class FixConfig

@@ -8,6 +8,7 @@
     photoCameraId: 0
  
 common:
+  infinityTimer: false
   disableMask: false
   showFPS: false
   singlePlayer: 
@@ -32,6 +33,7 @@ cheat:
   unlockEvent: false
   resetLoginBonusRecord: false
   forceCurrentIsBest: false
+  setAllCharacterAsSameAndLock: false
 
 fix:
   disableEncryption: false

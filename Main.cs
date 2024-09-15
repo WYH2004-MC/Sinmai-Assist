@@ -7,6 +7,7 @@ using SDGB;
 using System;
 using System.IO;
 using System.Reflection;
+using Commmon;
 using UnityEngine;
 
 namespace SinmaiAssist
@@ -100,6 +101,7 @@ namespace SinmaiAssist
             }
 
             // Common
+            if (config.Common.InfinityTimer) Patch(typeof(InfinityTimer));
             if (config.Common.DisableMask) Patch(typeof(DisableMask));
             if (config.Common.SinglePlayer.Enable) Patch(typeof(SinglePlayer));
             if (config.Common.ForwardATouchRegionToButton) Patch(typeof(ForwardATouchRegionToButton));
@@ -123,6 +125,8 @@ namespace SinmaiAssist
             if (config.Cheat.UnlockEvent) Patch(typeof(UnlockEvent));
             if (config.Cheat.ResetLoginBonusRecord) Patch(typeof(ResetLoginBonusRecord));
             if (config.Cheat.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
+            if (config.Cheat.SetAllCharacterAsSameAndLock) Patch(typeof(SetAllCharacterAsSameAndLock));
+            Patch(typeof(IgnoreAnyGameInformation));
 
             // 默认加载项
             Patch(typeof(FixDebugInput));

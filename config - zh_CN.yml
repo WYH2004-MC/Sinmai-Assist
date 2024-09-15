@@ -8,6 +8,7 @@
     photoCameraId: 0 #拍照相机ID
  
 common:
+  infinityTimer: false #无限计时器
   disableMask: false #禁用遮罩
   showFPS: false #显示FPS
   singlePlayer: #单人模式
@@ -31,7 +32,9 @@ cheat:
   allCollection: false #解锁全部收藏品
   unlockEvent: false #解锁全部活动
   resetLoginBonusRecord: false #重置登录奖励记录
-  forceCurrentIsBest: false #强制当前游玩成绩为新成绩(会对Bast50造成改动)
+  forceCurrentIsBest: false #强制当前游玩成绩为新成绩(可能会对Best50造成改动)
+  setAllCharacterAsSameAndLock: false # 设置5个相同的旅行伙伴并锁定设置（以队长为准）
+  ignoreAnyGameInformation: false # 忽略之后所有的游戏公告信息提示
 
 fix:
   disableEncryption: false #禁用加密
