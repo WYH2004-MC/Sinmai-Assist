@@ -43,8 +43,17 @@ namespace SinmaiAssist
                 MelonLogger.Error($"Path: \"{yamlFilePath}\" Not Found.");
                 return;
             }
-            config.Initialize(yamlFilePath);
 
+            try
+            {
+                config.Initialize(yamlFilePath);
+            }
+            catch (Exception e)
+            {
+                MelonLogger.Error($"Error initializing mod config: \n{e}");
+                return;
+            }
+            
 
             // 输出设备摄像头列表
             File.Delete($"{BuildInfo.Name}/WebCameraList.txt");
