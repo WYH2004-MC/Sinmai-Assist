@@ -7,6 +7,7 @@ using SDGB;
 using System;
 using System.IO;
 using System.Reflection;
+using Commmon;
 using UnityEngine;
 
 namespace SinmaiAssist
@@ -109,6 +110,7 @@ namespace SinmaiAssist
             }
 
             // Common
+            if (config.Common.InfinityTimer) Patch(typeof(InfinityTimer));
             if (config.Common.DisableMask) Patch(typeof(DisableMask));
             if (config.Common.SinglePlayer.Enable) Patch(typeof(SinglePlayer));
             if (config.Common.ForwardATouchRegionToButton) Patch(typeof(ForwardATouchRegionToButton));
@@ -132,6 +134,8 @@ namespace SinmaiAssist
             if (config.Cheat.UnlockEvent) Patch(typeof(UnlockEvent));
             if (config.Cheat.ResetLoginBonusRecord) Patch(typeof(ResetLoginBonusRecord));
             if (config.Cheat.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
+            if (config.Cheat.SetAllCharacterAsSameAndLock) Patch(typeof(SetAllCharacterAsSameAndLock));
+            Patch(typeof(IgnoreAnyGameInformation));
 
             // 默认加载项
             Patch(typeof(FixDebugInput));
@@ -149,14 +153,23 @@ namespace SinmaiAssist
 
         private static bool Patch(Type type)
         {
-            MelonLogger.Msg($"- Patch: {type}");
-            if (!IsSDGB && type.ToString().Contains("SDGB"))
+            try
             {
-                MelonLogger.Warning($"Patch {type} failed, because game is not SDGB. ");
+                MelonLogger.Msg($"- Patch: {type}");
+                if (!IsSDGB && type.ToString().Contains("SDGB"))
+                {
+                    MelonLogger.Warning($"Patch {type} failed, because game is not SDGB. ");
+                    return false;
+                }
+                HarmonyLib.Harmony.CreateAndPatchAll(type);
+                return true;
+            }
+            catch (Exception e)
+            {
+                MelonLogger.Error($"Patch {type} failed.");
+                MelonLogger.Error(e.StackTrace);
                 return false;
             }
-            HarmonyLib.Harmony.CreateAndPatchAll(type);
-            return true;
         }
 
         private static void PrintLogo()
