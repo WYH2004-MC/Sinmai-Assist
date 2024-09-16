@@ -51,25 +51,5 @@ namespace Common
         //     return true;
         // }
         
-        /*
-         * Patch PlayLogo to disable the warning screen
-         * codes from AquaMai[https://github.com/hykilpikonna/AquaDX/blob/v1-dev/AquaMai/UX/SkipWarningScreen.cs]
-         */
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(WarningMonitor), "PlayLogo")]
-        public static bool PlayLogo()
-        {
-            // Return false to block the original method
-            return false;
-        }
-        
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(WarningMonitor), "IsLogoAnimationEnd")]
-        public static bool IsLogoAnimationEnd(ref bool __result)
-        {
-            // Always return true to indicate the animation has ended
-            __result = true;
-            return false;
-        }
     }
 }
