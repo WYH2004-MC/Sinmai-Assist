@@ -34,7 +34,7 @@ cheat:
   resetLoginBonusRecord: false
   forceCurrentIsBest: false
   setAllCharacterAsSameAndLock: false
-  ignoreAnyGameInformation: false # 忽略之后所有的游戏公告信息提示
+  ignoreAnyGameInformation: false 
 
 fix:
   disableEncryption: false
