@@ -233,6 +233,12 @@ namespace SinmaiAssist
             if (GUILayout.Button("InvalidCastException")) throw new InvalidCastException("Debug");
             GUILayout.Label($"Test Tools", MiddleStyle);
             if (GUILayout.Button("TouchArea Display")) Common.InputManager.TouchAreaDisplayButton = true;
+            if (GUILayout.Button("Send Test Message"))
+            {
+                GameMessageManager.SendGameMessage("Hello World!\nMonitorId: 0", 0);
+                GameMessageManager.SendGameMessage("Hello World!\nMonitorId: 1", 1);
+            }
+            GUILayout.Label($"GUI Toggle", MiddleStyle);
             if (GUILayout.Button("Toggle Show Info")) SinmaiAssist.config.ModSetting.ShowInfo = !SinmaiAssist.config.ModSetting.ShowInfo;
             if (GUILayout.Button("Toggle Show FPS")) SinmaiAssist.config.Common.ShowFPS = !SinmaiAssist.config.Common.ShowFPS;
         }

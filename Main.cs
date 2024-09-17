@@ -9,6 +9,7 @@ using System.IO;
 using System.Reflection;
 using Commmon;
 using UnityEngine;
+using Utils;
 
 namespace SinmaiAssist
 {
@@ -140,6 +141,7 @@ namespace SinmaiAssist
             Patch(typeof(FixDebugInput));
             Patch(typeof(PrintUserData));
             Patch(typeof(InputManager));
+            Patch(typeof(GameMessageManager));
 
             MelonLogger.Msg("Loading completed");
         }

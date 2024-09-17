@@ -608,6 +608,7 @@
     <Compile Include="SDGB\DummyLogin.cs" />
     <Compile Include="Utils\CipherAES.cs" />
     <Compile Include="Common\InputManager.cs" />
+    <Compile Include="Utils\GameMessageManager.cs" />
     <Compile Include="Utils\Server.cs" />
   </ItemGroup>
   <ItemGroup>
