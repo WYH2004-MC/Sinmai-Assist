@@ -34,6 +34,7 @@ namespace Cheat
         });
 
         public static AutoPlayMode autoPlayMode = AutoPlayMode.None;
+        public static bool DisableUpdate = false;
 
         public static bool IsAutoPlay()
         {
@@ -53,6 +54,7 @@ namespace Cheat
         public static void AutoPlayUpdate()
         {
             var mode = GameManager.AutoPlay;
+            if (DisableUpdate) return;
             autoPlayMode = (AutoPlayMode) mode;
         }
 

@@ -138,8 +138,8 @@ namespace SinmaiAssist
 
         private void AutoPlayPanel()
         {
-            GUILayout.Label($"IsAutoPlay: {AutoPlay.IsAutoPlay()}");
             GUILayout.Label($"Mode: {AutoPlay.autoPlayMode}");
+            AutoPlay.DisableUpdate = GUILayout.Toggle(AutoPlay.DisableUpdate, "Disable Mode Update");
             if (GUILayout.Button("Critical (AP+)")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.Critical;
             if (GUILayout.Button("Perfect")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.Perfect;
             if (GUILayout.Button("Great")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.Great;
