@@ -41,7 +41,6 @@ namespace SinmaiAssist
         private Single PanelWidth;
         private int buttonsPerRow;
         private Toolbar toolbar = Toolbar.AutoPlay;
-        private string[] ToolbarStrings = new string[] { "AutoPlay", "FastSkip", "DummyLogin" };
 
         public ModGUI()
         {

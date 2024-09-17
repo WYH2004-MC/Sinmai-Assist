@@ -20,7 +20,6 @@ namespace SinmaiAssist
         public const string Company = null;
         public const string Version = "1.0.0";
         public const string DownloadLink = null;
-        public const string BuildUserId = "0";
     }
 
     public class SinmaiAssist : MelonMod
