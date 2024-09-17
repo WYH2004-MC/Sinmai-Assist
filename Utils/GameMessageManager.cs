@@ -17,8 +17,29 @@ public class GameMessageManager
     {
         manager = genericManager;
     }
+    
+    public static void SendGameMessage(string message)
+    {
+        try
+        {
+            WindowParam param = new WindowParam()
+            {
+                hideTitle = true,
+                text = message,
+                replaceText = true,
+                changeSize = true,
+                sizeID = WindowSizeID.Middle
+            };
+            manager.Enqueue(0, WindowMessageID.CollectionAttentionEmptyFavorite, param);
+            manager.Enqueue(1, WindowMessageID.CollectionAttentionEmptyFavorite, param);
+        }
+        catch (Exception e)
+        {
+            MelonLogger.Error(e);
+        }
+    }
 
-    public static void SendGameMessage(string message ,int monitorId = 0)
+    public static void SendGameMessage(string message ,int monitorId)
     {
         try
         {
