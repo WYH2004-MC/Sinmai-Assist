@@ -10,9 +10,12 @@ This is a cheat Mod, using by your own risk.
 	- Auto Play
 	- Fast Skip
 	- Chart Timer
+    - Unlock Music
+    - Unlock Master
 	- Unlock Event
 	- Force Current ls Best
 	- Reset Login Bonus Record
+    - Set All Character As Same And Lock
 - Common
 	- Block Coin
 	- Custom Version Text
@@ -24,6 +27,7 @@ This is a cheat Mod, using by your own risk.
 	- Show FPS
 	- Single Player Mode
 	- Skip Warning Screen
+    - Ignore Information
 - Fix
 	- Disable Encryption
 	- Disable Reboot
