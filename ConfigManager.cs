@@ -63,13 +63,13 @@ namespace SinmaiAssist
     public class CommonConfig
     {
         public bool InfinityTimer { get; set; }
-
         public bool DisableMask { get; set; }
         public bool ShowFPS { get; set; }
         public bool ForwardATouchRegionToButton { get; set; }
         public bool SkipWarningScreen { get; set; }
         public bool QuickBoot { get; set; }
         public bool BlockCoin { get; set; }
+        public bool IgnoreAnyGameInformation { get; set; }
         public SinglePlayerConfig SinglePlayer { get; set; }
         public NetworkLoggerConfig NetworkLogger { get; set; }
         public CustomVersionTextConfig CustomVersionText { get; set; }
@@ -99,11 +99,12 @@ namespace SinmaiAssist
         public bool FastSkip { get; set; }
         public bool ChartTimer { get; set; }
         public bool AllCollection { get; set; }
+        public bool UnlockMusic { get; set; }
+        public bool UnlockMaster { get; set; }
         public bool UnlockEvent { get; set; }
         public bool ResetLoginBonusRecord { get; set; }
         public bool ForceCurrentIsBest { get; set; }
         public bool SetAllCharacterAsSameAndLock { get; set; }
-        public bool IgnoreAnyGameInformation { get; set; }
     }
 
     public class FixConfig

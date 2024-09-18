@@ -18,6 +18,7 @@ common:
   skipWarningScreen: false #跳过警告界面
   quickBoot: false #快速启动
   blockCoin: false #禁用点数消耗
+  ignoreAnyGameInformation: false # 忽略之后所有的游戏公告信息提示
   networkLogger: #网络日志
     enable: false #是否启用
     printToConsole: false #是否输出到控制台
@@ -30,11 +31,12 @@ cheat:
   fastSkip: false #快速跳过
   chartTimer: false #铺面计时器(歌曲进度控制)
   allCollection: false #解锁全部收藏品
+  unlockMusic: false #解锁全部歌曲
+  unlockMaster: false #解锁全部歌曲Master难度
   unlockEvent: false #解锁全部活动
   resetLoginBonusRecord: false #重置登录奖励记录
   forceCurrentIsBest: false #强制当前游玩成绩为新成绩(可能会对Best50造成改动)
   setAllCharacterAsSameAndLock: false # 设置5个相同的旅行伙伴并锁定设置（以队长为准）
-  ignoreAnyGameInformation: false # 忽略之后所有的游戏公告信息提示
 
 fix:
   disableEncryption: false #禁用加密
