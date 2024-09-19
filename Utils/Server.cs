@@ -7,12 +7,14 @@ namespace Utils
 {
     public class Server
     {
-        private static readonly Dictionary<string, string> TitleServerMappings = new Dictionary<string, string>
+        private static readonly Dictionary<string, string> TitleServerList = new Dictionary<string, string>
         {
             { "maimai-gm.wahlap.com", "CN Wahlap Official" },
             { "aquadx.hydev.org", "AquaDX Network" },
+            { "bluedeer233.com", "Bluedeer Network" },
             { "naominet.live", "RinNET" },
-            { "msm.moe", "Msm Aqua" }
+            { "msm.moe", "Msm Aqua" },
+            
         };
 
         public static string GetTitleServerUri()
@@ -21,7 +23,7 @@ namespace Utils
             {
                 string uri = Singleton<OperationManager>.Instance.GetBaseUri();
 
-                foreach (var mapping in TitleServerMappings)
+                foreach (var mapping in TitleServerList)
                 {
                     if (uri.Contains(mapping.Key))
                     {
