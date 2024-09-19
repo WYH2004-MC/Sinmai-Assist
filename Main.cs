@@ -13,7 +13,7 @@ using Utils;
 
 namespace SinmaiAssist
 {
-    public static class BuildInfo
+    public static partial class BuildInfo
     {
         public const string Name = "Sinmai-Assist";
         public const string Description = "SlimMod Melon Version For Sinmai";
@@ -183,7 +183,7 @@ namespace SinmaiAssist
                 "\r\n/____/_/_/ /_/_/  /_/\\__,_/_/     /_/  |_/____/____/_/____/\\__/  " +
                 "\r\n                                                                 " +
                 "\r\n=================================================================" +
-                $"\r\n Version: {BuildInfo.Version}     Author: {BuildInfo.Author}");
+                $"\r\n Version: {BuildInfo.Version} ({BuildInfo.CommitHash})     Author: {BuildInfo.Author}");
             MelonLogger.Warning("This is a cheat mod. Use at your own risk!");
         }
     }

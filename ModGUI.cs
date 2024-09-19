@@ -93,7 +93,7 @@ namespace SinmaiAssist
 
         private void MainPanel(int id)
         {
-            GUILayout.BeginVertical($"{BuildInfo.Name} {BuildInfo.Version}", GUILayout.Height(20f));
+            GUILayout.BeginVertical($"{BuildInfo.Name} {BuildInfo.Version} ({BuildInfo.CommitHash??"NOT SET"})", GUILayout.Height(20f));
             ToolBarPanel();
             GUILayout.EndVertical();
             GUILayout.BeginVertical(GUILayout.Width(PanelWidth), GUILayout.Height(280f));
@@ -277,7 +277,7 @@ namespace SinmaiAssist
         private void ShowVersionInfo()
         {
             VersionText.Clear();
-            VersionText.AppendLine($"{BuildInfo.Name} {BuildInfo.Version}");
+            VersionText.AppendLine($"{BuildInfo.Name} {BuildInfo.Version} ({BuildInfo.CommitHash})");
             VersionText.AppendLine("Powered by MelonLoader");
             VersionText.AppendLine($"Client Version: {SinmaiAssist.gameID} {SinmaiAssist.gameVersion}");
             VersionText.AppendLine(
