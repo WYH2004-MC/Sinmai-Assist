@@ -17,7 +17,7 @@ namespace Cheat
         {
             try
             {
-                if (src.userData.eventWatchedDate != null && SinmaiAssist.SinmaiAssist.config.Cheat.IgnoreAnyGameInformation)
+                if (src.userData.eventWatchedDate != null && SinmaiAssist.SinmaiAssist.config.Common.IgnoreAnyGameInformation)
                 {
                     src.userData.eventWatchedDate = "2099-12-31 23:59:59";
                 }

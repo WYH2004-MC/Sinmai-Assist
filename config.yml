@@ -18,6 +18,7 @@ common:
   skipWarningScreen: false
   quickBoot: false
   blockCoin: false
+  ignoreAnyGameInformation: false
   networkLogger:
     enable: false
     printToConsole: false
@@ -30,11 +31,12 @@ cheat:
   fastSkip: false
   chartTimer: false
   allCollection: false
+  unlockMusic: false
+  unlockMaster: false
   unlockEvent: false
   resetLoginBonusRecord: false
   forceCurrentIsBest: false
   setAllCharacterAsSameAndLock: false
-  ignoreAnyGameInformation: false 
 
 fix:
   disableEncryption: false

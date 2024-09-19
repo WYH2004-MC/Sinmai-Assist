@@ -119,6 +119,7 @@ namespace SinmaiAssist
             if (config.Common.SkipWarningScreen) Patch(typeof(SkipWarningScreen));
             if (config.Common.NetworkLogger.Enable) Patch(typeof(NetworkLogger));
             if (config.Common.CustomVersionText.Enable) Patch(typeof(CustomVersionText));
+            if (config.Common.IgnoreAnyGameInformation) Patch(typeof(IgnoreAnyGameInformation));
 
             //Fix
             if (config.Fix.DisableEncryption) Patch(typeof(DisableEncryption));
@@ -131,11 +132,12 @@ namespace SinmaiAssist
             if (config.Cheat.FastSkip) Patch(typeof(FastSkip));
             if (config.Cheat.ChartTimer) Patch(typeof(ChartTimer));
             if (config.Cheat.AllCollection) Patch(typeof(AllCollection));
+            if (config.Cheat.UnlockMusic) Patch(typeof(UnlockMusic));
+            if (config.Cheat.UnlockMaster) Patch(typeof(UnlockMaster));
             if (config.Cheat.UnlockEvent) Patch(typeof(UnlockEvent));
             if (config.Cheat.ResetLoginBonusRecord) Patch(typeof(ResetLoginBonusRecord));
             if (config.Cheat.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
             if (config.Cheat.SetAllCharacterAsSameAndLock) Patch(typeof(SetAllCharacterAsSameAndLock));
-            Patch(typeof(IgnoreAnyGameInformation));
 
             // 默认加载项
             Patch(typeof(FixDebugInput));
