@@ -28,6 +28,7 @@ This is a cheat Mod, using by your own risk.
 	- Single Player Mode
 	- Skip Warning Screen
     - Ignore Information
+    - Change Default Option
 - Fix
 	- Disable Encryption
 	- Disable Reboot

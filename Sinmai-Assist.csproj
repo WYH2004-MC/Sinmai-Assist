@@ -471,6 +471,7 @@
     <Compile Include="Cheat\UnlockMaster.cs" />
     <Compile Include="Cheat\UnlockMusic.cs" />
     <Compile Include="Common\BlockCoin.cs" />
+    <Compile Include="Common\ChangeDefaultOption.cs" />
     <Compile Include="Common\CustomVersionText.cs" />
     <Compile Include="Common\DisableMask.cs" />
     <Compile Include="Common\ForwardATouchRegionToButton.cs" />

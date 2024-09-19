@@ -238,6 +238,7 @@ namespace SinmaiAssist
                 GameMessageManager.SendGameMessage("Hello World!\nMonitorId: 0", 0);
                 GameMessageManager.SendGameMessage("Hello World!\nMonitorId: 1", 1);
             }
+            if (GUILayout.Button("Save P1 Option To DefaultOption")) Common.ChangeDefaultOption.SaveOptionFile(0L);
             GUILayout.Label($"GUI Toggle", MiddleStyle);
             if (GUILayout.Button("Toggle Show Info")) SinmaiAssist.config.ModSetting.ShowInfo = !SinmaiAssist.config.ModSetting.ShowInfo;
             if (GUILayout.Button("Toggle Show FPS")) SinmaiAssist.config.Common.ShowFPS = !SinmaiAssist.config.Common.ShowFPS;

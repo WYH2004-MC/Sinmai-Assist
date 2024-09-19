@@ -19,6 +19,7 @@ common:
   quickBoot: false #快速启动
   blockCoin: false #禁用点数消耗
   ignoreAnyGameInformation: false # 忽略之后所有的游戏公告信息提示
+  changeDefaultOption: false # 覆写游客模式默认设置
   networkLogger: #网络日志
     enable: false #是否启用
     printToConsole: false #是否输出到控制台
