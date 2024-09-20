@@ -8,6 +8,7 @@ using MAI2.Util;
 using Manager;
 using Manager.UserDatas;
 using MelonLoader;
+using Utils;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -86,5 +87,6 @@ public class ChangeDefaultOption
             File.Delete(OptionFilePath);
         }
         File.WriteAllText(OptionFilePath, optionYaml);
+        GameMessageManager.SendGameMessage($"User Option File Saved", (int) index);
     }
 }
