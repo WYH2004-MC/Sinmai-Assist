@@ -48,6 +48,8 @@ namespace SinmaiAssist
             try
             {
                 config.Initialize(yamlFilePath);
+                ModGUI.DummyUserId = config.China.DummyLogin.DefaultUserId.ToString();
+                MelonLogger.Msg("Config Load Complete.");
             }
             catch (Exception e)
             {
