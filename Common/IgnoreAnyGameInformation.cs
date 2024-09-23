@@ -7,7 +7,7 @@ using Net.Packet.Mai2;
 using Net.VO;
 using Net.VO.Mai2;
 
-namespace Cheat
+namespace Common
 {
     public class IgnoreAnyGameInformation
     {

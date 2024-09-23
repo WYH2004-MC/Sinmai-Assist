@@ -3,8 +3,10 @@ using MAI2.Util;
 using MAI2System;
 using Manager;
 using System;
+using System.Linq;
 using System.Text;
 using Common;
+using Net.Packet.Helper;
 using UnityEngine;
 using Utils;
 
@@ -41,7 +43,7 @@ namespace SinmaiAssist
         private Single PanelWidth;
         private int buttonsPerRow;
         private Toolbar toolbar = Toolbar.AutoPlay;
-
+        
         public ModGUI()
         {
             PanelWindow = new Rect();
@@ -63,7 +65,7 @@ namespace SinmaiAssist
             BigTextStyle.alignment = TextAnchor.MiddleCenter;
             BigTextStyle.normal.textColor = Color.white;
             errorStyle.normal.textColor = Color.red;
-            PanelWidth = 300f;
+            PanelWidth = 320f;
             buttonsPerRow = 3;
         }
 
@@ -96,7 +98,7 @@ namespace SinmaiAssist
             GUILayout.BeginVertical($"{BuildInfo.Name} {BuildInfo.Version} ({BuildInfo.CommitHash??"NOT SET"})", GUILayout.Height(20f));
             ToolBarPanel();
             GUILayout.EndVertical();
-            GUILayout.BeginVertical(GUILayout.Width(PanelWidth), GUILayout.Height(280f));
+            GUILayout.BeginVertical(GUILayout.Width(PanelWidth), GUILayout.Height(300f));
             if (toolbar == Toolbar.AutoPlay && SinmaiAssist.config.Cheat.AutoPlay) AutoPlayPanel();
             else if (toolbar == Toolbar.FastSkip && SinmaiAssist.config.Cheat.FastSkip) FastSkipPanel();
             else if (toolbar == Toolbar.ChartTimer && SinmaiAssist.config.Cheat.ChartTimer) ChartTimerPanel();
@@ -216,10 +218,14 @@ namespace SinmaiAssist
             GUILayout.Label("QrCode:");
             DummyQrCode = GUILayout.TextArea(DummyQrCode, GUILayout.Height(100f));
             if (GUILayout.Button("QrCode Login")) QrLoginFlag = true;
-            GUILayout.Space(10f);
             GUILayout.Label("UserID:");
             DummyUserId = GUILayout.TextField(DummyUserId, GUILayout.Height(20f));
             if (GUILayout.Button("UserId Login")) UserIdLoginFlag = true;
+            GUILayout.Label($"AMDaemon BootTime: {AMDaemon.Allnet.Auth.AuthTime}");
+            if (GUILayout.Button("UserId Logout"))
+            {
+                PacketHelper.StartPacket(new UserLogout(ulong.Parse(DummyUserId), AMDaemon.Allnet.Auth.AuthTime, "", delegate {}));
+            }
         }
 
         private void DebugPanel()
@@ -238,6 +244,8 @@ namespace SinmaiAssist
                 GameMessageManager.SendGameMessage("Hello World!\nMonitorId: 0", 0);
                 GameMessageManager.SendGameMessage("Hello World!\nMonitorId: 1", 1);
             }
+            if (GUILayout.Button("Save P1 Option To DefaultOption")) Common.ChangeDefaultOption.SaveOptionFile(0L);
+            if (GUILayout.Button("Save P2 Option To DefaultOption")) Common.ChangeDefaultOption.SaveOptionFile(1L);
             GUILayout.Label($"GUI Toggle", MiddleStyle);
             if (GUILayout.Button("Toggle Show Info")) SinmaiAssist.config.ModSetting.ShowInfo = !SinmaiAssist.config.ModSetting.ShowInfo;
             if (GUILayout.Button("Toggle Show FPS")) SinmaiAssist.config.Common.ShowFPS = !SinmaiAssist.config.Common.ShowFPS;

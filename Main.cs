@@ -48,6 +48,8 @@ namespace SinmaiAssist
             try
             {
                 config.Initialize(yamlFilePath);
+                ModGUI.DummyUserId = config.China.DummyLogin.DefaultUserId.ToString();
+                MelonLogger.Msg("Config Load Complete.");
             }
             catch (Exception e)
             {
@@ -120,6 +122,7 @@ namespace SinmaiAssist
             if (config.Common.NetworkLogger.Enable) Patch(typeof(NetworkLogger));
             if (config.Common.CustomVersionText.Enable) Patch(typeof(CustomVersionText));
             if (config.Common.IgnoreAnyGameInformation) Patch(typeof(IgnoreAnyGameInformation));
+            if (config.Common.ChangeDefaultOption) Patch(typeof(ChangeDefaultOption));
 
             //Fix
             if (config.Fix.DisableEncryption) Patch(typeof(DisableEncryption));

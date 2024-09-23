@@ -19,6 +19,7 @@ common:
   quickBoot: false
   blockCoin: false
   ignoreAnyGameInformation: false
+  changeDefaultOption: false
   networkLogger:
     enable: false
     printToConsole: false
