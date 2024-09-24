@@ -24,7 +24,7 @@ namespace Cheat
             RandomFullCombo
         }
 
-        public static readonly ReadOnlyCollection<NoteJudge.ETiming> RandCriticalTiming = Array.AsReadOnly(new NoteJudge.ETiming[5]
+        private static readonly ReadOnlyCollection<NoteJudge.ETiming> RandCriticalTiming = Array.AsReadOnly(new NoteJudge.ETiming[5]
         {
             NoteJudge.ETiming.FastPerfect2nd,
             NoteJudge.ETiming.FastPerfect,
@@ -32,6 +32,21 @@ namespace Cheat
             NoteJudge.ETiming.LatePerfect,
             NoteJudge.ETiming.LatePerfect2nd
         });
+        
+        private static readonly ReadOnlyCollection<NoteJudge.ETiming> RandomJudgeTiming = Array.AsReadOnly(new NoteJudge.ETiming[]
+        {
+            NoteJudge.ETiming.Critical,
+            NoteJudge.ETiming.FastPerfect,
+            NoteJudge.ETiming.FastPerfect2nd,
+            NoteJudge.ETiming.LatePerfect,
+            NoteJudge.ETiming.LatePerfect2nd,
+            NoteJudge.ETiming.LateGreat2nd,
+            NoteJudge.ETiming.FastGreat2nd,
+            NoteJudge.ETiming.LateGood,
+            NoteJudge.ETiming.FastGood,
+            NoteJudge.ETiming.TooLate
+        });
+        
 
         public static AutoPlayMode autoPlayMode = AutoPlayMode.None;
         public static bool DisableUpdate = false;
@@ -62,11 +77,11 @@ namespace Cheat
         [HarmonyPatch(typeof(GameManager), "AutoJudge")]
         public static void AutoJudge(ref NoteJudge.ETiming __result)
         {
-            var num = UnityEngine.Random.Range(0, 1000);
-            var num2 = 2;
-            if (num < 350)
+            var random = UnityEngine.Random.Range(0, 1000);
+            var random2 = 2;
+            if (random < 350)
             {
-                num2 += UnityEngine.Random.Range(-2, 3);
+                random2 += UnityEngine.Random.Range(-2, 3);
             }
 
             switch (autoPlayMode)
@@ -84,15 +99,15 @@ namespace Cheat
                     __result = NoteJudge.ETiming.LateGood;
                     break;
                 case AutoPlayMode.Random:
-                    __result = RandCriticalTiming[UnityEngine.Random.Range(0, RandCriticalTiming.Count)];
+                    __result = RandomJudgeTiming[UnityEngine.Random.Range(0, RandomJudgeTiming.Count)];
                     break;
                 case AutoPlayMode.RandomAllPerfect:
-                    __result = RandCriticalTiming[num2];
+                    __result = RandCriticalTiming[random2];
                     break;
                 case AutoPlayMode.RandomFullComboPlus:
-                    if (num >= 10)
+                    if (random >= 10)
                     {
-                        __result = RandCriticalTiming[num2];
+                        __result = RandCriticalTiming[random2];
                     }
                     else
                     {
@@ -107,11 +122,11 @@ namespace Cheat
                     }
                     break;
                 case AutoPlayMode.RandomFullCombo:
-                    if (num >= 80)
+                    if (random >= 80)
                     {
-                        __result = RandCriticalTiming[num2];
+                        __result = RandCriticalTiming[random2];
                     }
-                    else if (num >= 20)
+                    else if (random >= 20)
                     {
                         if (UnityEngine.Random.Range(0, 2) == 1)
                         {
