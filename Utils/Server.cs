@@ -21,7 +21,12 @@ namespace SinmaiAssist.Utils
         {
             try
             {
-                string titleHost = new Uri(Singleton<OperationManager>.Instance.GetBaseUri()).Host;
+                string title = Singleton<OperationManager>.Instance.GetBaseUri();
+                if (string.IsNullOrEmpty(title))
+                {
+                    return "Unknown";
+                }
+                string titleHost = new Uri(title).Host;
                 foreach (var mapping in TitleServerList)
                 {
                     if (titleHost.Contains(mapping.Key))

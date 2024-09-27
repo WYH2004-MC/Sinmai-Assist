@@ -201,7 +201,8 @@ namespace SinmaiAssist
                             "\r\n/____/_/_/ /_/_/  /_/\\__,_/_/     /_/  |_/____/____/_/____/\\__/  " +
                             "\r\n                                                                 " +
                             "\r\n=================================================================" +
-                            $"\r\n Version: {BuildInfo.Version} ({BuildInfo.CommitHash})     Author: {BuildInfo.Author}");
+                            $"\r\n Version: {BuildInfo.Version} ({BuildInfo.CommitHash}) Build Date: {BuildInfo.BuildDate}" +
+                            $"\r\n Author: {BuildInfo.Author}");
             MelonLogger.Warning("This is a cheat mod. Use at your own risk!");
         }
     }
