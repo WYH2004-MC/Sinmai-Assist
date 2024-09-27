@@ -1,5 +1,6 @@
-﻿using HarmonyLib;
-using Manager;
+﻿using AMDaemon;
+using HarmonyLib;
+using Credit = Manager.Credit;
 
 namespace Common
 {
@@ -59,6 +60,14 @@ namespace Common
         public static void PayTicketCost(Credit __instance, ref bool __result)
         {
             __result = true;
+        }
+        
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(CreditUnit), "get_Credit")]
+        private static bool PreCredit(ref uint __result)
+        {
+            __result = 24;
+            return false;
         }
     }
 }
