@@ -6,25 +6,24 @@ using Net.Packet.Mai2;
 using Net.VO;
 using Net.VO.Mai2;
 
-namespace Cheat
+namespace SinmaiAssist.Cheat;
+
+public class SetAllCharacterAsSameAndLock
 {
-    public class SetAllCharacterAsSameAndLock
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(PacketGetUserData), "SafeNullMember")]
+    public static bool SafeNullMember(PacketGetUserData __instance, UserDetailResponseVO src)
     {
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(PacketGetUserData), "SafeNullMember")]
-        public static bool SafeNullMember(PacketGetUserData __instance, UserDetailResponseVO src)
+        if (src.userData.charaSlot != null)
         {
-            if (src.userData.charaSlot != null)
+            var newSlot = new[]
             {
-                var newSlot = new[]
-                {
-                    src.userData.charaSlot[0], src.userData.charaSlot[0], src.userData.charaSlot[0],
-                    src.userData.charaSlot[0], src.userData.charaSlot[0]
-                };
-                src.userData.charaSlot = newSlot;
-                src.userData.charaLockSlot = newSlot;
-            }
-            return true;
+                src.userData.charaSlot[0], src.userData.charaSlot[0], src.userData.charaSlot[0],
+                src.userData.charaSlot[0], src.userData.charaSlot[0]
+            };
+            src.userData.charaSlot = newSlot;
+            src.userData.charaLockSlot = newSlot;
         }
+        return true;
     }
 }

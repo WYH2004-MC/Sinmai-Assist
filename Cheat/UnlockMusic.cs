@@ -2,7 +2,7 @@
 using MAI2.Util;
 using Manager;
 
-namespace Cheat;
+namespace SinmaiAssist.Cheat;
 
 public class UnlockMusic
 {

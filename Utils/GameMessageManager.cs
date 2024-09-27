@@ -5,7 +5,7 @@ using Manager;
 using MelonLoader;
 using Process;
 
-namespace Utils;
+namespace SinmaiAssist.Utils;
 
 public class GameMessageManager
 {
@@ -17,7 +17,7 @@ public class GameMessageManager
     {
         manager = genericManager;
     }
-    
+
     public static void SendGameMessage(string message)
     {
         try
@@ -39,7 +39,7 @@ public class GameMessageManager
         }
     }
 
-    public static void SendGameMessage(string message ,int monitorId)
+    public static void SendGameMessage(string message, int monitorId)
     {
         try
         {

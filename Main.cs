@@ -1,15 +1,14 @@
-﻿using Cheat;
-using Common;
-using Fix;
-using MAI2System;
+﻿using MAI2System;
 using MelonLoader;
-using SDGB;
 using System;
 using System.IO;
 using System.Reflection;
-using Commmon;
+using SinmaiAssist.Cheat;
+using SinmaiAssist.Common;
+using SinmaiAssist.Fix;
+using SinmaiAssist.SDGB;
+using SinmaiAssist.Utils;
 using UnityEngine;
-using Utils;
 
 namespace SinmaiAssist
 {
@@ -31,7 +30,8 @@ namespace SinmaiAssist
         public static string gameID = "Unknown";
         public static uint gameVersion = 00000;
 
-        public override void OnInitializeMelon() {
+        public override void OnInitializeMelon()
+        {
             PrintLogo();
             modGUI = new ModGUI();
             config = new ConfigManager();
@@ -48,7 +48,7 @@ namespace SinmaiAssist
             try
             {
                 config.Initialize(yamlFilePath);
-                ModGUI.DummyUserId = config.China.DummyLogin.DefaultUserId.ToString();
+                ModGUI.DummyUserId = config.Common.DummyLogin.DefaultUserId.ToString();
                 MelonLogger.Msg("Config Load Complete.");
             }
             catch (Exception e)
@@ -56,7 +56,7 @@ namespace SinmaiAssist
                 MelonLogger.Error($"Error initializing mod config: \n{e}");
                 return;
             }
-            
+
 
             // 输出设备摄像头列表
             File.Delete($"{BuildInfo.Name}/WebCameraList.txt");
@@ -74,19 +74,23 @@ namespace SinmaiAssist
                 webCamTexture.Stop();
                 CameraList += "\n";
             }
+
             File.AppendAllText($"{BuildInfo.Name}/WebCameraList.txt", CameraList);
 
             // 检测游戏版本并判断是否为 SDGB
             try
             {
-                gameID = (string) typeof(ConstParameter).GetField("GameIDStr", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).GetValue(null);
-                gameVersion = (uint) typeof(ConstParameter).GetField("NowGameVersion", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).GetValue(null);
+                gameID = (string)typeof(ConstParameter).GetField("GameIDStr",
+                    BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).GetValue(null);
+                gameVersion = (uint)typeof(ConstParameter).GetField("NowGameVersion",
+                    BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).GetValue(null);
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 MelonLogger.Error("Failed to get GameIDStr and GameVersion");
                 MelonLogger.Error(e);
             }
+
             if (gameID == "SDGB" || config.ModSetting.ForceIsChinaBuild) IsSDGB = true;
             MelonLogger.Msg($"GameInfo: {gameID} {gameVersion} - isSDGB: {IsSDGB}");
 
@@ -98,10 +102,13 @@ namespace SinmaiAssist
 
             // 加载Patch
             // SDGB
-            if (config.China.DummyLogin.Enable) Patch(typeof(DummyLogin));
+            if (config.Common.DummyLogin.Enable)
+            {
+                Patch(IsSDGB ? typeof(DummyChimeLogin) : typeof(DummyAimeLogin));
+            }
             if (config.China.CustomCameraId.Enable)
             {
-                if (config.China.DummyLogin.Enable)
+                if (config.Common.DummyLogin.Enable)
                 {
                     MelonLogger.Warning("DummyLogin enabled, CustomCameraId has been automatically disabled.");
                 }
@@ -126,7 +133,7 @@ namespace SinmaiAssist
 
             //Fix
             if (config.Fix.DisableEncryption) Patch(typeof(DisableEncryption));
-            if (config.Fix.DisableReboot) Patch (typeof(DisableReboot));
+            if (config.Fix.DisableReboot) Patch(typeof(DisableReboot));
             if (config.Fix.SkipVersionCheck) Patch(typeof(SkipVersionCheck));
             if (config.Fix.RewriteNoteJudgeTiming.Enable) Patch(typeof(RewriteNoteJudgeTiming));
 
@@ -141,6 +148,7 @@ namespace SinmaiAssist
             if (config.Cheat.ResetLoginBonusRecord) Patch(typeof(ResetLoginBonusRecord));
             if (config.Cheat.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
             if (config.Cheat.SetAllCharacterAsSameAndLock) Patch(typeof(SetAllCharacterAsSameAndLock));
+            if (config.Cheat.RewriteLoginBonusStamp.Enable) Patch(typeof(RewriteLoginBonusStamp));
 
             // 默认加载项
             Patch(typeof(FixDebugInput));
@@ -167,12 +175,17 @@ namespace SinmaiAssist
                     MelonLogger.Warning($"Patch {type} failed, because game is not SDGB. ");
                     return false;
                 }
+
                 HarmonyLib.Harmony.CreateAndPatchAll(type);
                 return true;
             }
             catch (Exception e)
             {
                 MelonLogger.Error($"Patch {type} failed.");
+                MelonLogger.Error(e.Message);
+                MelonLogger.Error(e.Source);
+                MelonLogger.Error(e.TargetSite);
+                MelonLogger.Error(e.InnerException);
                 MelonLogger.Error(e.StackTrace);
                 return false;
             }
@@ -181,14 +194,14 @@ namespace SinmaiAssist
         private static void PrintLogo()
         {
             MelonLogger.Msg("\n" +
-                "\r\n   _____ _       __  ___      _       ___              _      __ " +
-                "\r\n  / ___/(_)___  /  |/  /___ _(_)     /   |  __________(_)____/ /_" +
-                "\r\n  \\__ \\/ / __ \\/ /|_/ / __ `/ /_____/ /| | / ___/ ___/ / ___/ __/" +
-                "\r\n ___/ / / / / / /  / / /_/ / /_____/ ___ |(__  |__  ) (__  ) /_  " +
-                "\r\n/____/_/_/ /_/_/  /_/\\__,_/_/     /_/  |_/____/____/_/____/\\__/  " +
-                "\r\n                                                                 " +
-                "\r\n=================================================================" +
-                $"\r\n Version: {BuildInfo.Version} ({BuildInfo.CommitHash})     Author: {BuildInfo.Author}");
+                            "\r\n   _____ _       __  ___      _       ___              _      __ " +
+                            "\r\n  / ___/(_)___  /  |/  /___ _(_)     /   |  __________(_)____/ /_" +
+                            "\r\n  \\__ \\/ / __ \\/ /|_/ / __ `/ /_____/ /| | / ___/ ___/ / ___/ __/" +
+                            "\r\n ___/ / / / / / /  / / /_/ / /_____/ ___ |(__  |__  ) (__  ) /_  " +
+                            "\r\n/____/_/_/ /_/_/  /_/\\__,_/_/     /_/  |_/____/____/_/____/\\__/  " +
+                            "\r\n                                                                 " +
+                            "\r\n=================================================================" +
+                            $"\r\n Version: {BuildInfo.Version} ({BuildInfo.CommitHash})     Author: {BuildInfo.Author}");
             MelonLogger.Warning("This is a cheat mod. Use at your own risk!");
         }
     }

@@ -8,16 +8,16 @@ using MAI2.Util;
 using Manager;
 using Manager.UserDatas;
 using MelonLoader;
-using Utils;
+using SinmaiAssist.Utils;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace Common;
+namespace SinmaiAssist.Common;
 
 public class ChangeDefaultOption
 {
-    private static string OptionFilePath = $"{SinmaiAssist.BuildInfo.Name}/DefaultOption.yml";
-    
+    private static string OptionFilePath = $"{BuildInfo.Name}/DefaultOption.yml";
+
     [HarmonyPostfix]
     [HarmonyPatch(typeof(UserDataManager), "SetDefault")]
     public static void DefaultOption(UserDataManager __instance, ref long index)
@@ -50,7 +50,7 @@ public class ChangeDefaultOption
             MelonLogger.Error(e);
         }
     }
-    
+
     private static void UpdateUserOption(UserOption originalOption, UserOption newOption)
     {
         if (newOption == null) return;
@@ -72,7 +72,7 @@ public class ChangeDefaultOption
         var filteredLines = lines.Where(line => !propertiesToRemove.Any(prop => line.TrimStart().StartsWith(prop)));
         return string.Join("\n", filteredLines);
     }
-    
+
     public static void SaveOptionFile(long index)
     {
         UserOption option = Singleton<UserDataManager>.Instance.GetUserData(index).Option;
@@ -87,6 +87,6 @@ public class ChangeDefaultOption
             File.Delete(OptionFilePath);
         }
         File.WriteAllText(OptionFilePath, optionYaml);
-        GameMessageManager.SendGameMessage($"User Option File Saved", (int) index);
+        GameMessageManager.SendGameMessage($"User Option File Saved", (int)index);
     }
 }

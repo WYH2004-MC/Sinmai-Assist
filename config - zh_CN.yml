@@ -1,7 +1,4 @@
 ﻿china:
-  dummyLogin: # 虚拟登录
-    enable: false #是否启用
-    defaultUserId: 0 #默认用户ID
   customCameraId: #自定义相机ID
     enable : false #是否启用
     qrCameraId: 0 #扫描二维码相机ID
@@ -26,6 +23,9 @@ common:
   customVersionText: #自定义版本文本
     enable: false #是否启用
     versionText: "" #版本文本
+  dummyLogin: # 虚拟登录
+    enable: false #是否启用
+    defaultUserId: 0 #默认用户ID
 
 cheat:
   autoPlay: false #自动游玩 
@@ -38,6 +38,9 @@ cheat:
   resetLoginBonusRecord: false #重置登录奖励记录
   forceCurrentIsBest: false #强制当前游玩成绩为新成绩(可能会对Best50造成改动)
   setAllCharacterAsSameAndLock: false # 设置5个相同的旅行伙伴并锁定设置（以队长为准）
+  rewriteLoginBonusStamp: # 重写每日登录奖励记录
+    enable: false # 是否启用
+    point: 0 # 登录奖励点数
 
 fix:
   disableEncryption: false #禁用加密
