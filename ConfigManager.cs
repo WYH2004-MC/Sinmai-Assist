@@ -70,6 +70,7 @@ namespace SinmaiAssist
         public bool BlockCoin { get; set; }
         public bool IgnoreAnyGameInformation { get; set; }
         public bool ChangeDefaultOption { get; set; }
+        public bool ChangeFadeStyle { get; set; }
         public SinglePlayerConfig SinglePlayer { get; set; }
         public NetworkLoggerConfig NetworkLogger { get; set; }
         public CustomVersionTextConfig CustomVersionText { get; set; }

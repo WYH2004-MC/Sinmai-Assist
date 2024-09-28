@@ -26,6 +26,7 @@ common:
   dummyLogin:
     enable: false
     defaultUserId: 0
+  changeFadeStyle: false
 
 cheat:
   autoPlay: false

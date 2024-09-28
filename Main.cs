@@ -130,6 +130,7 @@ namespace SinmaiAssist
             if (config.Common.CustomVersionText.Enable) Patch(typeof(CustomVersionText));
             if (config.Common.IgnoreAnyGameInformation) Patch(typeof(IgnoreAnyGameInformation));
             if (config.Common.ChangeDefaultOption) Patch(typeof(ChangeDefaultOption));
+            if (config.Common.ChangeFadeStyle) Patch(typeof(ChangeFadeStyle));
 
             //Fix
             if (config.Fix.DisableEncryption) Patch(typeof(DisableEncryption));
@@ -155,7 +156,7 @@ namespace SinmaiAssist
             Patch(typeof(PrintUserData));
             Patch(typeof(InputManager));
             Patch(typeof(GameMessageManager));
-
+            
             MelonLogger.Msg("Loading completed");
         }
 

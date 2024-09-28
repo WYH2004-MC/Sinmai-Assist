@@ -2,9 +2,11 @@
 using MAI2System;
 using Manager;
 using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Net.Packet.Helper;
+using Process.CodeRead;
 using SinmaiAssist.Cheat;
 using SinmaiAssist.Common;
 using SinmaiAssist.Utils;
@@ -67,6 +69,7 @@ public class ModGUI
             errorStyle.normal.textColor = Color.red;
             PanelWidth = 320f;
             buttonsPerRow = 3;
+            if (!SinmaiAssist.IsSDGB && File.Exists("DEVICE/aime.txt")) DummyQrCode = File.ReadAllText("DEVICE/aime.txt").Trim();
         }
 
     public void OnGUI()
@@ -217,10 +220,18 @@ public class ModGUI
         {
             GUILayout.Label(SinmaiAssist.IsSDGB?"QrCode:":"AccessCode:");
             DummyQrCode = GUILayout.TextArea(DummyQrCode, GUILayout.Height(100f));
-            if (GUILayout.Button(SinmaiAssist.IsSDGB?"QrCode Login":"AccessCode Login")) QrLoginFlag = true;
+            if (GUILayout.Button(SinmaiAssist.IsSDGB?"QrCode Login":"AccessCode Login"))
+            {
+                QrLoginFlag = true;
+                if (!SinmaiAssist.IsSDGB) DummyAimeLogin.ReadCard();
+            }
             GUILayout.Label("UserID:");
             DummyUserId = GUILayout.TextField(DummyUserId, GUILayout.Height(20f));
-            if (GUILayout.Button("UserId Login")) UserIdLoginFlag = true;
+            if (GUILayout.Button("UserId Login"))
+            {
+                UserIdLoginFlag = true;
+                if (!SinmaiAssist.IsSDGB) DummyAimeLogin.ReadCard("12312312312312312312", DummyQrCode);
+            }
             GUILayout.Label($"AMDaemon BootTime: {AMDaemon.Allnet.Auth.AuthTime}");
             if (GUILayout.Button("UserId Logout"))
             {
