@@ -14,8 +14,8 @@ for /f "usebackq delims=" %%t in (`powershell -Command "(Get-Date -Format 'o')"`
     set TIMESTAMP=%%t
 )
 
-echo public const string CommitHash = "%COMMIT_HASH%"; 
-echo public const string BuildDate = "%TIMESTAMP%";
+echo CommitHash="%COMMIT_HASH%"
+echo BuildDate="%TIMESTAMP%"
 
 echo namespace SinmaiAssist { > ..\BuildInfo.cs
 echo     public static partial class BuildInfo { >> ..\BuildInfo.cs

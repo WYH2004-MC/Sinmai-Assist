@@ -70,12 +70,6 @@ public static class Keyboard
     }
 }
 
-// Decompiled with JetBrains decompiler
-// Type: System.Windows.Forms.Keys
-// Assembly: System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-// MVID: F521DE6A-D33E-4966-B340-B6A8A9CE7365
-// Assembly location: C:\Users\Error063\RiderProjects\Sinmai-Assist\Output\System.Windows.Forms.dll
-
 public enum Keys
 {
     None = 0,

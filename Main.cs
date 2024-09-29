@@ -84,6 +84,11 @@ namespace SinmaiAssist
                     BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).GetValue(null);
                 gameVersion = (uint)typeof(ConstParameter).GetField("NowGameVersion",
                     BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).GetValue(null);
+
+                if (gameVersion < 24000)
+                {
+                    MelonLogger.Warning($"Using untested version ({gameVersion}) maybe case some unexcepted problems!");
+                }
             }
             catch (Exception e)
             {
