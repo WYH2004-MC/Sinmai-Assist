@@ -39,6 +39,9 @@ cheat:
   resetLoginBonusRecord: false
   forceCurrentIsBest: false
   setAllCharacterAsSameAndLock: false
+  rewriteLoginBonusStamp: 
+    enable: false 
+    point: 0
 
 fix:
   disableEncryption: false
