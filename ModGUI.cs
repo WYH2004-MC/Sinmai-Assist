@@ -84,16 +84,16 @@ public class ModGUI
             BackspaceKeyDown = false;
         }
                 
-            if (SinmaiAssist.config.ModSetting.ShowPanel)
-            {
-                PanelWindow = GUILayout.Window(10086, PanelWindow, MainPanel, $"{BuildInfo.Name} {BuildInfo.Version}");
-                SinmaiAssist.config.ModSetting.ShowPanel = true;
-            }
-            else
-            {
-                PanelWindow = new Rect();
-            }
-            if (SinmaiAssist.config.ModSetting.ShowInfo) ShowVersionInfo();
+        if (SinmaiAssist.config.ModSetting.ShowPanel)
+        {
+            PanelWindow = GUILayout.Window(10086, PanelWindow, MainPanel, $"{BuildInfo.Name} {BuildInfo.Version}");
+            SinmaiAssist.config.ModSetting.ShowPanel = true;
+        }
+        else
+        {
+            PanelWindow = new Rect();
+        }
+        if (SinmaiAssist.config.ModSetting.ShowInfo) ShowVersionInfo();
         }
 
         private void MainPanel(int id)
