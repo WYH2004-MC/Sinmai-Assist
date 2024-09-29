@@ -7,7 +7,7 @@ using Net.Packet.Mai2;
 using Net.VO;
 using Net.VO.Mai2;
 
-namespace Common
+namespace SinmaiAssist.Common
 {
     public class IgnoreAnyGameInformation
     {
@@ -17,7 +17,7 @@ namespace Common
         {
             try
             {
-                if (src.userData.eventWatchedDate != null && SinmaiAssist.SinmaiAssist.config.Common.IgnoreAnyGameInformation)
+                if (src.userData.eventWatchedDate != null && SinmaiAssist.config.Common.IgnoreAnyGameInformation)
                 {
                     src.userData.eventWatchedDate = "2099-12-31 23:59:59";
                 }

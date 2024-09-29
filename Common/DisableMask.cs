@@ -3,23 +3,22 @@ using HarmonyLib;
 using MelonLoader;
 using UnityEngine;
 
-namespace Common
+namespace SinmaiAssist.Common;
+
+public class DisableMask
 {
-    public class DisableMask
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(Main.GameMain), "LateInitialize", new System.Type[] { typeof(MonoBehaviour), typeof(Transform), typeof(Transform) })]
+    public static bool LateInitialize(MonoBehaviour gameMainObject, ref Transform left, ref Transform right)
     {
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(Main.GameMain), "LateInitialize", new System.Type[] { typeof(MonoBehaviour), typeof(Transform), typeof(Transform) })]
-        public static bool LateInitialize(MonoBehaviour gameMainObject, ref Transform left, ref Transform right)
+        try
         {
-            try
-            {
-                GameObject.Find("Mask").SetActive(false);
-            }
-            catch (Exception e)
-            {
-                MelonLogger.Warning("Maybe the current Sinmai build does not have GameObject \"Mask\".");
-            }
-            return true;
+            GameObject.Find("Mask").SetActive(false);
         }
+        catch (Exception e)
+        {
+            MelonLogger.Warning("Maybe the current Sinmai build does not have GameObject \"Mask\".");
+        }
+        return true;
     }
 }

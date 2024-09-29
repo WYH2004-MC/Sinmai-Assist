@@ -7,23 +7,23 @@ using Net.Packet;
 using Net.VO;
 using Net.VO.Mai2;
 
-namespace Utils;
+namespace SinmaiAssist.Utils;
 
 public class UserLogout : Packet
 {
     private readonly Action _onDone;
 
     private readonly Action<PacketStatus> _onError;
-    
+
     private readonly ulong _userId;
 
     private readonly DateTime _dateTime;
-    
+
     private readonly long _unixTime;
 
     public UserLogout(ulong userId, DateTime dateTime, string acsessCode, Action onDone, Action<PacketStatus> onError = null)
     {
-        
+
         _onDone = onDone;
         _onError = onError;
         _userId = userId;

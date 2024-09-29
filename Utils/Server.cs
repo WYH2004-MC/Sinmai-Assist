@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using MAI2.Util;
 using Manager;
 
-namespace Utils
+namespace SinmaiAssist.Utils
 {
     public class Server
     {
@@ -14,24 +14,28 @@ namespace Utils
             { "bluedeer233.com", "Bluedeer Network" },
             { "naominet.live", "RinNET" },
             { "msm.moe", "Msm Aqua" },
-            
+
         };
 
         public static string GetTitleServerUri()
         {
             try
             {
-                string uri = Singleton<OperationManager>.Instance.GetBaseUri();
-
+                string title = Singleton<OperationManager>.Instance.GetBaseUri();
+                if (string.IsNullOrEmpty(title))
+                {
+                    return "Unknown";
+                }
+                string titleHost = new Uri(title).Host;
                 foreach (var mapping in TitleServerList)
                 {
-                    if (uri.Contains(mapping.Key))
+                    if (titleHost.Contains(mapping.Key))
                     {
                         return mapping.Value;
                     }
                 }
 
-                return uri;
+                return titleHost;
             }
             catch (Exception e) when (e is NullReferenceException || e is InvalidOperationException)
             {

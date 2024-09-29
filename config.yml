@@ -1,7 +1,4 @@
 ﻿china:
-  dummyLogin:
-    enable: false
-    defaultUserId: 0
   customCameraId: 
     enable : false
     qrCameraId: 0
@@ -26,6 +23,10 @@ common:
   customVersionText:
     enable: false
     versionText: ""
+  dummyLogin:
+    enable: false
+    defaultUserId: 0
+  changeFadeStyle: false
 
 cheat:
   autoPlay: false

@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 using static NoteJudge;
 using MelonLoader;
 
-namespace Cheat
+namespace SinmaiAssist.Cheat
 {
     public class AutoPlay
     {
@@ -32,7 +32,7 @@ namespace Cheat
             NoteJudge.ETiming.LatePerfect,
             NoteJudge.ETiming.LatePerfect2nd
         });
-        
+
         private static readonly ReadOnlyCollection<NoteJudge.ETiming> RandomJudgeTiming = Array.AsReadOnly(new NoteJudge.ETiming[]
         {
             NoteJudge.ETiming.Critical,
@@ -46,7 +46,7 @@ namespace Cheat
             NoteJudge.ETiming.FastGood,
             NoteJudge.ETiming.TooLate
         });
-        
+
 
         public static AutoPlayMode autoPlayMode = AutoPlayMode.None;
         public static bool DisableUpdate = false;
@@ -70,7 +70,7 @@ namespace Cheat
         {
             var mode = GameManager.AutoPlay;
             if (DisableUpdate) return;
-            autoPlayMode = (AutoPlayMode) mode;
+            autoPlayMode = (AutoPlayMode)mode;
         }
 
         [HarmonyPostfix]
@@ -248,7 +248,7 @@ namespace Cheat
             var judgeTimingDiffMsec = NotesManager.GetCurrentMsec() - (float)appearMsecField.GetValue(__instance);
             judgeTimingDiffMsecField.SetValue(__instance, judgeTimingDiffMsec);
 
-            ETiming judgeResult = (ETiming) judgeResultField.GetValue(__instance);
+            ETiming judgeResult = (ETiming)judgeResultField.GetValue(__instance);
             judgeResult = NoteJudge.GetJudgeTiming(ref judgeTimingDiffMsec, Singleton<GamePlayManager>.Instance.GetGameScore(__instance.MonitorId).UserOption.GetJudgeTimingFrame(), (EJudgeType)judgeTypeField.GetValue(__instance));
             if (autoPlayMode == AutoPlayMode.RandomAllPerfect ||
                 autoPlayMode == AutoPlayMode.RandomFullComboPlus ||
@@ -258,11 +258,11 @@ namespace Cheat
             }
             judgeResultField.SetValue(__instance, judgeResult);
 
-            TouchSensorType touchArea = (TouchSensorType) TouchAreaField.GetValue(__instance);
+            TouchSensorType touchArea = (TouchSensorType)TouchAreaField.GetValue(__instance);
             if (judgeResult != NoteJudge.ETiming.End)
             {
                 playJudgeSeMethod.Invoke(__instance, null);
-                int buttonId = (int) buttonIdField.GetValue(__instance);
+                int buttonId = (int)buttonIdField.GetValue(__instance);
                 if (touchArea == TouchSensorType.B)
                 {
                     InputManager.SetUsedThisFrame(__instance.MonitorId, (InputManager.TouchPanelArea)(8 + buttonId));
@@ -292,12 +292,12 @@ namespace Cheat
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(TouchNoteB), "NoteCheck")]
-        public static void NoteCheck(TouchNoteB __instance) 
+        public static void NoteCheck(TouchNoteB __instance)
         {
             if (!IsAutoPlay()) return;
             var judgeResultField = AccessTools.Field(typeof(NoteBase), "JudgeResult");
             var playJudgeSeMethod = AccessTools.Method(typeof(TouchNoteB), "PlayJudgeSe");
-            float appearMsec = (float) AccessTools.Field(typeof(NoteBase), "AppearMsec").GetValue(__instance);
+            float appearMsec = (float)AccessTools.Field(typeof(NoteBase), "AppearMsec").GetValue(__instance);
             if ((autoPlayMode == AutoPlayMode.RandomAllPerfect ||
                 autoPlayMode == AutoPlayMode.RandomFullComboPlus ||
                 autoPlayMode == AutoPlayMode.RandomFullCombo) &&

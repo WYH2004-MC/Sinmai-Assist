@@ -460,20 +460,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuildInfo.cs" />
     <Compile Include="Cheat\AllCollection.cs" />
     <Compile Include="Cheat\AutoPlay.cs" />
     <Compile Include="Cheat\ChartTimer.cs" />
     <Compile Include="Cheat\FastSkip.cs" />
     <Compile Include="Cheat\ForceCurrentIsBest.cs" />
     <Compile Include="Cheat\ResetLoginBonusRecord.cs" />
+    <Compile Include="Cheat\RewriteLoginBonusStamp.cs" />
     <Compile Include="Cheat\SetAllCharacterAsSameAndLock.cs" />
     <Compile Include="Cheat\UnlockEvent.cs" />
     <Compile Include="Cheat\UnlockMaster.cs" />
     <Compile Include="Cheat\UnlockMusic.cs" />
     <Compile Include="Common\BlockCoin.cs" />
     <Compile Include="Common\ChangeDefaultOption.cs" />
+    <Compile Include="Common\ChangeFadeStyle.cs" />
     <Compile Include="Common\CustomVersionText.cs" />
     <Compile Include="Common\DisableMask.cs" />
+    <Compile Include="Common\DummyAimeLogin.cs" />
+    <Compile Include="Common\DummyChimeLogin.cs" />
     <Compile Include="Common\ForwardATouchRegionToButton.cs" />
     <Compile Include="Common\Graphic.cs" />
     <Compile Include="Common\IgnoreAnyGameInformation.cs" />
@@ -494,11 +499,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="SDGB\CustomCameraId.cs" />
-    <Compile Include="SDGB\DummyLogin.cs" />
     <Compile Include="SDGB\UserLogout.cs" />
     <Compile Include="Utils\CipherAES.cs" />
     <Compile Include="Common\InputManager.cs" />
     <Compile Include="Utils\GameMessageManager.cs" />
+    <Compile Include="Utils\GetUserId.cs" />
+    <Compile Include="Utils\Keyboard.cs" />
     <Compile Include="Utils\Server.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -509,10 +515,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="config.yml" />
+    <Content Include="BeforeBuild.bat" />
     <Content Include="PostBuild.bat" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>$(ProjectDir)PostBuild.bat</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>$(ProjectDir)BeforeBuild.bat</PreBuildEvent>
   </PropertyGroup>
 </Project>

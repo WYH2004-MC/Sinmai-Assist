@@ -2,7 +2,7 @@
 using MAI2.Util;
 using Manager;
 
-namespace Cheat;
+namespace SinmaiAssist.Cheat;
 
 public class UnlockMaster
 {
@@ -13,7 +13,7 @@ public class UnlockMaster
         __result = true;
         return false;
     }
-    
+
     [HarmonyPrefix]
     [HarmonyPatch(typeof(NotesListManager), "IsUnlockReMaster")]
     public static bool IsUnlockReMaster(ref bool __result, ref int index)
@@ -22,6 +22,6 @@ public class UnlockMaster
         __result = true;
         return false;
     }
-    
-    
+
+
 }

@@ -43,7 +43,6 @@ namespace SinmaiAssist
 
     public class ChinaConfig
     {
-        public DummyLoginConfig DummyLogin { get; set; }
         public CustomCameraIdConfig CustomCameraId { get; set; }
     }
 
@@ -71,9 +70,12 @@ namespace SinmaiAssist
         public bool BlockCoin { get; set; }
         public bool IgnoreAnyGameInformation { get; set; }
         public bool ChangeDefaultOption { get; set; }
+        public bool ChangeFadeStyle { get; set; }
         public SinglePlayerConfig SinglePlayer { get; set; }
         public NetworkLoggerConfig NetworkLogger { get; set; }
         public CustomVersionTextConfig CustomVersionText { get; set; }
+        public DummyLoginConfig DummyLogin { get; set; }
+
     }
 
     public class SinglePlayerConfig
@@ -106,6 +108,7 @@ namespace SinmaiAssist
         public bool ResetLoginBonusRecord { get; set; }
         public bool ForceCurrentIsBest { get; set; }
         public bool SetAllCharacterAsSameAndLock { get; set; }
+        public RewriteLoginBonusStampConfig RewriteLoginBonusStamp { get; set; }
     }
 
     public class FixConfig
@@ -129,6 +132,30 @@ namespace SinmaiAssist
         public bool ShowPanel { get; set; }
         public bool ForceIsChinaBuild { get; set; }
         public bool SafeMode { get; set; }
+    }
+
+    public class RewriteLoginBonusStampConfig
+    {
+        public bool Enable { get; set; }
+
+        private uint _point;
+
+        public uint Point
+        {
+            get => _point;
+            set
+            {
+                if (value is > 0 and < 10)
+                {
+                    _point = value;
+                }
+                else
+                {
+                    _point = 0;
+                }
+            }
+        }
+
     }
 }
    
