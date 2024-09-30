@@ -3,9 +3,9 @@ name: Build and Test C# Project (Framework 4.7.2)
 
 on:
   push:
-    branches: [ main ]  # 触发条件，当main分支有push时触发
+    branches: [ master ]  # 触发条件，当main分支有push时触发
   pull_request:
-    branches: [ main ]  # 当向main分支发起pull request时也触发
+    branches: [ master ]  # 当向main分支发起pull request时也触发
 
 jobs:
   build:
