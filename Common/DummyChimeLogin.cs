@@ -1,9 +1,9 @@
 ﻿using ChimeLib.NET;
 using HarmonyLib;
 using Manager;
-using SinmaiAssist;
 using System.Collections;
 using System.Reflection;
+using SinmaiAssist.GUI;
 using UnityEngine;
 
 namespace SinmaiAssist.SDGB;
@@ -122,17 +122,17 @@ public class DummyChimeLogin
     [HarmonyPatch(typeof(ChimeDevice), "GetDecodeStrings")]
     public static bool GetDecodeStrings(ref string[] __result)
     {
-        if (ModGUI.QrLoginFlag)
+        if (DummyLoginPanel.CodeLoginFlag)
         {
-            ModGUI.QrLoginFlag = false;
-            if (ModGUI.DummyQrCode == null)
+            DummyLoginPanel.CodeLoginFlag = false;
+            if (DummyLoginPanel.DummyLoginCode == null)
             {
                 __result = null;
                 return false;
             }
             else
             {
-                __result = new string[1] { ModGUI.DummyQrCode };
+                __result = new string[1] { DummyLoginPanel.DummyLoginCode };
                 return false;
             }
         }
@@ -148,12 +148,12 @@ public class DummyChimeLogin
         var result = AccessTools.Field(typeof(ChimeReaderManager), "_result");
         var aimeId = AccessTools.Field(typeof(ChimeReaderManager), "_aimeId");
         var currentState = AccessTools.Field(typeof(ChimeReaderManager), "currentState");
-        if (ModGUI.UserIdLoginFlag)
+        if (DummyLoginPanel.UserIdLoginFlag)
         {
             ChimeId _aimeId;
             System.Type chimeIdType = System.Type.GetType("ChimeLib.NET.ChimeId, ChimeLib.NET");
             MethodInfo makeMethod = chimeIdType.GetMethod("Make", BindingFlags.NonPublic | BindingFlags.Static);
-            _aimeId = (ChimeId)makeMethod.Invoke(null, new object[] { uint.Parse(ModGUI.DummyUserId) });
+            _aimeId = (ChimeId)makeMethod.Invoke(null, new object[] { uint.Parse(DummyLoginPanel.DummyUserId) });
             result.SetValue(__instance, ChimeReaderManager.Result.Done);
             aimeId.SetValue(__instance, _aimeId);
             currentState.SetValue(__instance, 9);
@@ -166,7 +166,7 @@ public class DummyChimeLogin
     [HarmonyPatch(typeof(ChimeReaderManager), "AdvCheck")]
     public static bool AdvCheck(ref bool __result)
     {
-        if (ModGUI.UserIdLoginFlag)
+        if (DummyLoginPanel.UserIdLoginFlag)
         {
             __result = true;
             return false;
@@ -181,6 +181,6 @@ public class DummyChimeLogin
     [HarmonyPatch(typeof(Process.Entry.TryAime), "Execute")]
     public static void ClearFlag()
     {
-        ModGUI.UserIdLoginFlag = false;
+        DummyLoginPanel.UserIdLoginFlag = false;
     }
 }

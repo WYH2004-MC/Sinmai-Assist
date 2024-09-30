@@ -6,6 +6,7 @@ using System.Reflection;
 using SinmaiAssist.Cheat;
 using SinmaiAssist.Common;
 using SinmaiAssist.Fix;
+using SinmaiAssist.GUI;
 using SinmaiAssist.SDGB;
 using SinmaiAssist.Utils;
 using UnityEngine;
@@ -24,7 +25,7 @@ namespace SinmaiAssist
 
     public class SinmaiAssist : MelonMod
     {
-        private ModGUI modGUI;
+        private MainGUI _mainGUI;
         public static ConfigManager config;
         public static bool IsSDGB = false;
         public static string gameID = "Unknown";
@@ -33,7 +34,7 @@ namespace SinmaiAssist
         public override void OnInitializeMelon()
         {
             PrintLogo();
-            modGUI = new ModGUI();
+            _mainGUI = new MainGUI();
             config = new ConfigManager();
 
             // 加载配置文件
@@ -48,7 +49,7 @@ namespace SinmaiAssist
             try
             {
                 config.Initialize(yamlFilePath);
-                ModGUI.DummyUserId = config.Common.DummyLogin.DefaultUserId.ToString();
+                DummyLoginPanel.DummyUserId = config.Common.DummyLogin.DefaultUserId.ToString();
                 MelonLogger.Msg("Config Load Complete.");
             }
             catch (Exception e)
@@ -106,11 +107,22 @@ namespace SinmaiAssist
             }
 
             // 加载Patch
-            // SDGB
+            // DummyLogin
             if (config.Common.DummyLogin.Enable)
             {
-                Patch(IsSDGB ? typeof(DummyChimeLogin) : typeof(DummyAimeLogin));
+                if (IsSDGB)
+                {
+                    Patch(typeof(DummyChimeLogin));
+                }
+                else
+                {
+                    if (File.Exists("DEVICE/aime.txt"))
+                        DummyLoginPanel.DummyLoginCode = File.ReadAllText("DEVICE/aime.txt").Trim();
+                    Patch(typeof(DummyAimeLogin));
+                }
             }
+            
+            // SDGB
             if (config.China.CustomCameraId.Enable)
             {
                 if (config.Common.DummyLogin.Enable)
@@ -167,8 +179,9 @@ namespace SinmaiAssist
 
         public override void OnGUI()
         {
-            modGUI.OnGUI();
+            _mainGUI.OnGUI();
             if (config.Common.ShowFPS) ShowFPS.OnGUI();
+            if (config.ModSetting.ShowInfo) ShowVersionInfo.OnGUI();
         }
 
         private static bool Patch(Type type)

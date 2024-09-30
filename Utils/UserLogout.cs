@@ -30,13 +30,14 @@ public class UserLogout : Packet
         _dateTime = dateTime;
         _unixTime = new DateTimeOffset(dateTime).ToUnixTimeSeconds();
         NetQuery<UserLogoutRequestVO, UserLogoutResponseVO> netQuery = new NetQuery<UserLogoutRequestVO, UserLogoutResponseVO>("UserLogoutApi", userId);
-        netQuery.Request.userId = userId;
+        
         netQuery.Request.accessCode = acsessCode;
         netQuery.Request.regionId = Auth.RegionCode;
         netQuery.Request.placeId = (int)Auth.LocationId;
         netQuery.Request.clientId = AMDaemon.System.KeychipId.ShortValue;
         netQuery.Request.dateTime = _unixTime;
         netQuery.Request.type = (int)LogoutType.Logout;
+        netQuery.Request.userId = userId;
         Create(netQuery);
     }
 
@@ -46,12 +47,9 @@ public class UserLogout : Packet
         switch (result)
         {
             case PacketState.Done:
-                GameMessageManager.SendGameMessage($"Id: {_userId} Logout.\nDateTime: {_dateTime} - {_unixTime}");
-                SoundManager.PlayVoice(Mai2.Voice_000001.Cue.VO_000012, 1);
                 _onDone();
                 break;
             case PacketState.Error:
-                MelonLogger.Msg($"Id: {_userId} Logout Failed\nDateTime: {_dateTime} - {_unixTime}");
                 _onError?.Invoke(base.Status);
                 break;
         }

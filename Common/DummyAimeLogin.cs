@@ -6,6 +6,7 @@ using AMDaemon;
 using HarmonyLib;
 using Mai2.Mai2Cue;
 using Manager;
+using SinmaiAssist.GUI;
 using SinmaiAssist.Utils;
 
 namespace SinmaiAssist.Common;
@@ -14,7 +15,7 @@ public class DummyAimeLogin
 {
     public static void ReadCard(string accesscode=null, string oldCode=null)
     {
-        accesscode ??= ModGUI.DummyQrCode.Trim();
+        accesscode ??= DummyLoginPanel.DummyLoginCode.Trim();
         if (!Directory.Exists("DEVICE")) Directory.CreateDirectory("DEVICE");
         if (accesscode.Length == 20 && Regex.IsMatch(accesscode, @"^\d+$"))
         {
@@ -107,9 +108,9 @@ public class DummyAimeLogin
     [HarmonyPatch(typeof(AimeId), "Value", MethodType.Getter)]
     public static bool GetAimeId(ref uint __result)
     {
-        if (ModGUI.UserIdLoginFlag)
+        if (DummyLoginPanel.UserIdLoginFlag)
         {
-            __result = Convert.ToUInt32(ModGUI.DummyUserId);
+            __result = Convert.ToUInt32(DummyLoginPanel.DummyUserId);
             return false;
         }
         return true;
@@ -119,6 +120,6 @@ public class DummyAimeLogin
     [HarmonyPatch(typeof(Process.Entry.TryAime), "Execute")]
     public static void ClearFlag()
     {
-        ModGUI.UserIdLoginFlag = false;
+        DummyLoginPanel.UserIdLoginFlag = false;
     }
 }

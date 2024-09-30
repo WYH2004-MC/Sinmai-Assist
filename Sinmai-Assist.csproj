@@ -495,17 +495,25 @@
     <Compile Include="Fix\FixDebugInput.cs" />
     <Compile Include="Fix\RewriteNoteJudgeTiming.cs" />
     <Compile Include="Fix\SkipVersionCheck.cs" />
-    <Compile Include="ModGUI.cs" />
+    <Compile Include="GUI\AutoPlayPanel.cs" />
+    <Compile Include="GUI\ChartTimerPanel.cs" />
+    <Compile Include="GUI\DebugPanel.cs" />
+    <Compile Include="GUI\DummyLoginPanel.cs" />
+    <Compile Include="GUI\FastSkipPanel.cs" />
+    <Compile Include="GUI\GraphicPanel.cs" />
+    <Compile Include="GUI\MainGUI.cs" />
+    <Compile Include="GUI\ShowVersionInfo.cs" />
+    <Compile Include="GUI\Style.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="SDGB\CustomCameraId.cs" />
-    <Compile Include="SDGB\UserLogout.cs" />
     <Compile Include="Utils\CipherAES.cs" />
     <Compile Include="Common\InputManager.cs" />
     <Compile Include="Utils\GameMessageManager.cs" />
     <Compile Include="Utils\GetUserId.cs" />
     <Compile Include="Utils\Keyboard.cs" />
     <Compile Include="Utils\Server.cs" />
+    <Compile Include="Utils\UserLogout.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
