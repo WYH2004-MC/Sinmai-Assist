@@ -28,28 +28,23 @@ jobs:
 
     - name: Download MelonLoader
       run: |        
-            wget --quiet --output-document="$env:USERPROFILE\Downloads\MelonLoader.x64.zip" https://github.com/LavaGang/MelonLoader/releases/download/v0.6.5/MelonLoader.x64.zip
+            Invoke-WebRequest -Uri https://github.com/LavaGang/MelonLoader/releases/download/v0.6.5/MelonLoader.x64.zip -OutFile "$env:USERPROFILE\Downloads\MelonLoader.x64.zip"
 
     - name: Extract MelonLoader
       run: |        
-            $archivePath = "$env:USERPROFILE\Downloads\MelonLoader.x64.zip"
-            7z x $archivePath -o"$env:USERPROFILE\Downloads\Out"
+            7z x "$env:USERPROFILE\Downloads\MelonLoader.x64.zip" -o"$env:USERPROFILE\Downloads\Out"
 
     - name: Move Extracted Files to Out
       run: |        
-            $sourcePath = "$env:USERPROFILE\Downloads\Output"
-            $targetPath = "$(Get-Location)\Out"
-            if (-not (Test-Path $targetPath)) {
-                New-Item -ItemType Directory -Force -Path $targetPath
+            if (-not (Test-Path "$(Get-Location)\Out")) {
+                New-Item -ItemType Directory -Force -Path "$(Get-Location)\Out"
             }
-            Copy-Item -Path "$sourcePath\*" -Destination $targetPath -Recurse -Force
+            Copy-Item -Path "$env:USERPROFILE\Downloads\Output\*" -Destination "$(Get-Location)\Out" -Recurse -Force
 
     - name: Download and Extract Output.7z
       run: |        
-            $url = $env:OUTPUT_URL
-            $outputPath = "$env:USERPROFILE\Downloads\$($env:OUTPUT_FILE)"
-            wget --quiet --output-document=$outputPath $url
-            7z x $outputPath -o"$env:USERPROFILE\Downloads\Output"
+            Invoke-WebRequest -Uri $url -OutFile "$env:USERPROFILE\Downloads\$($env:OUTPUT_FILE)"
+            7z x "$env:USERPROFILE\Downloads\$($env:OUTPUT_FILE)" -o"$env:USERPROFILE\Downloads\Output"
 
     - name: Move Output.7z Files to Out
       run: |        
