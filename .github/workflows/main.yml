@@ -25,9 +25,6 @@ jobs:
     - name: scripts
       run: |
                 choco install 7zip.install -y
-                del -r cache
-                del -r Out
-                del -r Output
                 mkdir cache
                 Invoke-WebRequest -Uri https://github.com/LavaGang/MelonLoader/releases/download/v0.6.5/MelonLoader.x64.zip -OutFile "$(Get-Location)\cache\MelonLoader.x64.zip"        
                 7z x "$(Get-Location)\cache\MelonLoader.x64.zip" -o"$(Get-Location)\Out"     
