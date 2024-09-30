@@ -83,17 +83,14 @@ jobs:
       run: nuget restore
 
     - name: Build Solution
-      run: dotnet build your_solution_name.sln
-
-    - name: Run Tests
-      run: dotnet vstest your_test_project_name.dll  # 假设你使用的是Visual Studio Test Platform
+      run: dotnet build
 
     - name: Zip Out Folder
       run: |
         Compress-Archive -Path $(Get-Location)\Out\* -DestinationPath $(Get-Location)\Out.zip
 
     - name: Upload Artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: out-archive
         path: Out.zip
