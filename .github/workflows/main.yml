@@ -25,10 +25,10 @@ jobs:
     - name: Install 7-Zip
       run: |
         choco install 7zip.install -y
-
+        
     - name: Get Latest MelonLoader Release
       id: get_latest_release
-      run: |
+      run: | 
         $response = Invoke-RestMethod -Uri $env:MELONLOADER_REPO
         $latestReleaseAssets = $response.assets
         foreach ($asset in $latestReleaseAssets) {
@@ -44,18 +44,18 @@ jobs:
         echo "::set-output name=latest_asset_url::$latestAssetUrl"
 
     - name: Download MelonLoader
-      run: |
+      run: |        
         $latestAssetUrl = ${{ steps.get_latest_release.outputs.latest_asset_url }}
         $outputPath = "$env:USERPROFILE\Downloads\MelonLoader.x64.zip"
         Invoke-WebRequest -Uri $latestAssetUrl -OutFile $outputPath
 
     - name: Extract MelonLoader
-      run: |
+      run: |        
         $archivePath = "$env:USERPROFILE\Downloads\MelonLoader.x64.zip"
         7z x $archivePath -o"$env:USERPROFILE\Downloads\Output"
 
     - name: Move Extracted Files to Out
-      run: |
+      run: |        
         $sourcePath = "$env:USERPROFILE\Downloads\Output"
         $targetPath = "$(Get-Location)\Out"
         if (-not (Test-Path $targetPath)) {
@@ -64,20 +64,21 @@ jobs:
         Copy-Item -Path "$sourcePath\*" -Destination $targetPath -Recurse -Force
 
     - name: Download and Extract Output.7z
-      run: |
+      run: |        
         $url = $env:OUTPUT_URL
         $outputPath = "$env:USERPROFILE\Downloads\$($env:OUTPUT_FILE)"
         Invoke-WebRequest -Uri $url -OutFile $outputPath
         7z x $outputPath -o"$env:USERPROFILE\Downloads\Output"
 
-    - name: Move Output.7z Files to Output
-      run: |
+    - name: Move Output.7z Files to Out
+      run: |        
         $sourcePath = "$env:USERPROFILE\Downloads\Output"
-        $targetPath = "$(Get-Location)\Output"
+        $targetPath = "$(Get-Location)\Out"
         if (-not (Test-Path $targetPath)) {
             New-Item -ItemType Directory -Force -Path $targetPath
         }
         Copy-Item -Path "$sourcePath\*" -Destination $targetPath -Recurse -Force
+
 
     - name: Restore NuGet packages
       run: nuget restore
