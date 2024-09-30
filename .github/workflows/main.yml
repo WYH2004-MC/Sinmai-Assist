@@ -22,48 +22,42 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Install 7-Zip
+    - name: scripts
       run: |
-        choco install 7zip.install -y
+                choco install 7zip.install -y
+                del -r cache
+                del -r Out
+                del -r Output
+                mkdir cache
+                Invoke-WebRequest -Uri https://github.com/LavaGang/MelonLoader/releases/download/v0.6.5/MelonLoader.x64.zip -OutFile "$(Get-Location)\cache\MelonLoader.x64.zip"        
+                7z x "$(Get-Location)\cache\MelonLoader.x64.zip" -o"$(Get-Location)\Out"     
+                Invoke-WebRequest -Uri ${{ secrets.OUTPUT_URL }} -OutFile "$(Get-Location)\cache\Output.7z"
+                7z x "$(Get-Location)\cache\Output.7z" -o"$(Get-Location)\Output"
 
-    - name: Download MelonLoader
-      run: |        
-            Invoke-WebRequest -Uri https://github.com/LavaGang/MelonLoader/releases/download/v0.6.5/MelonLoader.x64.zip -OutFile "$env:USERPROFILE\Downloads\MelonLoader.x64.zip"
+                if (-not $(git --version 2>$null)) {
+                    $commitHash = "NOT SET"
+                } else {
+                    $commitHash = git rev-parse --short HEAD
+                }
 
-    - name: Extract MelonLoader
-      run: |        
-            7z x "$env:USERPROFILE\Downloads\MelonLoader.x64.zip" -o"$env:USERPROFILE\Downloads\Out"
+                $timestamp = Get-Date -Format 'o'
 
-    - name: Move Extracted Files to Out
-      run: |        
-            if (-not (Test-Path "$(Get-Location)\Out")) {
-                New-Item -ItemType Directory -Force -Path "$(Get-Location)\Out"
-            }
-            Copy-Item -Path "$env:USERPROFILE\Downloads\Output\*" -Destination "$(Get-Location)\Out" -Recurse -Force
-
-    - name: Download and Extract Output.7z
-      run: |        
-            Invoke-WebRequest -Uri $url -OutFile "$env:USERPROFILE\Downloads\$($env:OUTPUT_FILE)"
-            7z x "$env:USERPROFILE\Downloads\$($env:OUTPUT_FILE)" -o"$env:USERPROFILE\Downloads\Output"
-
-    - name: Move Output.7z Files to Out
-      run: |        
-            $sourcePath = "$env:USERPROFILE\Downloads\Output"
-            $targetPath = "$(Get-Location)\Output"
-            if (-not (Test-Path $targetPath)) {
-                New-Item -ItemType Directory -Force -Path $targetPath
-            }
-            Copy-Item -Path "$sourcePath\*" -Destination $targetPath -Recurse -Force
-
-    - name: Restore NuGet packages
-      run: nuget restore
-
-    - name: Build Solution
-      run: dotnet build
-
-    - name: Zip Out Folder
-      run: |
-        Compress-Archive -Path $(Get-Location)\Out\* -DestinationPath $(Get-Location)\Out.zip
+                @"
+                namespace SinmaiAssist {
+                    public static partial class BuildInfo {
+                        public const string CommitHash = "$commitHash";
+                        public const string BuildDate = "$timestamp";
+                    }
+                }
+                "@ | Out-File -FilePath ".\BuildInfo.cs" -Encoding ascii
+                dotnet build
+                mkdir ".\Out\Mods\"
+                mkdir ".\Out\UserLibs\"
+                mkdir ".\Out\Sinmai-Assist\"
+                cmd /c copy /y ".\Output\Sinmai-Assist.dll" ".\Out\Mods\Sinmai-Assist.dll"
+                cmd /c copy /y ".\Output\YamlDotNet.dll" ".\Out\UserLibs\YamlDotNet.dll"
+                cmd /c copy /y ".\config - zh_CN.yml" ".\Out\Sinmai-Assist\config.yml"
+                Compress-Archive -Path "$(Get-Location)\Out\*" -DestinationPath "$(Get-Location)\Out.zip" -Update
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
