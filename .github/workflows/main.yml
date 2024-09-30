@@ -54,10 +54,9 @@ jobs:
                 cmd /c copy /y ".\Output\Sinmai-Assist.dll" ".\Out\Mods\Sinmai-Assist.dll"
                 cmd /c copy /y ".\Output\YamlDotNet.dll" ".\Out\UserLibs\YamlDotNet.dll"
                 cmd /c copy /y ".\config - zh_CN.yml" ".\Out\Sinmai-Assist\config.yml"
-                Compress-Archive -Path "$(Get-Location)\Out\*" -DestinationPath "$(Get-Location)\Out.zip" -Update
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: out-archive
-        path: Out.zip
+        name: artifact
+        path: \Out
