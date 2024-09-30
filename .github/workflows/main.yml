@@ -1,0 +1,98 @@
+name: Build and Test C# Project (Framework 4.7.2)
+
+on:
+  push:
+    branches: [ main ]  # 触发条件，当main分支有push时触发
+  pull_request:
+    branches: [ main ]  # 当向main分支发起pull request时也触发
+
+jobs:
+  build:
+
+    runs-on: windows-latest  # 使用Windows环境，因为.NET Framework在Windows上运行
+
+    env:
+      MELONLOADER_REPO: https://api.github.com/repos/LavaGang/MelonLoader/releases/latest
+      MELONLOADER_ASSET_NAME: MelonLoader.x64.zip
+      OUTPUT_URL: ${{ secrets.OUTPUT_URL }}
+      OUTPUT_FILE: Output.7z
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install 7-Zip
+      run: |
+        choco install 7zip.install -y
+
+    - name: Get Latest MelonLoader Release
+      id: get_latest_release
+      run: |
+        $response = Invoke-RestMethod -Uri $env:MELONLOADER_REPO
+        $latestReleaseAssets = $response.assets
+        foreach ($asset in $latestReleaseAssets) {
+          if ($asset.name -eq $env:MELONLOADER_ASSET_NAME) {
+            $latestAssetUrl = $asset.browser_download_url
+            break
+          }
+        }
+        if (-not $latestAssetUrl) {
+          Write-Host "Could not find the asset '$env:MELONLOADER_ASSET_NAME'"
+          exit 1
+        }
+        echo "::set-output name=latest_asset_url::$latestAssetUrl"
+
+    - name: Download MelonLoader
+      run: |
+        $latestAssetUrl = ${{ steps.get_latest_release.outputs.latest_asset_url }}
+        $outputPath = "$env:USERPROFILE\Downloads\MelonLoader.x64.zip"
+        Invoke-WebRequest -Uri $latestAssetUrl -OutFile $outputPath
+
+    - name: Extract MelonLoader
+      run: |
+        $archivePath = "$env:USERPROFILE\Downloads\MelonLoader.x64.zip"
+        7z x $archivePath -o"$env:USERPROFILE\Downloads\Output"
+
+    - name: Move Extracted Files to Out
+      run: |
+        $sourcePath = "$env:USERPROFILE\Downloads\Output"
+        $targetPath = "$(Get-Location)\Out"
+        if (-not (Test-Path $targetPath)) {
+            New-Item -ItemType Directory -Force -Path $targetPath
+        }
+        Copy-Item -Path "$sourcePath\*" -Destination $targetPath -Recurse -Force
+
+    - name: Download and Extract Output.7z
+      run: |
+        $url = $env:OUTPUT_URL
+        $outputPath = "$env:USERPROFILE\Downloads\$($env:OUTPUT_FILE)"
+        Invoke-WebRequest -Uri $url -OutFile $outputPath
+        7z x $outputPath -o"$env:USERPROFILE\Downloads\Output"
+
+    - name: Move Output.7z Files to Output
+      run: |
+        $sourcePath = "$env:USERPROFILE\Downloads\Output"
+        $targetPath = "$(Get-Location)\Output"
+        if (-not (Test-Path $targetPath)) {
+            New-Item -ItemType Directory -Force -Path $targetPath
+        }
+        Copy-Item -Path "$sourcePath\*" -Destination $targetPath -Recurse -Force
+
+    - name: Restore NuGet packages
+      run: nuget restore
+
+    - name: Build Solution
+      run: dotnet build your_solution_name.sln
+
+    - name: Run Tests
+      run: dotnet vstest your_test_project_name.dll  # 假设你使用的是Visual Studio Test Platform
+
+    - name: Zip Out Folder
+      run: |
+        Compress-Archive -Path $(Get-Location)\Out\* -DestinationPath $(Get-Location)\Out.zip
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: out-archive
+        path: Out.zip
