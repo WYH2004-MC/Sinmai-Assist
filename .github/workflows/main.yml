@@ -25,10 +25,10 @@ jobs:
     - name: Install 7-Zip
       run: |
         choco install 7zip.install -y
-        
+  
     - name: Get Latest MelonLoader Release
       id: get_latest_release
-      run: | 
+      run: |        
         $response = Invoke-RestMethod -Uri $env:MELONLOADER_REPO
         $latestReleaseAssets = $response.assets
         foreach ($asset in $latestReleaseAssets) {
@@ -47,7 +47,7 @@ jobs:
       run: |        
         $latestAssetUrl = ${{ steps.get_latest_release.outputs.latest_asset_url }}
         $outputPath = "$env:USERPROFILE\Downloads\MelonLoader.x64.zip"
-        Invoke-WebRequest -Uri $latestAssetUrl -OutFile $outputPath
+        wget --quiet --output-document=$outputPath $latestAssetUrl
 
     - name: Extract MelonLoader
       run: |        
@@ -67,7 +67,7 @@ jobs:
       run: |        
         $url = $env:OUTPUT_URL
         $outputPath = "$env:USERPROFILE\Downloads\$($env:OUTPUT_FILE)"
-        Invoke-WebRequest -Uri $url -OutFile $outputPath
+        wget --quiet --output-document=$outputPath $url
         7z x $outputPath -o"$env:USERPROFILE\Downloads\Output"
 
     - name: Move Output.7z Files to Out
@@ -78,7 +78,6 @@ jobs:
             New-Item -ItemType Directory -Force -Path $targetPath
         }
         Copy-Item -Path "$sourcePath\*" -Destination $targetPath -Recurse -Force
-
 
     - name: Restore NuGet packages
       run: nuget restore
