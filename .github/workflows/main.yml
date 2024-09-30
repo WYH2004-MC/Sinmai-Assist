@@ -25,34 +25,15 @@ jobs:
     - name: Install 7-Zip
       run: |
         choco install 7zip.install -y
-  
-    - name: Get Latest MelonLoader Release
-      id: get_latest_release
-      run: |        
-        $response = Invoke-RestMethod -Uri $env:MELONLOADER_REPO
-        $latestReleaseAssets = $response.assets
-        foreach ($asset in $latestReleaseAssets) {
-          if ($asset.name -eq $env:MELONLOADER_ASSET_NAME) {
-            $latestAssetUrl = $asset.browser_download_url
-            break
-          }
-        }
-        if (-not $latestAssetUrl) {
-          Write-Host "Could not find the asset '$env:MELONLOADER_ASSET_NAME'"
-          exit 1
-        }
-        echo "::set-output name=latest_asset_url::$latestAssetUrl"
 
     - name: Download MelonLoader
       run: |        
-            $latestAssetUrl = ${{ steps.get_latest_release.outputs.latest_asset_url }}
-            $outputPath = "$env:USERPROFILE\Downloads\MelonLoader.x64.zip"
-            wget --quiet --output-document=$outputPath $latestAssetUrl
+            wget --quiet --output-document="$env:USERPROFILE\Downloads\MelonLoader.x64.zip" https://github.com/LavaGang/MelonLoader/releases/download/v0.6.5/MelonLoader.x64.zip
 
     - name: Extract MelonLoader
       run: |        
             $archivePath = "$env:USERPROFILE\Downloads\MelonLoader.x64.zip"
-            7z x $archivePath -o"$env:USERPROFILE\Downloads\Output"
+            7z x $archivePath -o"$env:USERPROFILE\Downloads\Out"
 
     - name: Move Extracted Files to Out
       run: |        
@@ -73,7 +54,7 @@ jobs:
     - name: Move Output.7z Files to Out
       run: |        
             $sourcePath = "$env:USERPROFILE\Downloads\Output"
-            $targetPath = "$(Get-Location)\Out"
+            $targetPath = "$(Get-Location)\Output"
             if (-not (Test-Path $targetPath)) {
                 New-Item -ItemType Directory -Force -Path $targetPath
             }
