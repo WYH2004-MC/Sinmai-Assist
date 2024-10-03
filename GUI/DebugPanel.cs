@@ -1,4 +1,5 @@
 ﻿using System;
+using MAI2.Util;
 using Manager;
 using SinmaiAssist.Utils;
 using UnityEngine;
@@ -33,6 +34,11 @@ public class DebugPanel
         if (GUILayout.Button("Save P1 Option To DefaultOption")) Common.ChangeDefaultOption.SaveOptionFile(0L);
         if (GUILayout.Button("Save P2 Option To DefaultOption")) Common.ChangeDefaultOption.SaveOptionFile(1L);
         if (GUILayout.Button("↑ ↓ ↑ ↓")) SoundManager.PlaySE(Mai2.Mai2Cue.Cue.SE_ENTRY_AIME_ERROR, 1);
+        if (GUILayout.Button("Export Backup Data"))
+        {
+            User.ExportBackupData(0);
+            User.ExportBackupData(1);
+        }
         GUILayout.Label($"GUI Toggle", MiddleStyle);
         if (GUILayout.Button("Toggle Show Info")) SinmaiAssist.config.ModSetting.ShowInfo = !SinmaiAssist.config.ModSetting.ShowInfo;
         if (GUILayout.Button("Toggle Show FPS")) SinmaiAssist.config.Common.ShowFPS = !SinmaiAssist.config.Common.ShowFPS;

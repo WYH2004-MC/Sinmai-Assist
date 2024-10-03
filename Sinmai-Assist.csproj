@@ -513,6 +513,7 @@
     <Compile Include="Utils\GetUserId.cs" />
     <Compile Include="Utils\Keyboard.cs" />
     <Compile Include="Utils\Server.cs" />
+    <Compile Include="Utils\User.cs" />
     <Compile Include="Utils\UserLogout.cs" />
   </ItemGroup>
   <ItemGroup>

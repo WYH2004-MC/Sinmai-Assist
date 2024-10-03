@@ -16,7 +16,7 @@ public class MainGUI
         Debug
     }
     
-    private const float PanelWidth = 320f;
+    private const float PanelWidth = 300f;
     private const int ButtonsPerRow = 3;
     
     private Rect _panelWindow;
@@ -58,7 +58,7 @@ public class MainGUI
         GUILayout.BeginVertical($"{BuildInfo.Name} {BuildInfo.Version} ({BuildInfo.CommitHash??"NOT SET"})", GUILayout.Height(20f));
         ToolBarPanel();
         GUILayout.EndVertical();
-        GUILayout.BeginVertical(GUILayout.Width(PanelWidth), GUILayout.Height(300f));
+        GUILayout.BeginVertical(GUILayout.Width(PanelWidth), GUILayout.Height(330f));
         if (_toolbar == Toolbar.AutoPlay && SinmaiAssist.config.Cheat.AutoPlay) AutoPlayPanel.OnGUI();
         else if (_toolbar == Toolbar.FastSkip && SinmaiAssist.config.Cheat.FastSkip) FastSkipPanel.OnGUI();
         else if (_toolbar == Toolbar.ChartTimer && SinmaiAssist.config.Cheat.ChartTimer) ChartTimerPanel.OnGUI();
