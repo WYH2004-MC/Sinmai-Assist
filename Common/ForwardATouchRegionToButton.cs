@@ -1,15 +1,27 @@
 ﻿using HarmonyLib;
 using Manager;
+using Process;
 using static Manager.InputManager;
 
 namespace SinmaiAssist.Common;
 
 public class ForwardATouchRegionToButton
 {
+    private static bool IsPlaying = false;
+    
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(GameProcess),"OnUpdate")]
+    public static void OnUpdate(GameProcess __instance)
+    {
+        NotesManager notesManager = new NotesManager();
+        IsPlaying = notesManager.IsPlaying();
+    }
+        
     [HarmonyPostfix]
     [HarmonyPatch(typeof(Manager.InputManager), "GetButtonDown")]
     public static void GetButtonDown(ref bool __result, int monitorId, ButtonSetting button)
     {
+        if (IsPlaying) return;
         if (__result) return;
         if (button.ToString().StartsWith("Button"))
         {
@@ -25,6 +37,7 @@ public class ForwardATouchRegionToButton
     [HarmonyPatch(typeof(Manager.InputManager), "GetButtonPush")]
     public static void GetButtonPush(ref bool __result, int monitorId, ButtonSetting button)
     {
+        if (IsPlaying) return;
         if (__result) return;
         if (button.ToString().StartsWith("Button")) __result = GetTouchPanelAreaPush(monitorId, (TouchPanelArea)button);
     }
@@ -33,6 +46,7 @@ public class ForwardATouchRegionToButton
     [HarmonyPatch(typeof(Manager.InputManager), "GetButtonLongPush")]
     public static void GetButtonLongPush(ref bool __result, int monitorId, ButtonSetting button, long msec)
     {
+        if (IsPlaying) return;
         if (__result) return;
         if (button.ToString().StartsWith("Button")) __result = GetTouchPanelAreaLongPush(monitorId, (TouchPanelArea)button, msec);
     }
