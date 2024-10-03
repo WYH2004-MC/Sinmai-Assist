@@ -11,6 +11,7 @@ using MelonLoader;
 [assembly: AssemblyFileVersion(SinmaiAssist.BuildInfo.Version)]
 [assembly: MelonInfo(typeof(SinmaiAssist.SinmaiAssist), SinmaiAssist.BuildInfo.Name, SinmaiAssist.BuildInfo.Version, SinmaiAssist.BuildInfo.Author, SinmaiAssist.BuildInfo.DownloadLink)]
 [assembly: MelonColor()]
+[assembly: MelonOptionalDependencies( "ChimeLib.NET")]
 
 // Create and Setup a MelonGame Attribute to mark a Melon as Universal or Compatible with specific Games.
 // If no MelonGame Attribute is found or any of the Values for any MelonGame Attribute on the Melon is null or empty it will be assumed the Melon is Universal.
