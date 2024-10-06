@@ -138,12 +138,14 @@ namespace SinmaiAssist
 
             // Common
             if (config.Common.InfinityTimer) Patch(typeof(InfinityTimer));
+            if (config.Common.DisableBackground) Patch(typeof(DisableBackground));
             if (config.Common.DisableMask) Patch(typeof(DisableMask));
             if (config.Common.SinglePlayer.Enable) Patch(typeof(SinglePlayer));
             if (config.Common.ForwardATouchRegionToButton) Patch(typeof(ForwardATouchRegionToButton));
             if (config.Common.QuickBoot) Patch(typeof(QuickBoot));
             if (config.Common.BlockCoin) Patch(typeof(BlockCoin));
             if (config.Common.SkipWarningScreen) Patch(typeof(SkipWarningScreen));
+            if (config.Common.SkipFade) Patch(typeof(SkipFade));
             if (config.Common.NetworkLogger.Enable) Patch(typeof(NetworkLogger));
             if (config.Common.CustomVersionText.Enable) Patch(typeof(CustomVersionText));
             if (config.Common.IgnoreAnyGameInformation) Patch(typeof(IgnoreAnyGameInformation));

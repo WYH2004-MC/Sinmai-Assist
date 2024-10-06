@@ -7,11 +7,13 @@
 common:
   infinityTimer: false #无限计时器
   disableMask: false #禁用遮罩
+  disableBackground: false #禁用背景
   showFPS: false #显示FPS
   singlePlayer: #单人模式
     enable: false # 是否启用
     hideSubMonitor: false # 隐藏副屏
   forwardATouchRegionToButton: false #将触摸区域的操作转发到按钮
+  skipFade: false #跳过过场动画
   skipWarningScreen: false #跳过警告界面
   quickBoot: false #快速启动
   blockCoin: false #禁用点数消耗

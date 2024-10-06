@@ -63,8 +63,10 @@ namespace SinmaiAssist
     {
         public bool InfinityTimer { get; set; }
         public bool DisableMask { get; set; }
+        public bool DisableBackground { get; set; }
         public bool ShowFPS { get; set; }
         public bool ForwardATouchRegionToButton { get; set; }
+        public bool SkipFade { get; set; }
         public bool SkipWarningScreen { get; set; }
         public bool QuickBoot { get; set; }
         public bool BlockCoin { get; set; }

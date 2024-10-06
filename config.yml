@@ -7,11 +7,13 @@
 common:
   infinityTimer: false
   disableMask: false
+  disableBackground: false
   showFPS: false
   singlePlayer: 
     enable: false
     hideSubMonitor: false
   forwardATouchRegionToButton: false
+  skipFade: false
   skipWarningScreen: false
   quickBoot: false
   blockCoin: false
