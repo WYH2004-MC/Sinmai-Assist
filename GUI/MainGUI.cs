@@ -12,6 +12,7 @@ public class MainGUI
         FastSkip,
         ChartTimer,
         DummyLogin,
+        UserData,
         Graphic,
         Debug
     }
@@ -63,6 +64,7 @@ public class MainGUI
         else if (_toolbar == Toolbar.FastSkip && SinmaiAssist.config.Cheat.FastSkip) FastSkipPanel.OnGUI();
         else if (_toolbar == Toolbar.ChartTimer && SinmaiAssist.config.Cheat.ChartTimer) ChartTimerPanel.OnGUI();
         else if (_toolbar == Toolbar.DummyLogin && SinmaiAssist.config.Common.DummyLogin.Enable) DummyLoginPanel.OnGUI();
+        else if (_toolbar == Toolbar.UserData) UserDataPanel.OnGUI();
         else if (_toolbar == Toolbar.Graphic) GraphicPanel.OnGUI();
         else if (_toolbar == Toolbar.Debug) DebugPanel.OnGUI();
         else DisablePanel();

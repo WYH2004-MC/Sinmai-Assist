@@ -87,5 +87,8 @@ public class User
         return list;
     }
     
-    
+    public static UserData GetUserData(long index)
+    {
+        return Singleton<UserDataManager>.Instance.GetUserData(index);
+    }
 }

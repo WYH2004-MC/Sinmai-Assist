@@ -476,7 +476,7 @@
     <Compile Include="Common\ChangeDefaultOption.cs" />
     <Compile Include="Common\ChangeFadeStyle.cs" />
     <Compile Include="Common\CustomVersionText.cs" />
-    <Compile Include="Common\DisableBackgroud.cs" />
+    <Compile Include="Common\DisableBackground.cs" />
     <Compile Include="Common\SkipFade.cs" />
     <Compile Include="Common\DisableMask.cs" />
     <Compile Include="Common\DummyAimeLogin.cs" />
@@ -506,6 +506,7 @@
     <Compile Include="GUI\MainGUI.cs" />
     <Compile Include="GUI\ShowVersionInfo.cs" />
     <Compile Include="GUI\Style.cs" />
+    <Compile Include="GUI\UserDataPanel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="SDGB\CustomCameraId.cs" />
