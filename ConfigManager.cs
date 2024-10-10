@@ -65,6 +65,7 @@ namespace SinmaiAssist
         public bool DisableMask { get; set; }
         public bool DisableBackground { get; set; }
         public bool ShowFPS { get; set; }
+        public bool ForceQuickRetry { get; set; }
         public bool ForwardATouchRegionToButton { get; set; }
         public bool SkipFade { get; set; }
         public bool SkipWarningScreen { get; set; }

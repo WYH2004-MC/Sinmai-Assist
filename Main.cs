@@ -141,6 +141,7 @@ namespace SinmaiAssist
             if (config.Common.DisableBackground) Patch(typeof(DisableBackground));
             if (config.Common.DisableMask) Patch(typeof(DisableMask));
             if (config.Common.SinglePlayer.Enable) Patch(typeof(SinglePlayer));
+            if (config.Common.ForceQuickRetry) Patch(typeof(ForceQuickRetry));
             if (config.Common.ForwardATouchRegionToButton) Patch(typeof(ForwardATouchRegionToButton));
             if (config.Common.QuickBoot) Patch(typeof(QuickBoot));
             if (config.Common.BlockCoin) Patch(typeof(BlockCoin));

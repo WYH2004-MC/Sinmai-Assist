@@ -12,6 +12,7 @@ common:
   singlePlayer: #单人模式
     enable: false # 是否启用
     hideSubMonitor: false # 隐藏副屏
+  forceQuickRetry: false #强制开启Freedom模式的快速重试功能
   forwardATouchRegionToButton: false #将触摸区域的操作转发到按钮
   skipFade: false #跳过过场动画
   skipWarningScreen: false #跳过警告界面

@@ -12,6 +12,7 @@ common:
   singlePlayer: 
     enable: false
     hideSubMonitor: false
+  forceQuickRetry: false
   forwardATouchRegionToButton: false
   skipFade: false
   skipWarningScreen: false
