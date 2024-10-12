@@ -18,7 +18,7 @@ public class GameMessageManager
         manager = genericManager;
     }
 
-    public static void SendGameMessage(string message)
+    public static void SendGameMessage(string message, WindowPositionID positionID = WindowPositionID.Middle)
     {
         try
         {
@@ -28,10 +28,11 @@ public class GameMessageManager
                 text = message,
                 replaceText = true,
                 changeSize = true,
-                sizeID = WindowSizeID.Middle
+                sizeID = WindowSizeID.Middle,
+                positionID = positionID
             };
-            manager.Enqueue(0, WindowMessageID.CollectionAttentionEmptyFavorite, param);
-            manager.Enqueue(1, WindowMessageID.CollectionAttentionEmptyFavorite, param);
+            manager.Enqueue(0, WindowMessageID.CollectionAttentionEmptyFavorite, positionID, param);
+            manager.Enqueue(1, WindowMessageID.CollectionAttentionEmptyFavorite, positionID, param);
         }
         catch (Exception e)
         {
@@ -39,7 +40,7 @@ public class GameMessageManager
         }
     }
 
-    public static void SendGameMessage(string message, int monitorId)
+    public static void SendGameMessage(string message, int monitorId, WindowPositionID positionID = WindowPositionID.Middle)
     {
         try
         {
@@ -49,9 +50,10 @@ public class GameMessageManager
                 text = message,
                 replaceText = true,
                 changeSize = true,
-                sizeID = WindowSizeID.Middle
+                sizeID = WindowSizeID.Middle,
+                positionID = positionID
             };
-            manager.Enqueue(monitorId, WindowMessageID.CollectionAttentionEmptyFavorite, param);
+            manager.Enqueue(monitorId, WindowMessageID.CollectionAttentionEmptyFavorite, positionID, param);
         }
         catch (Exception e)
         {
