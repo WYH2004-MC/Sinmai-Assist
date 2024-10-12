@@ -1,10 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using MAI2.Util;
+using MAI2System;
 using Manager;
 using MelonLoader.TinyJSON;
 using Net.VO.Mai2;
+using Path = System.IO.Path;
 
 namespace SinmaiAssist.Utils;
 
@@ -86,11 +89,23 @@ public class User
         list += "}]";
         return list;
     }
-    
+
     public static UserData GetUserData(long index)
     {
         return Singleton<UserDataManager>.Instance.GetUserData(index);
     }
+
+    public static string GetUserIdString(long index)
+    {
+        // 通过方法调用来获取常量值
+        var guestUserIdBase = GetGuestUserIDBase();
+        var userId = Singleton<UserDataManager>.Instance.GetUserData(index).Detail.UserID;
+        return userId == guestUserIdBase ? "Guest" : userId.ToString();
+    }
     
-    
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static ulong GetGuestUserIDBase()
+    {
+        return ConstParameter.GuestUserIDBase;
+    }
 }
