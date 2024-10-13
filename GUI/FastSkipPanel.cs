@@ -10,7 +10,7 @@ public class FastSkipPanel
     public static void OnGUI()
     {
         FastSkip.SkipButton = false;
-        GUILayout.Label($"Skip Mode: {(FastSkip.CustomSkip ? "Custom" : "Default")}");
+        GUILayout.Label($"Skip Mode: {(FastSkip.CustomSkip ? "Custom" : "Default")}", MainGUI.Style.Text);
         if (GUILayout.Button("Skip", new GUIStyle(UnityEngine.GUI.skin.button){ fontSize=20 }, GUILayout.Height(45f))) FastSkip.SkipButton = true;
         GUILayout.Label($"Mode Setting", MainGUI.Style.Title);
         if (GUILayout.Button("Default")) FastSkip.CustomSkip = false;
@@ -18,14 +18,14 @@ public class FastSkipPanel
         if (FastSkip.CustomSkip)
         {
             GUILayout.Label($"Custom Setting", MainGUI.Style.Title);
-            GUILayout.Label($"Custom Score(0 - 101): ");
+            GUILayout.Label($"Custom Score(0 - 101): ", MainGUI.Style.Text);
             _scoreInput = GUILayout.TextField(_scoreInput);
             if (int.TryParse(_scoreInput, out int scoreValue))
             {
                 if (scoreValue >= 0f && scoreValue <= 101f)
                 {
                     FastSkip.CustomAchivement = scoreValue;
-                    GUILayout.Label($"Custom Score: {scoreValue} %");
+                    GUILayout.Label($"Custom Score: {scoreValue} %", MainGUI.Style.Text);
                 }
                 else
                 {

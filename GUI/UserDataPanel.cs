@@ -27,7 +27,7 @@ public class UserDataPanel
     
     public static void OnGUI()
     {
-        GUILayout.Label($"User Info:");
+        GUILayout.Label($"User Info", MainGUI.Style.Title);
         try
         {
             _player1 = Singleton<UserDataManager>.Instance.GetUserData(0);
@@ -37,15 +37,15 @@ public class UserDataPanel
         {
             // ignore
         }
-        GUILayout.Label($"1P: {_player1.Detail.UserName} ({_player1.Detail.UserID})");
-        GUILayout.Label($"2P: {_player2.Detail.UserName} ({_player2.Detail.UserID})");
+        GUILayout.Label($"1P: {_player1.Detail.UserName} ({_player1.Detail.UserID})", MainGUI.Style.Text);
+        GUILayout.Label($"2P: {_player2.Detail.UserName} ({_player2.Detail.UserID})", MainGUI.Style.Text);
         
         GUILayout.Label("Add Collections", MainGUI.Style.Title);
         foreach (CollectionType type in Enum.GetValues(typeof(CollectionType)))
         {
             GUILayout.BeginHorizontal();
             int typeId = (int)type;
-            GUILayout.Label(type.ToString(), new GUIStyle(UnityEngine.GUI.skin.label){fixedWidth = 50});
+            GUILayout.Label(type.ToString(), new GUIStyle(MainGUI.Style.Text){fixedWidth = 50});
             _userInputId[typeId] = GUILayout.TextField(_userInputId[typeId]);
             if (GUILayout.Button("Add", new GUIStyle(UnityEngine.GUI.skin.button){ fixedWidth = 50}))
             {
@@ -57,7 +57,7 @@ public class UserDataPanel
         
         GUILayout.Label("Unlock Music", MainGUI.Style.Title);
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Music", new GUIStyle(UnityEngine.GUI.skin.label){fixedWidth = 50});
+        GUILayout.Label("Music", new GUIStyle(MainGUI.Style.Text){fixedWidth = 50});
         _userInputId[0] = GUILayout.TextField(_userInputId[0]);
         if (GUILayout.Button("Add", new GUIStyle(UnityEngine.GUI.skin.button){ fixedWidth = 50}))
         {

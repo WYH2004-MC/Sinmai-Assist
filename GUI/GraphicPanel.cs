@@ -16,15 +16,15 @@ public class GraphicPanel
         GUILayout.Label($"Custom Graphic Settings", MainGUI.Style.Title);
         GUILayout.BeginHorizontal();
         GUILayout.BeginVertical();
-        GUILayout.Label($"Width:");
+        GUILayout.Label($"Width:", MainGUI.Style.Text);
         screenWidth = GUILayout.TextField(screenWidth);
         GUILayout.EndVertical();
         GUILayout.BeginVertical();
-        GUILayout.Label($"Height:");
+        GUILayout.Label($"Height:", MainGUI.Style.Text);
         screenHeight = GUILayout.TextField(screenHeight);
         GUILayout.EndVertical();
         GUILayout.BeginVertical();
-        GUILayout.Label($"Max FPS (Unlimited is -1):");
+        GUILayout.Label($"Max FPS (Unlimited is -1):", MainGUI.Style.Text);
         frameRate = GUILayout.TextField(frameRate);
         GUILayout.EndVertical();
         GUILayout.EndHorizontal();

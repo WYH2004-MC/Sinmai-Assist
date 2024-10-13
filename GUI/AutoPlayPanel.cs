@@ -7,7 +7,7 @@ public class AutoPlayPanel
 {
     public static void OnGUI()
     {
-        GUILayout.Label($"Mode: {AutoPlay.autoPlayMode}");
+        GUILayout.Label($"Mode: {AutoPlay.autoPlayMode}", MainGUI.Style.Text);
         AutoPlay.DisableUpdate = GUILayout.Toggle(AutoPlay.DisableUpdate, "Disable Mode Update");
         if (GUILayout.Button("Critical (AP+)")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.Critical;
         if (GUILayout.Button("Perfect")) AutoPlay.autoPlayMode = AutoPlay.AutoPlayMode.Perfect;

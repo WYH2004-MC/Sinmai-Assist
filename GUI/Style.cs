@@ -22,4 +22,16 @@ public class Style
     {
         normal = new GUIStyleState() { textColor = Color.red }
     };
+
+    public GUIStyle Text
+    {
+        get
+        {
+            return new GUIStyle(UnityEngine.GUI.skin.label)
+            {
+                fontSize = 12,
+                alignment = TextAnchor.MiddleLeft
+            };
+        }
+    }
 }
