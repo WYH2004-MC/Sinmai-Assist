@@ -18,8 +18,10 @@ public class FastSkipPanel
         if (FastSkip.CustomSkip)
         {
             GUILayout.Label($"Custom Setting", MainGUI.Style.Title);
+            GUILayout.BeginHorizontal();
             GUILayout.Label($"Custom Score(0 - 101): ", MainGUI.Style.Text);
             _scoreInput = GUILayout.TextField(_scoreInput);
+            GUILayout.EndHorizontal();
             if (int.TryParse(_scoreInput, out int scoreValue))
             {
                 if (scoreValue >= 0f && scoreValue <= 101f)
@@ -36,6 +38,7 @@ public class FastSkipPanel
             {
                 GUILayout.Label("Error: Please enter a valid int value.", MainGUI.Style.ErrorMessage);
             }
+            FastSkip.Force1Miss = GUILayout.Toggle(FastSkip.Force1Miss, "Force Add 1 miss");
         }
     }
 }

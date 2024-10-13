@@ -29,8 +29,11 @@ internal class FastSkip
 
     public static bool CustomSkip = false;
     public static bool SkipButton = false;
-    public static bool IsSkip = false;
+    public static bool Force1Miss = false;
     public static int CustomAchivement = 0;
+    
+    private static bool _isSkip = false;
+    private static bool _Miss = false;
 
     [HarmonyPostfix]
     [HarmonyPatch(typeof(GameProcess), "OnUpdate")]
@@ -47,10 +50,10 @@ internal class FastSkip
             ProcessDataContainer container = (ProcessDataContainer)containerField.GetValue(__instance);
             if (_sequence >= GameSequence.Play && _sequence < GameSequence.Release && !GameManager.IsNoteCheckMode)
             {
-                IsSkip = false;
+                _isSkip = false;
                 if (DebugInput.GetKeyDown(KeyCode.Space) || SkipButton)
                 {
-                    IsSkip = true;
+                    _isSkip = true;
                     GameMonitor[] monitors = (GameMonitor[])typeof(GameProcess).GetField("_monitors", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
                     if (CustomSkip)
                     {
@@ -92,7 +95,7 @@ internal class FastSkip
                             }
                         }
                     }
-                    if (IsSkip)
+                    if (_isSkip)
                     {
                         for (int i = 0; i < monitors.Length; i++)
                         {
@@ -122,6 +125,7 @@ internal class FastSkip
     public static bool SetForceAchivement(int achivement, int dxscore, GameScoreList __instance)
     {
         decimal num1 = achivement;
+        if (num1 >= 100.0m && num1 <= 100.4m) num1 = 100.3m;
         long num2;
         long num3;
         if (num1 > 100.0m)
@@ -169,6 +173,7 @@ internal class FastSkip
             if (!flag)
             {
                 __instance.SetResult(item.indexNote, NoteScore.EScoreType.Break, NoteJudge.ETiming.TooFast);
+                _Miss = true;
             }
         }
         int num4 = 0;
@@ -215,6 +220,7 @@ internal class FastSkip
                 else
                 {
                     __instance.SetResult(item2.indexNote, eScoreType2, NoteJudge.ETiming.TooFast);
+                    _Miss = true;
                 }
             }
         }
@@ -239,6 +245,7 @@ internal class FastSkip
                 else
                 {
                     __instance.SetResult(item3.indexNote, eScoreType3, NoteJudge.ETiming.TooFast);
+                    _Miss = true;
                 }
             }
         }
@@ -249,6 +256,12 @@ internal class FastSkip
                 NoteScore.EScoreType eScoreType4 = GamePlayManager.NoteType2ScoreType(item4.type.getEnum());
                 NoteJudge.ETiming eTiming6 = NoteArray[num4];
                 NoteJudge.ETiming eTiming7 = NoteArray[num5];
+                if (Force1Miss && !_Miss)
+                {
+                    __instance.SetResult(item4.indexNote, eScoreType4, NoteJudge.ETiming.TooFast);
+                    _Miss = true;
+                    continue;
+                }
                 if (0m < (decimal)num6 && 0m <= (decimal)(num2 - NoteScore.GetJudgeScore(eTiming7, eScoreType4)))
                 {
                     num6 -= NoteScore.GetJudgeScore(eTiming7, eScoreType4) - NoteScore.GetJudgeScore(eTiming6, eScoreType4);
@@ -268,6 +281,7 @@ internal class FastSkip
                 else
                 {
                     __instance.SetResult(item4.indexNote, eScoreType4, NoteJudge.ETiming.TooFast);
+                    _Miss = true;
                 }
             }
         }
