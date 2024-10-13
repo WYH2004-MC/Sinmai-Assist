@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Text.RegularExpressions;
 using AMDaemon;
@@ -26,7 +25,8 @@ public class DummyAimeLogin
         }
         else
         {
-            GameMessageManager.SendGameMessage("<color=\"red\">Failed to read Aime!");
+            GameMessageManager.SendMessage(0,"<color=\"red\">Failed to read Aime!");
+            GameMessageManager.SendMessage(1,"<color=\"red\">Failed to read Aime!");
             SoundManager.PlaySE(Cue.SE_ENTRY_AIME_ERROR, 1);
         }
     }

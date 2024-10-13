@@ -18,7 +18,7 @@ public class User
         UserData userData = Singleton<UserDataManager>.Instance.GetUserData(index);
         if (userData.IsGuest())
         {
-            GameMessageManager.SendGameMessage("Guest Account\nUnable to export backup", (int)index);
+            GameMessageManager.SendMessage((int)index,"Guest Account\nUnable to export backup");
             return;
         }
         string path = $"{BuildInfo.Name}/UserBackup";
@@ -42,7 +42,7 @@ public class User
             Directory.CreateDirectory(path);
         }
         File.WriteAllText(Path.Combine(path, $"User{userData.Detail.UserID}-{timestamp}.json"), userDataJson);
-        GameMessageManager.SendGameMessage($"Export Backup Data:\nUser{userData.Detail.UserID}-{timestamp}.json", (int)index);
+        GameMessageManager.SendMessage((int)index,$"Export Backup Data:\nUser{userData.Detail.UserID}-{timestamp}.json");
     }
 
     public static string GetCharacterList(UserData userData)

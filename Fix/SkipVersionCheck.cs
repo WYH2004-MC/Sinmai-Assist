@@ -19,10 +19,11 @@ public class SkipVersionCheck
         lastRomVersion.tryParse(vo.lastRomVersion, true);
         lastDataVersion.tryParse(vo.lastDataVersion, true);
 
-        GameMessageManager.SendGameMessage($"Account Version:\n" +
-                                           $"RomVersion: {lastRomVersion.versionString}\n" +
-                                           $"DataVersion: {lastDataVersion.versionString}"
-                                           ,WindowPositionID.Upper);
+        GameMessageManager.SendMessage(0,
+                                    $"RomVersion: {lastRomVersion.versionString}\n" +
+                                            $"DataVersion: {lastDataVersion.versionString}"
+                                           ,"Account Version"
+                                           , WindowPositionID.Upper);
         __result = true;
         return false;
     }

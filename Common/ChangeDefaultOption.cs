@@ -87,6 +87,6 @@ public class ChangeDefaultOption
             File.Delete(OptionFilePath);
         }
         File.WriteAllText(OptionFilePath, optionYaml);
-        GameMessageManager.SendGameMessage($"User Option File Saved", (int)index);
+        GameMessageManager.SendMessage((int)index,$"User Option File Saved");
     }
 }

@@ -79,7 +79,7 @@ public class UserDataPanel
         UserData userData = Singleton<UserDataManager>.Instance.GetUserData(index);
         if (userData.IsGuest())
         {
-            GameMessageManager.SendGameMessage("Guest Account\nUnable to add collections", (int)index);
+            GameMessageManager.SendMessage((int)index,"Guest Account\nUnable to add collections");
             return;
         }
         try
@@ -88,21 +88,21 @@ public class UserDataPanel
             {
                 if (userData.AddCollections((UserData.Collection)type, id))
                 {
-                    GameMessageManager.SendGameMessage($"Add Collections \n{type} {id}", (int)index);
+                    GameMessageManager.SendMessage((int)index,$"Add Collections \n{type} {id}");
                 }
                 else
                 {
-                    GameMessageManager.SendGameMessage($"Failed to add Collections \n{type} {id}", (int)index);
+                    GameMessageManager.SendMessage((int)index,$"Failed to add Collections \n{type} {id}");
                 }
             }
             else
             {
-                GameMessageManager.SendGameMessage($"Invalid ID\n {input}", (int)index);
+                GameMessageManager.SendMessage((int)index,$"Invalid ID\n {input}");
             }
         }
         catch (Exception e)
         {
-            GameMessageManager.SendGameMessage($"Unknown error", (int)index);
+            GameMessageManager.SendMessage((int)index,$"Unknown error");
             MelonLogger.Error(e);
         }
     }
@@ -112,7 +112,7 @@ public class UserDataPanel
         UserData userData = Singleton<UserDataManager>.Instance.GetUserData(index);
         if (userData.IsGuest())
         {
-            GameMessageManager.SendGameMessage("Guest Account\nUnable to unlock music", (int)index);
+            GameMessageManager.SendMessage((int)index,"Guest Account\nUnable to unlock music");
             return;
         }
         try
@@ -123,32 +123,32 @@ public class UserDataPanel
                 {
                     if (userData.AddUnlockMusic(UserData.MusicUnlock.Base, id))
                     {
-                        GameMessageManager.SendGameMessage($"Unlock Music \n{id}", (int)index);
+                        GameMessageManager.SendMessage((int)index,$"Unlock Music \n{id}");
                     }
                     else
                     {
-                        GameMessageManager.SendGameMessage($"Failed to unlock music \n{id}", (int)index);
+                        GameMessageManager.SendMessage((int)index,$"Failed to unlock music \n{id}");
                     }
                 }
                 else if(!userData.IsUnlockMusic(UserData.MusicUnlock.Master, id))
                 {
                     userData.AddUnlockMusic(UserData.MusicUnlock.Master, id);
                     userData.AddUnlockMusic(UserData.MusicUnlock.ReMaster, id);
-                    GameMessageManager.SendGameMessage($"Unlock Master \n{id}", (int)index);
+                    GameMessageManager.SendMessage((int)index,$"Unlock Master \n{id}");
                 }
                 else
                 {
-                    GameMessageManager.SendGameMessage($"Music not found or already unlocked\n{id}", (int)index);
+                    GameMessageManager.SendMessage((int)index,$"Music not found or already unlocked\n{id}");
                 }
             }
             else
             {
-                GameMessageManager.SendGameMessage($"Invalid ID\n {input}", (int)index);
+                GameMessageManager.SendMessage((int)index,$"Invalid ID\n {input}");
             }
         }
         catch (Exception e)
         {
-            GameMessageManager.SendGameMessage($"Unknown error", (int)index);
+            GameMessageManager.SendMessage((int)index,$"Unknown error");
             MelonLogger.Error(e);
         }
     }

@@ -28,8 +28,8 @@ public class DebugPanel
         if (GUILayout.Button("TouchArea Display")) Common.InputManager.TouchAreaDisplayButton = true;
         if (GUILayout.Button("Send Test Message"))
         {
-            GameMessageManager.SendGameMessage("Hello World!\nMonitorId: 0", 0);
-            GameMessageManager.SendGameMessage("Hello World!\nMonitorId: 1", 1);
+            GameMessageManager.SendMessage(0,"Hello World!\nMonitorId: 0");
+            GameMessageManager.SendMessage(1,"Hello World!\nMonitorId: 1");
         }
         if (GUILayout.Button("Save P1 Option To DefaultOption")) Common.ChangeDefaultOption.SaveOptionFile(0L);
         if (GUILayout.Button("Save P2 Option To DefaultOption")) Common.ChangeDefaultOption.SaveOptionFile(1L);
