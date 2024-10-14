@@ -1,10 +1,4 @@
-﻿china:
-  customCameraId: #自定义相机ID
-    enable : false #是否启用
-    qrCameraId: 0 #扫描二维码相机ID
-    photoCameraId: 0 #拍照相机ID
- 
-common:
+﻿common:
   infinityTimer: false #无限计时器
   disableMask: false #禁用遮罩
   disableBackground: false #禁用背景
@@ -29,6 +23,12 @@ common:
   dummyLogin: # 虚拟登录
     enable: false #是否启用
     defaultUserId: 0 #默认用户ID
+  customCameraId: #自定义摄像头ID
+    enable: false #是否启用
+    chimeCameraId: 0 #Chime摄像头ID
+    leftQrCameraId: 0 #左侧二维码识别摄像头ID
+    rightQrCameraId: 0 #右侧二维码识别摄像头ID
+    photoCameraId: 0 #玩家摄像头ID
   changeFadeStyle: false # 切换过场动画的样式（例如BUDDiES开启此选项后会使用BUDDiES PLUS的过场动画，BUDDiES PLUS开启此选项后会使用BUDDiES的过场动画）
 
 cheat:

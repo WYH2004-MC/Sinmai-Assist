@@ -123,10 +123,9 @@ namespace SinmaiAssist
                 }
             }
             
-            // SDGB
-            if (config.China.CustomCameraId.Enable)
+            if (config.Common.CustomCameraId.Enable)
             {
-                if (config.Common.DummyLogin.Enable)
+                if (config.Common.DummyLogin.Enable && IsSDGB)
                 {
                     MelonLogger.Warning("DummyLogin enabled, CustomCameraId has been automatically disabled.");
                 }

@@ -19,7 +19,6 @@ namespace SinmaiAssist
         }
 
         // 提供公共属性访问
-        public ChinaConfig China => _config.China;
         public CommonConfig Common => _config.Common;
         public CheatConfig Cheat => _config.Cheat;
         public FixConfig Fix => _config.Fix;
@@ -34,18 +33,12 @@ namespace SinmaiAssist
 
     public class Config
     {
-        public ChinaConfig China { get; set; }
         public CommonConfig Common { get; set; }
         public CheatConfig Cheat { get; set; }
         public FixConfig Fix { get; set; }
         public ModSettingConfig ModSetting { get; set; }
     }
-
-    public class ChinaConfig
-    {
-        public CustomCameraIdConfig CustomCameraId { get; set; }
-    }
-
+    
     public class DummyLoginConfig
     {
         public bool Enable { get; set; }
@@ -55,7 +48,9 @@ namespace SinmaiAssist
     public class CustomCameraIdConfig
     {
         public bool Enable { get; set; }
-        public int QrCameraId { get; set; }
+        public int ChimeCameraId { get; set; }
+        public int LeftQrCameraId { get; set; }
+        public int RightQrCameraId { get; set; }
         public int PhotoCameraId { get; set; }
     }
 
@@ -78,7 +73,7 @@ namespace SinmaiAssist
         public NetworkLoggerConfig NetworkLogger { get; set; }
         public CustomVersionTextConfig CustomVersionText { get; set; }
         public DummyLoginConfig DummyLogin { get; set; }
-
+        public CustomCameraIdConfig CustomCameraId { get; set; }
     }
 
     public class SinglePlayerConfig

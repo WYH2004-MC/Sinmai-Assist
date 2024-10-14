@@ -1,10 +1,4 @@
-﻿china:
-  customCameraId: 
-    enable : false
-    qrCameraId: 0
-    photoCameraId: 0
- 
-common:
+﻿common:
   infinityTimer: false
   disableMask: false
   disableBackground: false
@@ -29,6 +23,12 @@ common:
   dummyLogin:
     enable: false
     defaultUserId: 0
+  customCameraId:
+    enable: false
+    chimeCameraId: 0
+    leftQrCameraId: 0
+    rightQrCameraId: 0
+    photoCameraId: 0
   changeFadeStyle: false
 
 cheat:

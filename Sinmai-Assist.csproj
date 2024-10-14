@@ -475,6 +475,7 @@
     <Compile Include="Common\BlockCoin.cs" />
     <Compile Include="Common\ChangeDefaultOption.cs" />
     <Compile Include="Common\ChangeFadeStyle.cs" />
+    <Compile Include="Common\CustomCameraId.cs" />
     <Compile Include="Common\CustomVersionText.cs" />
     <Compile Include="Common\DisableBackground.cs" />
     <Compile Include="Common\ForceQuickRetry.cs" />
@@ -510,7 +511,6 @@
     <Compile Include="GUI\UserDataPanel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="SDGB\CustomCameraId.cs" />
     <Compile Include="Utils\CipherAES.cs" />
     <Compile Include="Common\InputManager.cs" />
     <Compile Include="Utils\GameMessageManager.cs" />
