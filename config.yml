@@ -14,6 +14,7 @@
   blockCoin: false
   ignoreAnyGameInformation: false
   changeDefaultOption: false
+  changeFadeStyle: false
   networkLogger:
     enable: false
     printToConsole: false
@@ -29,7 +30,13 @@
     leftQrCameraId: 0
     rightQrCameraId: 0
     photoCameraId: 0
-  changeFadeStyle: false
+  changeGameSettings:
+    enable: false
+    codeRead: false
+    iconPhoto: false
+    uploadPhoto: false
+    charaSelect: false
+    
 
 cheat:
   autoPlay: false

@@ -1,62 +1,69 @@
 ﻿common:
-  infinityTimer: false #无限计时器
-  disableMask: false #禁用遮罩
-  disableBackground: false #禁用背景
-  showFPS: false #显示FPS
-  singlePlayer: #单人模式
+  infinityTimer: false # 无限计时器
+  disableMask: false # 禁用遮罩
+  disableBackground: false # 禁用背景
+  showFPS: false # 显示FPS
+  singlePlayer: # 单人模式
     enable: false # 是否启用
     hideSubMonitor: false # 隐藏副屏
-  forceQuickRetry: false #强制开启Freedom模式的快速重试功能
-  forwardATouchRegionToButton: false #将触摸区域的操作转发到按钮
-  skipFade: false #跳过过场动画
-  skipWarningScreen: false #跳过警告界面
-  quickBoot: false #快速启动
-  blockCoin: false #禁用点数消耗
+  forceQuickRetry: false # 强制开启Freedom模式的快速重试功能
+  forwardATouchRegionToButton: false # 将触摸区域的操作转发到按钮
+  skipFade: false # 跳过过场动画
+  skipWarningScreen: false # 跳过警告界面
+  quickBoot: false # 快速启动
+  blockCoin: false # 禁用点数消耗
   ignoreAnyGameInformation: false # 忽略之后所有的游戏公告信息提示
   changeDefaultOption: false # 覆写游客模式默认设置
-  networkLogger: #网络日志
-    enable: false #是否启用
-    printToConsole: false #是否输出到控制台
-  customVersionText: #自定义版本文本
-    enable: false #是否启用
-    versionText: "" #版本文本
-  dummyLogin: # 虚拟登录
-    enable: false #是否启用
-    defaultUserId: 0 #默认用户ID
-  customCameraId: #自定义摄像头ID
-    enable: false #是否启用
-    chimeCameraId: 0 #Chime摄像头ID
-    leftQrCameraId: 0 #左侧二维码识别摄像头ID
-    rightQrCameraId: 0 #右侧二维码识别摄像头ID
-    photoCameraId: 0 #玩家摄像头ID
   changeFadeStyle: false # 切换过场动画的样式（例如BUDDiES开启此选项后会使用BUDDiES PLUS的过场动画，BUDDiES PLUS开启此选项后会使用BUDDiES的过场动画）
+  networkLogger: # 网络日志
+    enable: false # 是否启用
+    printToConsole: false # 是否输出到控制台
+  customVersionText: # 自定义版本文本
+    enable: false # 是否启用
+    versionText: "" # 版本文本
+  dummyLogin: # 虚拟登录
+    enable: false # 是否启用
+    defaultUserId: 0 # 默认用户ID
+  customCameraId: # 自定义摄像头ID
+    enable: false # 是否启用
+    chimeCameraId: 0 # Chime摄像头ID
+    leftQrCameraId: 0 # 左侧二维码识别摄像头ID
+    rightQrCameraId: 0 # 右侧二维码识别摄像头ID
+    photoCameraId: 0 # 玩家摄像头ID
+  changeGameSettings: # 覆盖游戏的设置
+    enable: false # 是否启用
+    codeRead: false # 是否启用二维码识别(DX Pass)
+    iconPhoto: false # 是否启用拍摄头像功能
+    uploadPhoto: false # 是否启用拍摄纪念照上传
+    charaSelect: false # 是否启用角色选择界面
+
 
 cheat:
-  autoPlay: false #自动游玩 
-  fastSkip: false #快速跳过
-  chartTimer: false #铺面计时器(歌曲进度控制)
-  allCollection: false #解锁全部收藏品
-  unlockMusic: false #解锁全部歌曲
-  unlockMaster: false #解锁全部歌曲Master难度
-  unlockEvent: false #解锁全部活动
-  resetLoginBonusRecord: false #重置登录奖励记录
-  forceCurrentIsBest: false #强制当前游玩成绩为新成绩(可能会对Best50造成改动)
+  autoPlay: false # 自动游玩 
+  fastSkip: false # 快速跳过
+  chartTimer: false # 铺面计时器(歌曲进度控制)
+  allCollection: false # 解锁全部收藏品
+  unlockMusic: false # 解锁全部歌曲
+  unlockMaster: false # 解锁全部歌曲Master难度
+  unlockEvent: false # 解锁全部活动
+  resetLoginBonusRecord: false # 重置登录奖励记录
+  forceCurrentIsBest: false # 强制当前游玩成绩为新成绩(可能会对Best50造成改动)
   setAllCharacterAsSameAndLock: false # 设置5个相同的旅行伙伴并锁定设置（以队长为准）
   rewriteLoginBonusStamp: # 重写每日登录奖励记录
     enable: false # 是否启用
     point: 0 # 登录奖励点数
 
 fix:
-  disableEncryption: false #禁用加密
-  disableReboot: false #禁用自动重启
-  skipVersionCheck: false #登录时跳过版本检查
-  rewriteNoteJudgeTiming: #重写覆盖游戏音符判定 (如填10,则游戏内+1.0)
-    enable: false #是否启用
-    adjustTiming: 0.0 #音频延迟(单位:ms)
-    judgeTiming: 0.0 #判定延迟(单位:帧)
+  disableEncryption: false # 禁用加密
+  disableReboot: false # 禁用自动重启
+  skipVersionCheck: false # 登录时跳过版本检查
+  rewriteNoteJudgeTiming: # 重写覆盖游戏音符判定 (如填10,则游戏内+1.0)
+    enable: false # 是否启用
+    adjustTiming: 0.0 # 音频延迟(单位:ms)
+    judgeTiming: 0.0 # 判定延迟(单位:帧)
 
 modSetting:
-  showInfo: false #显示信息
-  showPanel: false #显示面板
-  forceIsChinaBuild: false #强制加载SDGB only的补丁
-  safeMode: false #启用安全模式
+  showInfo: false # 显示信息
+  showPanel: false # 显示面板
+  forceIsChinaBuild: false # 强制以SDGB版本的方式加载补丁
+  safeMode: false # 启用安全模式

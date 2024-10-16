@@ -151,6 +151,7 @@ namespace SinmaiAssist
             if (config.Common.IgnoreAnyGameInformation) Patch(typeof(IgnoreAnyGameInformation));
             if (config.Common.ChangeDefaultOption) Patch(typeof(ChangeDefaultOption));
             if (config.Common.ChangeFadeStyle) Patch(typeof(ChangeFadeStyle));
+            if (config.Common.ChangeGameSettings.Enable) Patch(typeof(ChangeGameSettings));
 
             //Fix
             if (config.Fix.DisableEncryption) Patch(typeof(DisableEncryption));

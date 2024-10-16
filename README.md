@@ -35,6 +35,7 @@ This is a cheat Mod, using by your own risk.
     - Skip Fade
     - Ignore Information
     - Change Default Option
+    - Change Game Settings
 - Fix
 	- Disable Encryption
 	- Disable Reboot

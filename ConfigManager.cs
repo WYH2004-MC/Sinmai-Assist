@@ -74,6 +74,7 @@ namespace SinmaiAssist
         public CustomVersionTextConfig CustomVersionText { get; set; }
         public DummyLoginConfig DummyLogin { get; set; }
         public CustomCameraIdConfig CustomCameraId { get; set; }
+        public ChangeGameSettingsConfig ChangeGameSettings { get; set; }
     }
 
     public class SinglePlayerConfig
@@ -92,6 +93,15 @@ namespace SinmaiAssist
     {
         public bool Enable { get; set; }
         public string VersionText { get; set; }
+    }
+
+    public class ChangeGameSettingsConfig
+    {
+        public bool Enable { get; set; }
+        public bool CodeRead { get; set; }
+        public bool IconPhoto { get; set; }
+        public bool UploadPhoto { get; set; }
+        public bool CharaSelect { get; set; }
     }
 
     public class CheatConfig
