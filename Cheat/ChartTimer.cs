@@ -88,7 +88,7 @@ public class ChartTimer
                         SoundManager.PauseMusic(false);
                         gameMovie.Pause(false);
                         NotesManager.Pause(false);
-                        //debugFeature.DebugTimeSkip(0);
+                        //TimeSkip(0);
                     }
                     IsPlaying = !IsPlaying;
                 }
@@ -128,7 +128,7 @@ public class ChartTimer
                         case Button.Reset:
                             Singleton<GamePlayManager>.Instance.SetQuickRetryFrag(flag: true);
                             break;
-                        case  Button.Back:
+                        case Button.Back:
                             int time = recordTime == 0 ? 999999 : (int)Timer - recordTime;
                             TimeSkip(-time);
                             TimeSkip(0);
