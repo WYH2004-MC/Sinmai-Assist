@@ -13,6 +13,7 @@ public class UserDataPanel
 {
     private static UserData _player1 = null;
     private static UserData _player2 = null;
+    private static bool _isNewItem = false;
     
     private enum CollectionType
     {
@@ -54,6 +55,7 @@ public class UserDataPanel
             }
             GUILayout.EndHorizontal();
         }
+        _isNewItem = GUILayout.Toggle(_isNewItem, "Is New Item");
         
         GUILayout.Label("Unlock Music", MainGUI.Style.Title);
         GUILayout.BeginHorizontal();
@@ -86,13 +88,13 @@ public class UserDataPanel
         {
             if (int.TryParse(input, out int id))
             {
-                if (userData.AddCollections((UserData.Collection)type, id))
+                if (userData.AddCollections((UserData.Collection)type, id, _isNewItem))
                 {
-                    GameMessageManager.SendMessage((int)index,$"Add Collections \n{type} {id}");
+                    GameMessageManager.SendMessage((int)index,$"Add Collections \n{type} {id}" + (_isNewItem ? " (New Item)" : "") );
                 }
                 else
                 {
-                    GameMessageManager.SendMessage((int)index,$"Failed to add Collections \n{type} {id}");
+                    GameMessageManager.SendMessage((int)index,$"Failed to add Collections or already added\n{type} {id}");
                 }
             }
             else
@@ -127,7 +129,7 @@ public class UserDataPanel
                     }
                     else
                     {
-                        GameMessageManager.SendMessage((int)index,$"Failed to unlock music \n{id}");
+                        GameMessageManager.SendMessage((int)index,$"Failed to unlock music or already unlocked \n{id}");
                     }
                 }
                 else if(!userData.IsUnlockMusic(UserData.MusicUnlock.Master, id))
@@ -138,7 +140,7 @@ public class UserDataPanel
                 }
                 else
                 {
-                    GameMessageManager.SendMessage((int)index,$"Music not found or already unlocked\n{id}");
+                    GameMessageManager.SendMessage((int)index,$"Failed to unlock Master or already unlocked\n{id}");
                 }
             }
             else
