@@ -1,48 +1,50 @@
 ﻿using HarmonyLib;
-using Net;
 using Net.Packet;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
-
 
 namespace SinmaiAssist.Fix;
 
 public class DisableEncryption
 {
     [HarmonyPrefix]
-    [HarmonyPatch(typeof(NetHttpClient), "CheckServerHash")]
-    public static bool CheckServerHash(ref bool __result)
-    {
-        __result = true;
-        return false;
-    }
-
-    [HarmonyPrefix]
-    [HarmonyPatch(typeof(Packet), "Obfuscator")]
-    private static bool PreObfuscator(string srcStr, ref string __result)
+    [HarmonyPatch(typeof(Packet), "Obfuscator", typeof(string))]
+    public static bool PreObfuscator(string srcStr, ref string __result)
     {
         __result = srcStr.Replace("MaimaiExp", "").Replace("MaimaiChn", "");
         return false;
     }
 
-    [HarmonyTargetMethods]
-    public static IEnumerable<MethodBase> TargetMethods()
+    [HarmonyPatch]
+    public class EncryptDecrypt
     {
-        yield return AccessTools.Method("Net.CipherAES:Encrypt");
-        yield return AccessTools.Method("Net.CipherAES:Decrypt");
-    }
+        public static IEnumerable<MethodBase> TargetMethods()
+        {
+            var methods = AccessTools.TypeByName("Net.CipherAES").GetMethods();
+            return
+            [
+                methods.FirstOrDefault(it => it.Name == "Encrypt" && it.IsPublic),
+                methods.FirstOrDefault(it => it.Name == "Decrypt" && it.IsPublic)
+            ];
+        }
 
-    [HarmonyPrefix]
-    public static bool Encrypt(byte[] data, ref byte[] __result)
-    {
-        __result = data;
-        return false;
-    }
-
-    [HarmonyPrefix]
-    public static bool Decrypt(byte[] encryptData, ref byte[] __result)
-    {
-        __result = encryptData;
-        return false;
+        public static bool Prefix(object[] __args, ref object __result)
+        {
+            if (__args.Length == 1)
+            {
+                // public static byte[] Encrypt(byte[] data)
+                // public static byte[] Decrypt(byte[] encryptData)
+                __result = __args[0];
+            }
+            else if (__args.Length == 2)
+            {
+                // public static bool Encrypt(byte[] data, out byte[] encryptData)
+                // public static bool Decrypt(byte[] encryptData, out byte[] plainData)
+                __args[1] = __args[0];
+                __result = true;
+            }
+            return false;
+        }
     }
 }
