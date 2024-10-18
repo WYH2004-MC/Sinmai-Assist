@@ -9,6 +9,9 @@ namespace SinmaiAssist.Common;
 
 public class CustomCameraId
 {
+    private static CameraParameter _gameCameraParam;
+    private static CameraParameter _qrCameraParam;
+    
     [HarmonyPrefix]
     [HarmonyPatch(typeof(CameraManager), "CameraInitialize")]
     public static bool CameraInitialize(CameraManager __instance, ref IEnumerator __result)
@@ -16,32 +19,31 @@ public class CustomCameraId
         __result = CameraInitialize(__instance);
         return false;
     }
-
+    
     [HarmonyPostfix]
     [HarmonyPatch(typeof(CameraManager), "Initialize")]
     public static void SetCameraResolution(CameraManager __instance)
     {
+        if (SinmaiAssist.gameID != "SDEZ")
+        {
+            WebCamDevice qrDevice = WebCamTexture.devices[SinmaiAssist.gameID == "SDGB" ? SinmaiAssist.config.Common.CustomCameraId.ChimeCameraId : SinmaiAssist.config.Common.CustomCameraId.LeftQrCameraId];
+            WebCamTexture qrTexture = new WebCamTexture(qrDevice.name);
+            qrTexture.Play();
+            _qrCameraParam = new CameraParameter(qrTexture.width, qrTexture.height, (int)qrTexture.requestedFPS);
+            AccessTools.Field(typeof(CameraManager), "QrCameraParam").SetValue(__instance, _qrCameraParam);
+            qrTexture.Stop();
+        }
         WebCamDevice gameDevice = WebCamTexture.devices[SinmaiAssist.config.Common.CustomCameraId.PhotoCameraId];
-        WebCamDevice qrDevice = WebCamTexture.devices[SinmaiAssist.IsSDGB ? SinmaiAssist.config.Common.CustomCameraId.ChimeCameraId : SinmaiAssist.config.Common.CustomCameraId.LeftQrCameraId];
         WebCamTexture gameTexture = new WebCamTexture(gameDevice.name);
-        WebCamTexture qrTexture = new WebCamTexture(qrDevice.name);
         gameTexture.Play();
-        qrTexture.Play();
-        CameraParameter gameCameraParam = new CameraParameter(gameTexture.width, gameTexture.height, (int)gameTexture.requestedFPS);
-        CameraParameter qrCameraParam = new CameraParameter(qrTexture.width, qrTexture.height, (int)qrTexture.requestedFPS);
-        AccessTools.Field(typeof(CameraManager), "GameCameraParam").SetValue(__instance, gameCameraParam);
-        AccessTools.Field(typeof(CameraManager), "QrCameraParam").SetValue(__instance, qrCameraParam);
+        _gameCameraParam = new CameraParameter(gameTexture.width, gameTexture.height, (int)gameTexture.requestedFPS);
+        AccessTools.Field(typeof(CameraManager), "GameCameraParam").SetValue(__instance, _gameCameraParam);
         gameTexture.Stop();
-        qrTexture.Stop();
     }
     
     private static IEnumerator CameraInitialize(CameraManager __instance)
     {
-        var webcamtexField = AccessTools.Field(typeof(CameraManager), "_webcamtex");
-        WebCamTexture[] webcamtex = new WebCamTexture[SinmaiAssist.IsSDGB ? 2 : 3];
-        int chimeCameraId = ((SinmaiAssist.config.Common.CustomCameraId.ChimeCameraId < WebCamTexture.devices.Length)
-            ? SinmaiAssist.config.Common.CustomCameraId.ChimeCameraId
-            : 0);
+        WebCamTexture[] webcamtex = new WebCamTexture[WebCamTexture.devices.Length];
         int leftQrCameraId = ((SinmaiAssist.config.Common.CustomCameraId.LeftQrCameraId < WebCamTexture.devices.Length)
             ? SinmaiAssist.config.Common.CustomCameraId.LeftQrCameraId
             : 0);
@@ -51,29 +53,38 @@ public class CustomCameraId
         int photoCameraId = ((SinmaiAssist.config.Common.CustomCameraId.PhotoCameraId < WebCamTexture.devices.Length)
             ? SinmaiAssist.config.Common.CustomCameraId.PhotoCameraId
             : 0);
-        
-        if (SinmaiAssist.IsSDGB)
+        int chimeQrCameraId = ((SinmaiAssist.config.Common.CustomCameraId.ChimeCameraId < WebCamTexture.devices.Length)
+            ? SinmaiAssist.config.Common.CustomCameraId.ChimeCameraId
+            : 0);
+
+        switch (SinmaiAssist.gameID)
         {
-            webcamtex[chimeCameraId] = new WebCamTexture(WebCamTexture.devices[chimeCameraId].name, QrCameraParam.Width, QrCameraParam.Height, QrCameraParam.Fps);
-            DeviceId[0] = chimeCameraId;
-            DeviceId[1] = photoCameraId;
+            case "SDGB":
+                webcamtex[chimeQrCameraId] = new WebCamTexture(WebCamTexture.devices[chimeQrCameraId].name, _qrCameraParam.Width, _qrCameraParam.Height, _qrCameraParam.Fps);
+                DeviceId[0] = chimeQrCameraId;
+                DeviceId[1] = photoCameraId;
+                break;
+            case "SDEZ":
+                webcamtex[leftQrCameraId] = new WebCamTexture(WebCamTexture.devices[leftQrCameraId].name, _qrCameraParam.Width, _qrCameraParam.Height, _qrCameraParam.Fps);
+                webcamtex[rightQrCameraId] = new WebCamTexture(WebCamTexture.devices[rightQrCameraId].name, _qrCameraParam.Width, _qrCameraParam.Height, _qrCameraParam.Fps);
+                DeviceId[0] = leftQrCameraId;
+                DeviceId[1] = rightQrCameraId;
+                DeviceId[2] = photoCameraId;
+                break;
+            default:
+                DeviceId[0] = photoCameraId;
+                break;
         }
-        else
-        {
-            webcamtex[leftQrCameraId] = new WebCamTexture(WebCamTexture.devices[leftQrCameraId].name, QrCameraParam.Width, QrCameraParam.Height, QrCameraParam.Fps);
-            webcamtex[rightQrCameraId] = new WebCamTexture(WebCamTexture.devices[rightQrCameraId].name, QrCameraParam.Width, QrCameraParam.Height, QrCameraParam.Fps);
-            DeviceId[0] = leftQrCameraId;
-            DeviceId[1] = rightQrCameraId;
-            DeviceId[2] = photoCameraId;
-        }
-        webcamtex[photoCameraId] = new WebCamTexture(WebCamTexture.devices[photoCameraId].name, GameCameraParam.Width, GameCameraParam.Height, GameCameraParam.Fps);
+        webcamtex[photoCameraId] = new WebCamTexture(WebCamTexture.devices[photoCameraId].name, _gameCameraParam.Width, _gameCameraParam.Height, _gameCameraParam.Fps);
+        AccessTools.Field(typeof(CameraManager), "_webcamtex").SetValue(__instance, webcamtex);
         
-        webcamtexField.SetValue(__instance, webcamtex);
-            
+        __instance.isAvailableCamera = new bool[webcamtex.Length];
+        __instance.cameraProcMode = new CameraManager.CameraProcEnum[webcamtex.Length];
+        
         for (int i = 0; i < webcamtex.Length; i++)
         {
             __instance.isAvailableCamera[i] = true;
-            __instance.cameraProcMode[i] = CameraProcEnum.Good;
+            __instance.cameraProcMode[i] = CameraManager.CameraProcEnum.Good;
         }
 
         CameraManager.IsReady = true;
