@@ -15,7 +15,7 @@ public class DisableEncryption
         __result = srcStr.Replace("MaimaiExp", "").Replace("MaimaiChn", "");
         return false;
     }
-
+    
     [HarmonyPatch]
     public class EncryptDecrypt
     {
@@ -28,9 +28,10 @@ public class DisableEncryption
                 methods.FirstOrDefault(it => it.Name == "Decrypt" && it.IsPublic)
             ];
         }
-
+    
         public static bool Prefix(object[] __args, ref object __result)
         {
+            if (!SinmaiAssist.config.Fix.DisableEncryption) return true;
             if (__args.Length == 1)
             {
                 // public static byte[] Encrypt(byte[] data)
