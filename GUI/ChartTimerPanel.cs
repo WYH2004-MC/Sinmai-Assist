@@ -25,7 +25,7 @@ public class ChartTimerPanel
         if (GUILayout.Button("Reset", buttonStyle, GUILayout.Height(45f))) ChartTimer.ButtonStatus = ChartTimer.Button.Reset;
         GUILayout.Label($"RecordTime: {ChartTimer.recordTime.ToString("0000000")}({-((int)ChartTimer.Timer - ChartTimer.recordTime)})", MainGUI.Style.Text);
         GUILayout.BeginHorizontal();
-        if (GUILayout.Button("Set")) ChartTimer.recordTime = (int) ChartTimer.Timer;
+        if (GUILayout.Button("Set")) ChartTimer.ButtonStatus = ChartTimer.Button.Set;
         if (GUILayout.Button("Back")) ChartTimer.ButtonStatus = ChartTimer.Button.Back;
         GUILayout.EndHorizontal();
         GUILayout.Label(

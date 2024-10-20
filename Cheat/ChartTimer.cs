@@ -38,6 +38,7 @@ public class ChartTimer
         TimeSkipSub,
         TimeSkipSub2,
         TimeSkipSub3,
+        Set,
         Back
     }
 
@@ -102,7 +103,19 @@ public class ChartTimer
                     Singleton<GamePlayManager>.Instance.Initialize(IsPartyPlay);
                     TimeSkip(16);
                 }
-                else if (ButtonStatus != Button.None && ButtonStatus != Button.Pause)
+                else if (DebugInput.GetKeyDown(KeyCode.DownArrow) || ButtonStatus == Button.Set)
+                {
+                    recordTime = (int)Timer;
+                    MelonLogger.Msg($"Record Time: {recordTime}");
+                }
+                else if (DebugInput.GetKeyDown(KeyCode.UpArrow) || ButtonStatus == Button.Back)
+                {
+                    int time = recordTime == 0 ? -999999 : -(int)Timer - recordTime;
+                    TimeSkip(time);
+                    TimeSkip(0);
+                    MelonLogger.Msg($"Time Jump: {recordTime}({time})");
+                }
+                else if (ButtonStatus != Button.None)
                 {
                     Singleton<GamePlayManager>.Instance.Initialize(IsPartyPlay);
                     switch (ButtonStatus)
@@ -127,11 +140,6 @@ public class ChartTimer
                             break;
                         case Button.Reset:
                             Singleton<GamePlayManager>.Instance.SetQuickRetryFrag(flag: true);
-                            break;
-                        case Button.Back:
-                            int time = recordTime == 0 ? 999999 : (int)Timer - recordTime;
-                            TimeSkip(-time);
-                            TimeSkip(0);
                             break;
                         default:
                             break;
