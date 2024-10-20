@@ -62,7 +62,6 @@ public class ChangeGameSettings
         UserSettingToggleState[1] = userData.Extend.ExtendContendBit.IsFlagOn(ExtendContentBitID.GotoIconPhotoShoot) && SettingEnable[1];
         UserSettingToggleState[2] = userData.Extend.ExtendContendBit.IsFlagOn(ExtendContentBitID.GotoCharaSelect) && SettingEnable[2];
         UserSettingToggleState[3] = userData.Extend.ExtendContendBit.IsFlagOn(ExtendContentBitID.PhotoAgree) && SettingEnable[3];
-        MelonLogger.Msg("\n[ChangeGameSettings] SettingEnable:" + string.Join(",", SettingEnable) +"\n[ChangeGameSettings] UserSettingToggleState:" + string.Join(",", UserSettingToggleState));
     }
 
     private static void SetUserFlag(UserData userData)
