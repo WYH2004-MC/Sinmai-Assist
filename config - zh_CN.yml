@@ -65,5 +65,6 @@ fix:
 modSetting:
   showInfo: false # 显示信息
   showPanel: false # 显示面板
+  logUnity: false # 显示Unity日志到控制台
   forceIsChinaBuild: false # 强制以SDGB版本的方式加载补丁
   safeMode: false # 启用安全模式

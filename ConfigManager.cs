@@ -138,6 +138,7 @@ namespace SinmaiAssist
     {
         public bool ShowInfo { get; set; }
         public bool ShowPanel { get; set; }
+        public bool LogUnity { get; set; }
         public bool ForceIsChinaBuild { get; set; }
         public bool SafeMode { get; set; }
     }

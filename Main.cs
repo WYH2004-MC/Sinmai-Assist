@@ -10,6 +10,7 @@ using SinmaiAssist.GUI;
 using SinmaiAssist.SDGB;
 using SinmaiAssist.Utils;
 using UnityEngine;
+using Path = System.IO.Path;
 
 namespace SinmaiAssist
 {
@@ -34,6 +35,8 @@ namespace SinmaiAssist
 
         public override void OnInitializeMelon()
         {
+            File.Delete($"{BuildInfo.Name}/Unity.log");
+            Application.logMessageReceived += OnLogMessageReceived; // 注册Unity日志
             PrintLogo();
             _mainGUI = new MainGUI();
             config = new ConfigManager();
@@ -51,6 +54,7 @@ namespace SinmaiAssist
             {
                 config.Initialize(yamlFilePath);
                 DummyLoginPanel.DummyUserId = config.Common.DummyLogin.DefaultUserId.ToString();
+                DebugPanel.UnityLogger = config.ModSetting.LogUnity;
                 MelonLogger.Msg("Config Load Complete.");
             }
             catch (Exception e)
@@ -187,6 +191,31 @@ namespace SinmaiAssist
             _mainGUI.OnGUI();
             if (config.Common.ShowFPS) ShowFPS.OnGUI();
             if (config.ModSetting.ShowInfo) ShowVersionInfo.OnGUI();
+        }
+        
+        private void OnLogMessageReceived(string condition, string stackTrace, LogType type)
+        {
+            string logString = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] [{type}] {condition}\n{stackTrace}";
+
+            File.AppendAllText(Path.Combine($"{BuildInfo.Name}/Unity.log"),logString + "\n");
+            if (DebugPanel.UnityLogger)
+            {
+                switch (type)
+                {
+                    case LogType.Error:
+                    case LogType.Exception:
+                        MelonLogger.Error($"[UnityLogger] [{type}]: {condition}\n{stackTrace}");
+                        break;
+                    case LogType.Warning:
+                        MelonLogger.Warning($"[UnityLogger] [{type}]: {condition}\n{stackTrace}");
+                        break;
+                    case LogType.Assert:
+                    case LogType.Log:
+                    default:
+                        MelonLogger.Msg($"[UnityLogger] [{type}]: {condition}\n{stackTrace}");
+                        break;
+                }
+            }
         }
 
         private static bool Patch(Type type)
