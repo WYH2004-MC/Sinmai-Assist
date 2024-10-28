@@ -43,9 +43,11 @@ cheat:
   fastSkip: false
   chartTimer: false
   allCollection: false
+  unlockEvent: false
   unlockMusic: false
   unlockMaster: false
-  unlockEvent: false
+  saveUnlockMusic: false
+  saveUnlockMaster: false
   resetLoginBonusRecord: false
   forceCurrentIsBest: false
   setAllCharacterAsSameAndLock: false

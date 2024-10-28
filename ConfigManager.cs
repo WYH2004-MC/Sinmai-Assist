@@ -110,9 +110,11 @@ namespace SinmaiAssist
         public bool FastSkip { get; set; }
         public bool ChartTimer { get; set; }
         public bool AllCollection { get; set; }
+        public bool UnlockEvent { get; set; }
         public bool UnlockMusic { get; set; }
         public bool UnlockMaster { get; set; }
-        public bool UnlockEvent { get; set; }
+        public bool SaveUnlockMusic { get; set; }
+        public bool SaveUnlockMaster { get; set; }
         public bool ResetLoginBonusRecord { get; set; }
         public bool ForceCurrentIsBest { get; set; }
         public bool SetAllCharacterAsSameAndLock { get; set; }

@@ -1,27 +1,32 @@
 ﻿using HarmonyLib;
 using MAI2.Util;
 using Manager;
+using SinmaiAssist.Utils;
 
 namespace SinmaiAssist.Cheat;
 
 public class UnlockMaster
 {
-    [HarmonyPrefix]
+    [HarmonyPostfix]
     [HarmonyPatch(typeof(NotesListManager), "IsUnlockMaster")]
-    public static bool IsUnlockMaster(ref bool __result, ref int index)
+    public static void IsUnlockMaster(ref bool __result, ref int id, ref int index)
     {
+        if (__result == false && SinmaiAssist.config.Cheat.SaveUnlockMaster)
+        {
+            User.GetUserData(index).AddUnlockMusic(UserData.MusicUnlock.Master, id);
+        }
         __result = true;
-        return false;
     }
 
-    [HarmonyPrefix]
+    [HarmonyPostfix]
     [HarmonyPatch(typeof(NotesListManager), "IsUnlockReMaster")]
-    public static bool IsUnlockReMaster(ref bool __result, ref int index)
+    public static void IsUnlockReMaster(ref bool __result, ref int id, ref int index)
     {
-        if (Singleton<UserDataManager>.Instance.GetUserData((long)index).IsEntry) return true;
+        if (Singleton<UserDataManager>.Instance.GetUserData(index).IsEntry) return;
+        if (__result == false && SinmaiAssist.config.Cheat.SaveUnlockMaster)
+        {
+            User.GetUserData(index).AddUnlockMusic(UserData.MusicUnlock.ReMaster, id);
+        }
         __result = true;
-        return false;
     }
-
-
 }
