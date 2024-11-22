@@ -110,10 +110,10 @@ public class ChartTimer
                 }
                 else if (DebugInput.GetKeyDown(KeyCode.UpArrow) || ButtonStatus == Button.Back)
                 {
-                    int time = recordTime == 0 ? -999999 : -(int)Timer - recordTime;
-                    TimeSkip(time);
+                    int time = recordTime == 0 ? 999999 : (int)Timer - recordTime;
+                    TimeSkip(-time);
                     TimeSkip(0);
-                    MelonLogger.Msg($"Time Jump: {recordTime}({time})");
+                    MelonLogger.Msg($"Time Jump: {recordTime}({-time})");
                 }
                 else if (ButtonStatus != Button.None)
                 {
