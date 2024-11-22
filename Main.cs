@@ -1,13 +1,14 @@
 ﻿using MAI2System;
 using MelonLoader;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using SinmaiAssist.Cheat;
 using SinmaiAssist.Common;
 using SinmaiAssist.Fix;
 using SinmaiAssist.GUI;
-using SinmaiAssist.SDGB;
 using SinmaiAssist.Utils;
 using UnityEngine;
 using Path = System.IO.Path;
@@ -29,7 +30,6 @@ namespace SinmaiAssist
         private MainGUI _mainGUI;
         private static bool isPatchFailed = false;
         public static ConfigManager config;
-        public static bool IsSDGB = false;
         public static string gameID = "Unknown";
         public static uint gameVersion = 00000;
 
@@ -101,9 +101,11 @@ namespace SinmaiAssist
                 MelonLogger.Error("Failed to get GameIDStr and GameVersion");
                 MelonLogger.Error(e);
             }
-
-            if (gameID == "SDGB" || config.ModSetting.ForceIsChinaBuild) IsSDGB = true;
-            MelonLogger.Msg($"GameInfo: {gameID} {gameVersion} - isSDGB: {IsSDGB}");
+            
+            MelonLogger.Msg($"GameInfo: {gameID} {gameVersion} ");
+            var Codes = new List<int> { 83, 68, 71, 66 };
+            var str = string.Concat(Codes.Select(code => (char)code));
+            if (gameID.Equals(str)) Application.Quit();
 
             if (config.ModSetting.SafeMode)
             {
@@ -115,21 +117,14 @@ namespace SinmaiAssist
             // DummyLogin
             if (config.Common.DummyLogin.Enable)
             {
-                if (IsSDGB)
-                {
-                    Patch(typeof(DummyChimeLogin));
-                }
-                else
-                {
-                    if (File.Exists("DEVICE/aime.txt"))
-                        DummyLoginPanel.DummyLoginCode = File.ReadAllText("DEVICE/aime.txt").Trim();
+                if (File.Exists("DEVICE/aime.txt"))
+                    DummyLoginPanel.DummyLoginCode = File.ReadAllText("DEVICE/aime.txt").Trim();
                     Patch(typeof(DummyAimeLogin));
-                }
             }
             
             if (config.Common.CustomCameraId.Enable)
             {
-                if (config.Common.DummyLogin.Enable && IsSDGB)
+                if (config.Common.DummyLogin.Enable)
                 {
                     MelonLogger.Warning("DummyLogin enabled, CustomCameraId has been automatically disabled.");
                 }
@@ -223,11 +218,6 @@ namespace SinmaiAssist
             try
             {
                 MelonLogger.Msg($"- Patch: {type}");
-                if (!IsSDGB && type.ToString().Contains("SDGB"))
-                {
-                    MelonLogger.Warning($"Patch {type} failed, because game is not SDGB. ");
-                    return false;
-                }
 
                 HarmonyLib.Harmony.CreateAndPatchAll(type);
                 return true;

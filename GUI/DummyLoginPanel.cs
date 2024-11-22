@@ -16,19 +16,19 @@ public class DummyLoginPanel
     
     public static void OnGUI()
     {
-        GUILayout.Label(SinmaiAssist.IsSDGB?"QrCode:":"AccessCode:", MainGUI.Style.Text);
+        GUILayout.Label("AccessCode:", MainGUI.Style.Text);
         DummyLoginCode = GUILayout.TextArea(DummyLoginCode, GUILayout.Height(100f));
-        if (GUILayout.Button(SinmaiAssist.IsSDGB?"QrCode Login":"AccessCode Login"))
+        if (GUILayout.Button("AccessCode Login"))
         {
             CodeLoginFlag = true;
-            if (!SinmaiAssist.IsSDGB) DummyAimeLogin.ReadCard();
+            DummyAimeLogin.ReadCard();
         }
         GUILayout.Label("UserID:", MainGUI.Style.Text);
         DummyUserId = GUILayout.TextField(DummyUserId, GUILayout.Height(20f));
         if (GUILayout.Button("UserId Login"))
         {
             UserIdLoginFlag = true;
-            if (!SinmaiAssist.IsSDGB) DummyAimeLogin.ReadCard("12312312312312312312", DummyLoginCode);
+            DummyAimeLogin.ReadCard("12312312312312312312", DummyLoginCode);
         }
         GUILayout.Label($"AMDaemon BootTime: {AMDaemon.Allnet.Auth.AuthTime}", MainGUI.Style.Text);
         if (GUILayout.Button("UserId Logout"))

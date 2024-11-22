@@ -483,7 +483,6 @@
     <Compile Include="Common\SkipFade.cs" />
     <Compile Include="Common\DisableMask.cs" />
     <Compile Include="Common\DummyAimeLogin.cs" />
-    <Compile Include="Common\DummyChimeLogin.cs" />
     <Compile Include="Common\ForwardATouchRegionToButton.cs" />
     <Compile Include="Common\Graphic.cs" />
     <Compile Include="Common\IgnoreAnyGameInformation.cs" />

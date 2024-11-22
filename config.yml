@@ -37,7 +37,6 @@
     uploadPhoto: false
     charaSelect: false
     
-
 cheat:
   autoPlay: false
   fastSkip: false
@@ -68,5 +67,4 @@ modSetting:
   showInfo: false
   showPanel: false
   logUnity: false
-  forceIsChinaBuild: false
   safeMode: false
