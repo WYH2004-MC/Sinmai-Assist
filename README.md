@@ -37,6 +37,7 @@ This is a cheat Mod, using by your own risk.
     - Change Default Option
     - Change Game Settings
 - Fix
+    - Disable Environment Check(For versions after 1.50)
 	- Disable Encryption
 	- Disable Reboot
 	- Fix DebugInput

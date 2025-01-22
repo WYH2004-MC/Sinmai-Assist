@@ -55,6 +55,7 @@ cheat:
     point: 0
 
 fix:
+  disableEnvironmentCheck: false
   disableEncryption: false
   disableReboot: false
   skipVersionCheck: false

@@ -55,6 +55,7 @@ cheat:
     point: 0 # 登录奖励点数
 
 fix:
+  disableEnvironmentCheck: false # 禁用运行环境检查
   disableEncryption: false # 禁用加密
   disableReboot: false # 禁用自动重启
   skipVersionCheck: false # 登录时跳过版本检查

@@ -82,8 +82,7 @@ namespace SinmaiAssist
             }
 
             File.AppendAllText($"{BuildInfo.Name}/WebCameraList.txt", CameraList);
-
-            // 检测游戏版本并判断是否为 SDGB
+            
             try
             {
                 gameID = (string)typeof(ConstParameter).GetField("GameIDStr",
@@ -153,6 +152,7 @@ namespace SinmaiAssist
             if (config.Common.ChangeGameSettings.Enable) Patch(typeof(ChangeGameSettings));
 
             //Fix
+            if (config.Fix.DisableEnvironmentCheck) Patch(typeof(DisableEnvironmentCheck));
             if (config.Fix.DisableEncryption) Patch(typeof(DisableEncryption));
             if (config.Fix.DisableReboot) Patch(typeof(DisableReboot));
             if (config.Fix.SkipVersionCheck) Patch(typeof(SkipVersionCheck));

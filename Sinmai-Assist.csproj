@@ -495,6 +495,7 @@
     <Compile Include="Common\SkipWarningScreen.cs" />
     <Compile Include="ConfigManager.cs" />
     <Compile Include="Fix\DisableEncryption.cs" />
+    <Compile Include="Fix\DisableEnvironmentCheck.cs" />
     <Compile Include="Fix\DisableReboot.cs" />
     <Compile Include="Fix\FixDebugInput.cs" />
     <Compile Include="Fix\RewriteNoteJudgeTiming.cs" />
