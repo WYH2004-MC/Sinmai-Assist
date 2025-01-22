@@ -19,7 +19,7 @@ namespace SinmaiAssist
     {
         public const string Name = "Sinmai-Assist";
         public const string Description = "SlimMod Melon Version For Sinmai";
-        public const string Author = "Slim & Error063";
+        public const string Author = "WYH2004 & Error063";
         public const string Company = null;
         public const string Version = "1.0.0";
         public const string DownloadLink = null;

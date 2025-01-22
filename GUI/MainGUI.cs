@@ -45,7 +45,7 @@ public class MainGUI
                 
         if (SinmaiAssist.config.ModSetting.ShowPanel)
         {
-            _panelWindow = GUILayout.Window(10086, _panelWindow, MainPanel, $"{BuildInfo.Name} {BuildInfo.Version}");
+            _panelWindow = GUILayout.Window(10086, _panelWindow, MainPanel, $"{BuildInfo.Name}");
             SinmaiAssist.config.ModSetting.ShowPanel = true;
         }
         else
