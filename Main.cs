@@ -143,6 +143,7 @@ namespace SinmaiAssist
 
             // Common
             if (config.Common.InfinityTimer) Patch(typeof(InfinityTimer));
+            if (config.Common.InfinityTimerLegacy) Patch(typeof(InfinityTimerLegacy));
             if (config.Common.DisableBackground) Patch(typeof(DisableBackground));
             if (config.Common.DisableMask) Patch(typeof(DisableMask));
             if (config.Common.SinglePlayer.Enable) Patch(typeof(SinglePlayer));

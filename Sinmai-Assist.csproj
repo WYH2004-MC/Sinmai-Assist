@@ -481,6 +481,7 @@
     <Compile Include="Common\ChangeGameSettings.cs" />
     <Compile Include="Common\DummyChimeLogin.cs" />
     <Compile Include="Common\ForceQuickRetry.cs" />
+    <Compile Include="Common\InfinityTimerLegacy.cs" />
     <Compile Include="Common\SkipFade.cs" />
     <Compile Include="Common\DisableMask.cs" />
     <Compile Include="Common\DummyAimeLogin.cs" />

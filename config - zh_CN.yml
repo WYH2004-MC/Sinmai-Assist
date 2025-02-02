@@ -1,5 +1,6 @@
 ﻿common:
   infinityTimer: false # 无限计时器
+  infinityTimerLegacy: false # 无限计时器(传统方案)
   disableMask: false # 禁用遮罩
   disableBackground: false # 禁用背景
   showFPS: false # 显示FPS

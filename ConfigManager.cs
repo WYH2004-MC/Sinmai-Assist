@@ -57,6 +57,7 @@ namespace SinmaiAssist
     public class CommonConfig
     {
         public bool InfinityTimer { get; set; }
+        public bool InfinityTimerLegacy { get; set; }
         public bool DisableMask { get; set; }
         public bool DisableBackground { get; set; }
         public bool ShowFPS { get; set; }

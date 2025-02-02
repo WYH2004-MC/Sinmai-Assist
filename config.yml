@@ -1,5 +1,6 @@
 ﻿common:
   infinityTimer: false
+  infinityTimerLegacy: false
   disableMask: false
   disableBackground: false
   showFPS: false
