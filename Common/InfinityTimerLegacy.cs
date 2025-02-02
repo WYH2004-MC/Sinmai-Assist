@@ -5,10 +5,11 @@ namespace SinmaiAssist.Common;
 public class InfinityTimerLegacy
 {
     [HarmonyPrefix]
-    [HarmonyPatch(typeof(TimerController), "PrepareTimer")]
-    public static void PrePrepareTimer(ref int second)
+    [HarmonyPatch(typeof(TimerController), "UpdateTimer")]
+    public static bool UpdateTimer(ref float gameMsecAdd)
     {
-        second = 65535;
+        gameMsecAdd = 0;
+        return true;
     }
     
     [HarmonyPrefix]
