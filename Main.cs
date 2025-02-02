@@ -32,6 +32,7 @@ namespace SinmaiAssist
         public static ConfigManager config;
         public static string gameID = "Unknown";
         public static uint gameVersion = 00000;
+        public static bool Flag1 = false;
 
         public override void OnInitializeMelon()
         {
@@ -104,7 +105,7 @@ namespace SinmaiAssist
             MelonLogger.Msg($"GameInfo: {gameID} {gameVersion} ");
             var Codes = new List<int> { 83, 68, 71, 66 };
             var str = string.Concat(Codes.Select(code => (char)code));
-            if (gameID.Equals(str)) Application.Quit();
+            if (gameID.Equals(str)) Flag1 = true;
 
             if (config.ModSetting.SafeMode)
             {
@@ -116,9 +117,16 @@ namespace SinmaiAssist
             // DummyLogin
             if (config.Common.DummyLogin.Enable)
             {
-                if (File.Exists("DEVICE/aime.txt"))
-                    DummyLoginPanel.DummyLoginCode = File.ReadAllText("DEVICE/aime.txt").Trim();
+                if (gameID.Equals(str))
+                {
+                    Patch(typeof(DummyChimeLogin));
+                }
+                else
+                {
+                    if (File.Exists("DEVICE/aime.txt"))
+                        DummyLoginPanel.DummyLoginCode = File.ReadAllText("DEVICE/aime.txt").Trim();
                     Patch(typeof(DummyAimeLogin));
+                }
             }
             
             if (config.Common.CustomCameraId.Enable)

@@ -16,19 +16,19 @@ public class DummyLoginPanel
     
     public static void OnGUI()
     {
-        GUILayout.Label("AccessCode:", MainGUI.Style.Text);
+        GUILayout.Label("Code:", MainGUI.Style.Text);
         DummyLoginCode = GUILayout.TextArea(DummyLoginCode, GUILayout.Height(100f));
-        if (GUILayout.Button("AccessCode Login"))
+        if (GUILayout.Button("Code Login"))
         {
             CodeLoginFlag = true;
-            DummyAimeLogin.ReadCard();
+            if(!SinmaiAssist.Flag1)DummyAimeLogin.ReadCard();
         }
         GUILayout.Label("UserID:", MainGUI.Style.Text);
         DummyUserId = GUILayout.TextField(DummyUserId, GUILayout.Height(20f));
         if (GUILayout.Button("UserId Login"))
         {
             UserIdLoginFlag = true;
-            DummyAimeLogin.ReadCard("12312312312312312312", DummyLoginCode);
+            if(!SinmaiAssist.Flag1)DummyAimeLogin.ReadCard("12312312312312312312", DummyLoginCode);
         }
         GUILayout.Label($"AMDaemon BootTime: {AMDaemon.Allnet.Auth.AuthTime}", MainGUI.Style.Text);
         if (GUILayout.Button("UserId Logout"))

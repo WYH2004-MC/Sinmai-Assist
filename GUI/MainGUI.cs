@@ -23,6 +23,7 @@ public class MainGUI
     private Rect _panelWindow;
     private Toolbar _toolbar = Toolbar.AutoPlay;
     private bool _backspaceKeyDown = false;
+    private string _titleStr = BuildInfo.Name;
     
     public static readonly Style Style = new Style();
     
@@ -45,7 +46,8 @@ public class MainGUI
                 
         if (SinmaiAssist.config.ModSetting.ShowPanel)
         {
-            _panelWindow = GUILayout.Window(10086, _panelWindow, MainPanel, $"{BuildInfo.Name}");
+            if (SinmaiAssist.config.ModSetting.SafeMode) _titleStr += "(SafeMode)";
+            _panelWindow = GUILayout.Window(10086, _panelWindow, MainPanel, _titleStr);
             SinmaiAssist.config.ModSetting.ShowPanel = true;
         }
         else
