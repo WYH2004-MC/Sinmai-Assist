@@ -59,6 +59,7 @@ fix:
   disableEnvironmentCheck: false
   disableEncryption: false
   disableReboot: false
+  fixCheckAuth: false
   skipVersionCheck: false
   rewriteNoteJudgeTiming:
     enable: false

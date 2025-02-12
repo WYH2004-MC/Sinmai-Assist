@@ -54,16 +54,6 @@ public class DisableEncryption
         return false;
     }
     
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(OperationManager), "CheckAuth_Proc")]
-    private static void PostCheckAuthProc(ref OperationData ____operationData)
-    {
-        if (Auth.GameServerUri.StartsWith("http://") || Auth.GameServerUri.StartsWith("https://"))
-        {
-            ____operationData.ServerUri = Auth.GameServerUri;
-        }
-    }
-    
     [HarmonyPatch]
     public class EncryptDecrypt
     {

@@ -499,6 +499,7 @@
     <Compile Include="Fix\DisableEncryption.cs" />
     <Compile Include="Fix\DisableEnvironmentCheck.cs" />
     <Compile Include="Fix\DisableReboot.cs" />
+    <Compile Include="Fix\FixCheckAuth.cs" />
     <Compile Include="Fix\FixDebugInput.cs" />
     <Compile Include="Fix\RewriteNoteJudgeTiming.cs" />
     <Compile Include="Fix\SkipVersionCheck.cs" />

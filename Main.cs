@@ -164,6 +164,7 @@ namespace SinmaiAssist
             if (config.Fix.DisableEnvironmentCheck) Patch(typeof(DisableEnvironmentCheck));
             if (config.Fix.DisableEncryption) Patch(typeof(DisableEncryption));
             if (config.Fix.DisableReboot) Patch(typeof(DisableReboot));
+            if (config.Fix.FixCheckAuth) Patch(typeof(FixCheckAuth));
             if (config.Fix.SkipVersionCheck) Patch(typeof(SkipVersionCheck));
             if (config.Fix.RewriteNoteJudgeTiming.Enable) Patch(typeof(RewriteNoteJudgeTiming));
 

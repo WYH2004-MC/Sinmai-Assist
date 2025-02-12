@@ -127,6 +127,7 @@ namespace SinmaiAssist
         public bool DisableEnvironmentCheck { get; set; }
         public bool DisableEncryption { get; set; }
         public bool DisableReboot { get; set; }
+        public bool FixCheckAuth { get; set; }
         public bool SkipVersionCheck { get; set; }
         public RewriteNoteJudgeTimingConfig RewriteNoteJudgeTiming { get; set; }
     }
