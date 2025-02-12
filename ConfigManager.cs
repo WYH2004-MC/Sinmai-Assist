@@ -128,7 +128,10 @@ namespace SinmaiAssist
         public bool DisableEncryption { get; set; }
         public bool DisableReboot { get; set; }
         public bool FixCheckAuth { get; set; }
+        public bool SkipCakeHashCheck { get; set; }
+        public bool SkipSpecialNumCheck { get; set; }
         public bool SkipVersionCheck { get; set; }
+        public bool RestoreCertificateValidation { get; set; }
         public RewriteNoteJudgeTimingConfig RewriteNoteJudgeTiming { get; set; }
     }
 

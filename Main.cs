@@ -165,7 +165,10 @@ namespace SinmaiAssist
             if (config.Fix.DisableEncryption) Patch(typeof(DisableEncryption));
             if (config.Fix.DisableReboot) Patch(typeof(DisableReboot));
             if (config.Fix.FixCheckAuth) Patch(typeof(FixCheckAuth));
+            if (config.Fix.SkipCakeHashCheck) Patch(typeof(SkipCakeHashCheck));
+            if (config.Fix.SkipSpecialNumCheck) Patch(typeof(SkipSpecialNumCheck));
             if (config.Fix.SkipVersionCheck) Patch(typeof(SkipVersionCheck));
+            if (config.Fix.RestoreCertificateValidation) Patch(typeof(RestoreCertificateValidation));
             if (config.Fix.RewriteNoteJudgeTiming.Enable) Patch(typeof(RewriteNoteJudgeTiming));
 
             //Cheat

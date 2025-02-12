@@ -60,7 +60,10 @@ fix:
   disableEncryption: false # 禁用加密
   disableReboot: false # 禁用自动重启
   fixCheckAuth: false # 修复CheckAuth
+  skipCakeHashCheck: false # 跳过Cake.dll Hash检查
+  skipSpecialNumCheck: false # 跳过特殊数字检查
   skipVersionCheck: false # 登录时跳过版本检查
+  restoreCertificateValidation: false # 恢复证书验证
   rewriteNoteJudgeTiming: # 重写覆盖游戏音符判定 (如填10,则游戏内+1.0)
     enable: false # 是否启用
     adjustTiming: 0.0 # 音频延迟(单位:ms)

@@ -496,12 +496,15 @@
     <Compile Include="Common\SinglePlayer.cs" />
     <Compile Include="Common\SkipWarningScreen.cs" />
     <Compile Include="ConfigManager.cs" />
+    <Compile Include="Fix\RestoreCertificateValidation.cs" />
+    <Compile Include="Fix\SkipCakeHashCheck.cs" />
     <Compile Include="Fix\DisableEncryption.cs" />
     <Compile Include="Fix\DisableEnvironmentCheck.cs" />
     <Compile Include="Fix\DisableReboot.cs" />
     <Compile Include="Fix\FixCheckAuth.cs" />
     <Compile Include="Fix\FixDebugInput.cs" />
     <Compile Include="Fix\RewriteNoteJudgeTiming.cs" />
+    <Compile Include="Fix\SkipSpecialNumCheck.cs" />
     <Compile Include="Fix\SkipVersionCheck.cs" />
     <Compile Include="GUI\AutoPlayPanel.cs" />
     <Compile Include="GUI\ChartTimerPanel.cs" />

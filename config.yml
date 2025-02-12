@@ -60,7 +60,10 @@ fix:
   disableEncryption: false
   disableReboot: false
   fixCheckAuth: false
+  skipCakeHashCheck: false
+  skipSpecialNumCheck: false
   skipVersionCheck: false
+  restoreCertificateValidation: false
   rewriteNoteJudgeTiming:
     enable: false
     adjustTiming: 0.0
