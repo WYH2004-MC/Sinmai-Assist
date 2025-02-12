@@ -1,19 +1,67 @@
-﻿using HarmonyLib;
+﻿using System;
+using HarmonyLib;
 using Net.Packet;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using AMDaemon.Allnet;
+using Main;
+using Manager;
+using Manager.Operation;
+using MelonLoader;
+using Net;
+using Net.VO;
 
 namespace SinmaiAssist.Fix;
 
 public class DisableEncryption
 {
+    // codes from AquaMai [https://github.com/MewoLab/AquaMai/blob/main/AquaMai.Core]
+    private static string apiSuffix = "";
+    
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(GameMain), "LateInitialize")]
+    public static void GetApiSuffix()
+    {
+        try
+        {
+            var baseNetQueryConstructor = typeof(NetQuery<VOSerializer, VOSerializer>)
+                .GetConstructors()
+                .First();
+            apiSuffix = ((INetQuery)baseNetQueryConstructor.Invoke(
+            [.. baseNetQueryConstructor
+                .GetParameters()
+                .Select((parameter, i) => i == 0 ? "" : parameter.DefaultValue)])).Api;
+            MelonLogger.Msg($"API suffix: {apiSuffix}");
+        }
+        catch (Exception e)
+        {
+            MelonLogger.Error($"Failed to resolve the API suffix: {e}");
+            apiSuffix = null;
+        }
+    }
+    
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Packet), "Obfuscator", typeof(string))]
     public static bool PreObfuscator(string srcStr, ref string __result)
     {
-        __result = srcStr.Replace("MaimaiExp", "").Replace("MaimaiChn", "");
+        if (string.IsNullOrEmpty(apiSuffix)) return false;
+        if (srcStr.EndsWith(apiSuffix))
+        {
+            __result = srcStr.Substring(0, srcStr.Length - apiSuffix.Length);
+        }
+        // __result = srcStr.Replace("MaimaiExp", "").Replace("MaimaiChn", "");
         return false;
+    }
+    
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(OperationManager), "CheckAuth_Proc")]
+    private static void PostCheckAuthProc(ref OperationData ____operationData)
+    {
+        if (Auth.GameServerUri.StartsWith("http://") || Auth.GameServerUri.StartsWith("https://"))
+        {
+            ____operationData.ServerUri = Auth.GameServerUri;
+        }
     }
     
     [HarmonyPatch]
