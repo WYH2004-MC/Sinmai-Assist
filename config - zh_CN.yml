@@ -46,6 +46,7 @@ cheat:
   unlockEvent: false # 解锁全部活动
   unlockMusic: false # 解锁全部歌曲
   unlockMaster: false # 解锁全部歌曲Master和ReMaster难度
+  unlockUtage: false # 解锁宴会场Rating10000的限制
   saveUnlockMusic: false # 保存unlockMusic解锁的歌曲到用户存档
   saveUnlockMaster: false # 保存unlockMaster解锁的歌曲难度到用户存档
   resetLoginBonusRecord: false # 重置登录奖励记录

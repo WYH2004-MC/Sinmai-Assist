@@ -178,6 +178,7 @@ namespace SinmaiAssist
             if (config.Cheat.AllCollection) Patch(typeof(AllCollection));
             if (config.Cheat.UnlockMusic) Patch(typeof(UnlockMusic));
             if (config.Cheat.UnlockMaster) Patch(typeof(UnlockMaster));
+            if (config.Cheat.UnlockUtage) Patch(typeof(UnlockUtage));
             if (config.Cheat.UnlockEvent) Patch(typeof(UnlockEvent));
             if (config.Cheat.ResetLoginBonusRecord) Patch(typeof(ResetLoginBonusRecord));
             if (config.Cheat.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));

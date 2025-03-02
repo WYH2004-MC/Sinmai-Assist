@@ -472,6 +472,7 @@
     <Compile Include="Cheat\UnlockEvent.cs" />
     <Compile Include="Cheat\UnlockMaster.cs" />
     <Compile Include="Cheat\UnlockMusic.cs" />
+    <Compile Include="Cheat\UnlockUtage.cs" />
     <Compile Include="Common\BlockCoin.cs" />
     <Compile Include="Common\ChangeDefaultOption.cs" />
     <Compile Include="Common\ChangeFadeStyle.cs" />
