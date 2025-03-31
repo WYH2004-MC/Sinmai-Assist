@@ -46,7 +46,9 @@ cheat:
   unlockEvent: false
   unlockMusic: false
   unlockMaster: false
-  unlockUtage: false
+  unlockUtage:
+    enable: false
+    unlockDoublePlayerMusic: false
   saveUnlockMusic: false
   saveUnlockMaster: false
   resetLoginBonusRecord: false

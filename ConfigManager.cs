@@ -105,6 +105,12 @@ namespace SinmaiAssist
         public bool CharaSelect { get; set; }
     }
 
+    public class UnlockUtageConfig
+    {
+        public bool Enable { get; set; }
+        public bool UnlockDoublePlayerMusic { get; set; }
+    }
+
     public class CheatConfig
     {
         public bool AutoPlay { get; set; }
@@ -114,7 +120,7 @@ namespace SinmaiAssist
         public bool UnlockEvent { get; set; }
         public bool UnlockMusic { get; set; }
         public bool UnlockMaster { get; set; }
-        public bool UnlockUtage { get; set; }
+        public UnlockUtageConfig UnlockUtage { get; set; }
         public bool SaveUnlockMusic { get; set; }
         public bool SaveUnlockMaster { get; set; }
         public bool ResetLoginBonusRecord { get; set; }
