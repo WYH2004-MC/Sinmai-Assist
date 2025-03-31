@@ -17,7 +17,7 @@ public class MainGUI
         Debug
     }
     
-    private const float PanelWidth = 300f;
+    private const float PanelWidth = 320f;
     private const int ButtonsPerRow = 3;
     
     private Rect _panelWindow;
@@ -94,6 +94,7 @@ public class MainGUI
             int rowSelection = GUILayout.Toolbar(
                 selectedToolbar - startIndex,
                 rowToolbarNames,
+                Style.Button,
                 GUILayout.Width(PanelWidth),
                 GUILayout.Height(20f)
             );

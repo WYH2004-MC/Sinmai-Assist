@@ -7,7 +7,7 @@ public class ChartTimerPanel
 {
     public static void OnGUI()
     {
-        GUIStyle buttonStyle = new GUIStyle(UnityEngine.GUI.skin.button) { fontSize = 24 };
+        GUIStyle buttonStyle = new GUIStyle(MainGUI.Style.Button) { fontSize = 24 };
         ChartTimer.ButtonStatus = ChartTimer.Button.None;
         Manager.NotesManager notesManager = new Manager.NotesManager();
         GUILayout.Label($"Timer Status: {(notesManager.IsPlaying() ? (ChartTimer.IsPlaying ? "Playing" : "Paused") : "Not Play")}", MainGUI.Style.Text);
@@ -25,8 +25,8 @@ public class ChartTimerPanel
         if (GUILayout.Button("Reset", buttonStyle, GUILayout.Height(45f))) ChartTimer.ButtonStatus = ChartTimer.Button.Reset;
         GUILayout.Label($"RecordTime: {ChartTimer.recordTime.ToString("0000000")}({-((int)ChartTimer.Timer - ChartTimer.recordTime)})", MainGUI.Style.Text);
         GUILayout.BeginHorizontal();
-        if (GUILayout.Button("Set")) ChartTimer.ButtonStatus = ChartTimer.Button.Set;
-        if (GUILayout.Button("Back")) ChartTimer.ButtonStatus = ChartTimer.Button.Back;
+        if (GUILayout.Button("Set", MainGUI.Style.Button)) ChartTimer.ButtonStatus = ChartTimer.Button.Set;
+        if (GUILayout.Button("Back", MainGUI.Style.Button)) ChartTimer.ButtonStatus = ChartTimer.Button.Back;
         GUILayout.EndHorizontal();
         GUILayout.Label(
             "While paused, you can use the LeftArrow and RightArrow keys to perform small range fast forward or rewind.",

@@ -12,7 +12,7 @@ public class GraphicPanel
     
     public static void OnGUI()
     {
-        if (GUILayout.Button("Toggle full screen", GUILayout.Height(50))) Graphic.ToggleFullscreen();
+        if (GUILayout.Button("Toggle full screen", MainGUI.Style.Button, GUILayout.Height(50))) Graphic.ToggleFullscreen();
         GUILayout.Label($"Custom Graphic Settings", MainGUI.Style.Title);
         GUILayout.BeginHorizontal();
         GUILayout.BeginVertical();
@@ -28,7 +28,7 @@ public class GraphicPanel
         frameRate = GUILayout.TextField(frameRate);
         GUILayout.EndVertical();
         GUILayout.EndHorizontal();
-        if (GUILayout.Button("Apply", GUILayout.Height(20)) && int.TryParse(screenWidth, out int widthValue) && int.TryParse(screenHeight, out int heightValue) && int.TryParse(frameRate, out int fpsValue))
+        if (GUILayout.Button("Apply", MainGUI.Style.Button, GUILayout.Height(20)) && int.TryParse(screenWidth, out int widthValue) && int.TryParse(screenHeight, out int heightValue) && int.TryParse(frameRate, out int fpsValue))
         {
             if (widthValue >= 360f && heightValue >= 360f)
             {

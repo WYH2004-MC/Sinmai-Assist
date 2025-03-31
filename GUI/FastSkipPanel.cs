@@ -11,10 +11,10 @@ public class FastSkipPanel
     {
         FastSkip.SkipButton = false;
         GUILayout.Label($"Skip Mode: {(FastSkip.CustomSkip ? "Custom" : "Default")}", MainGUI.Style.Text);
-        if (GUILayout.Button("Skip", new GUIStyle(UnityEngine.GUI.skin.button){ fontSize=20 }, GUILayout.Height(45f))) FastSkip.SkipButton = true;
+        if (GUILayout.Button("Skip", new GUIStyle(MainGUI.Style.Button){ fontSize=20 }, GUILayout.Height(45f))) FastSkip.SkipButton = true;
         GUILayout.Label($"Mode Setting", MainGUI.Style.Title);
-        if (GUILayout.Button("Default")) FastSkip.CustomSkip = false;
-        if (GUILayout.Button("Custom")) FastSkip.CustomSkip = true;
+        if (GUILayout.Button("Default", MainGUI.Style.Button)) FastSkip.CustomSkip = false;
+        if (GUILayout.Button("Custom", MainGUI.Style.Button)) FastSkip.CustomSkip = true;
         if (FastSkip.CustomSkip)
         {
             GUILayout.Label($"Custom Setting", MainGUI.Style.Title);

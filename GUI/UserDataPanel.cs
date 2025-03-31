@@ -48,7 +48,7 @@ public class UserDataPanel
             int typeId = (int)type;
             GUILayout.Label(type.ToString(), new GUIStyle(MainGUI.Style.Text){fixedWidth = 50});
             _userInputId[typeId] = GUILayout.TextField(_userInputId[typeId]);
-            if (GUILayout.Button("Add", new GUIStyle(UnityEngine.GUI.skin.button){ fixedWidth = 50}))
+            if (GUILayout.Button("Add", new GUIStyle(MainGUI.Style.Button){ fixedWidth = 50}))
             {
                 AddCollections(0, type, _userInputId[typeId]);
                 AddCollections(1, type, _userInputId[typeId]);
@@ -61,7 +61,7 @@ public class UserDataPanel
         GUILayout.BeginHorizontal();
         GUILayout.Label("Music", new GUIStyle(MainGUI.Style.Text){fixedWidth = 50});
         _userInputId[0] = GUILayout.TextField(_userInputId[0]);
-        if (GUILayout.Button("Add", new GUIStyle(UnityEngine.GUI.skin.button){ fixedWidth = 50}))
+        if (GUILayout.Button("Add", new GUIStyle(MainGUI.Style.Button){ fixedWidth = 50}))
         {
             UnlockMusic(0, _userInputId[0]);
             UnlockMusic(1, _userInputId[0]);
@@ -70,8 +70,8 @@ public class UserDataPanel
         
         GUILayout.Label("User Data Backup", MainGUI.Style.Title);
         GUILayout.BeginHorizontal();
-        if (GUILayout.Button("1P")) User.ExportBackupData(0);
-        if (GUILayout.Button("2P")) User.ExportBackupData(1);
+        if (GUILayout.Button("1P", MainGUI.Style.Button)) User.ExportBackupData(0);
+        if (GUILayout.Button("2P", MainGUI.Style.Button)) User.ExportBackupData(1);
         GUILayout.EndHorizontal();
         
     }

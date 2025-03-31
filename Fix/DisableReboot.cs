@@ -23,7 +23,7 @@ public class DisableReboot
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(MaintenanceTimer), "get_RemainingMinutes")]
-    public static bool RemainingMinutes(ref int __result)
+    public static bool dsds(ref int __result)
     {
         __result = 600;
         return false;
