@@ -27,7 +27,7 @@ jobs:
       
     - name: Build
       run: |
-        MSBuild.exe /p:Configuration=Release /p:Platform=x64 /p:TargetFramework=net472 /p:OutDir=Output
+        MSBuild.exe /p:Configuration=Release /p:TargetFramework=net472 /p:OutDir=Output
 
     - name: Package
       run: |
