@@ -25,6 +25,10 @@ jobs:
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v2
       
+    - name: Install NuGet Packages
+      run: nuget restore .\Sinmai-Assist.sln
+      shell: pwsh
+    
     - name: Build
       run: |
         MSBuild.exe /p:Configuration=Release /p:TargetFramework=net472 /p:OutDir=Output
