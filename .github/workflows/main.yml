@@ -68,6 +68,7 @@ jobs:
         mkdir ".\Out\Sinmai-Assist\"
         cmd /c copy /y ".\Output\Sinmai-Assist.dll" ".\Out\Mods\Sinmai-Assist.dll"
         cmd /c copy /y ".\config - zh_CN.yml" ".\Out\Sinmai-Assist\config.yml"
+        cmd /c copy /y ".\README.md" ".\Out\README.md"
         Compress-Archive -Path "$(Get-Location)\Out\*" -DestinationPath "$(Get-Location)\Out.zip" -Update
                 
     - name: Upload Artifacts

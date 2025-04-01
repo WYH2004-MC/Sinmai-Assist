@@ -4,12 +4,11 @@ Mods for maimai DX (Sinmai.exe). Patch with MelonLoader.
 This is a cheat Mod, using by your own risk.
 
 
-> [!WARNING]
-> Please use MelonLoader version 0.6.4 or lower.
-> Higher versions will crash. 
-
-
 ![Sinmai-Assist](https://counter.wyh2004.top/get/@Sinmai-Assist?theme=gelbooru)
+
+> [!WARNING] 
+> Please use MelonLoader version 0.6.4 or lower. 
+> Higher versions will crash.
 
 ### Feature
 - Cheat
@@ -19,6 +18,8 @@ This is a cheat Mod, using by your own risk.
     - Unlock Music
     - Unlock Master
 	- Unlock Event
+    - Unlock Utage
+    - Force Unlock Double Player Utage
 	- Force Current ls Best
 	- Reset Login Bonus Record
     - Set All Character As Same And Lock
@@ -57,8 +58,7 @@ This is a cheat Mod, using by your own risk.
 2. Configure library.
 3. Build the solution.
 4. Copy `Output/Sinmai-Assist.dll` to `Mods` folder.
-5. Copy `YamlDotNet.dll` to `UserLibs` folder.
-6. Configure and copy `config.yml` to `GameFolder\Sinmai-Assist\` folder.
+5. Configure and copy `config.yml` to `GameFolder\Sinmai-Assist\` folder.
 
 
 ### Relevant Links
