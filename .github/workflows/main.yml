@@ -26,7 +26,7 @@ jobs:
       run: |
                 choco install 7zip.install -y
                 mkdir cache
-                Invoke-WebRequest -Uri https://github.com/LavaGang/MelonLoader/releases/download/v0.6.5/MelonLoader.x64.zip -OutFile "$(Get-Location)\cache\MelonLoader.x64.zip"        
+                Invoke-WebRequest -Uri https://github.com/LavaGang/MelonLoader/releases/download/v0.6.4/MelonLoader.x64.zip -OutFile "$(Get-Location)\cache\MelonLoader.x64.zip"        
                 7z x "$(Get-Location)\cache\MelonLoader.x64.zip" -o"$(Get-Location)\Out"     
                 Invoke-WebRequest -Uri ${{ secrets.OUTPUT_URL }} -OutFile "$(Get-Location)\cache\Output.7z"
                 7z x "$(Get-Location)\cache\Output.7z" -o"$(Get-Location)\Output"
@@ -49,10 +49,8 @@ jobs:
                 "@ | Out-File -FilePath ".\BuildInfo.cs" -Encoding ascii
                 dotnet build
                 mkdir ".\Out\Mods\"
-                mkdir ".\Out\UserLibs\"
                 mkdir ".\Out\Sinmai-Assist\"
                 cmd /c copy /y ".\Output\Sinmai-Assist.dll" ".\Out\Mods\Sinmai-Assist.dll"
-                cmd /c copy /y ".\Output\YamlDotNet.dll" ".\Out\UserLibs\YamlDotNet.dll"
                 cmd /c copy /y ".\config - zh_CN.yml" ".\Out\Sinmai-Assist\config.yml"
                 Compress-Archive -Path "$(Get-Location)\Out\*" -DestinationPath "$(Get-Location)\Out.zip" -Update
                 

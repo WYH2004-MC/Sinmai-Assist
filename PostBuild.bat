@@ -16,7 +16,7 @@ echo CommitHash="%COMMIT_HASH%"
 echo BuildDate="%TIMESTAMP%"
 
 copy /y ".\Sinmai-Assist.dll" "..\Out\Mods\"
-copy /y ".\YamlDotNet.dll" "..\Out\UserLibs\"
+@REM copy /y ".\YamlDotNet.dll" "..\Out\UserLibs\"
 copy /y "..\config - zh_CN.yml" "..\Out\Sinmai-Assist\config.yml"
 @REM 7z a -tzip "..\PostBuilds\Sinmai-Assist_%COMMIT_HASH%_%TIMESTAMP%".zip "..\Out\*"
 @REM 
