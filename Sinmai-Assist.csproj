@@ -540,6 +540,7 @@
   <ItemGroup>
     <None Include="config.yml" />
     <Content Include="BeforeBuild.bat" />
+    <Content Include="FodyWeavers.xml" />
     <Content Include="PostBuild.bat" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

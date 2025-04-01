@@ -21,8 +21,15 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+        
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@v2
+      
+    - name: Build
+      run: |
+        MSBuild.exe /p:Configuration=Release /p:Platform=x64 /p:TargetFramework=net472 /p:OutDir=Output
 
-    - name: scripts
+    - name: Package
       run: |
                 choco install 7zip.install -y
                 mkdir cache
@@ -47,7 +54,7 @@ jobs:
                     }
                 }
                 "@ | Out-File -FilePath ".\BuildInfo.cs" -Encoding ascii
-                dotnet build
+                
                 mkdir ".\Out\Mods\"
                 mkdir ".\Out\Sinmai-Assist\"
                 cmd /c copy /y ".\Output\Sinmai-Assist.dll" ".\Out\Mods\Sinmai-Assist.dll"
