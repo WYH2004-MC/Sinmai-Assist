@@ -45,11 +45,11 @@ public class ChartTimer
     public static Button ButtonStatus = Button.None;
     public static bool IsPlaying = false;
     public static double Timer = 0.0;
-    public static int recordTime = 0;
-    private static MovieController gameMovie;
-    private static NotesManager notesManager;
-    private static GameProcess gameProcess;
-    private static GameMonitor[] monitors;
+    public static int RecordTime = 0;
+    private static MovieController _gameMovie;
+    private static NotesManager _notesManager;
+    private static GameProcess _gameProcess;
+    private static GameMonitor[] _monitors;
 
     [HarmonyPostfix]
     [HarmonyPatch(typeof(GameProcess), "OnUpdate")]
@@ -57,16 +57,16 @@ public class ChartTimer
     {
         try
         {
-            gameProcess = __instance;
+            _gameProcess = __instance;
             GameSequence sequence = (GameSequence)typeof(GameProcess).GetField("_sequence", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
-            monitors = (GameMonitor[])typeof(GameProcess).GetField("_monitors", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(gameProcess);
-            gameMovie = (MovieController)typeof(GameProcess).GetField("_gameMovie", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
-            notesManager = new NotesManager();
-            if (!notesManager.IsPlaying())
+            _monitors = (GameMonitor[])typeof(GameProcess).GetField("_monitors", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(_gameProcess);
+            _gameMovie = (MovieController)typeof(GameProcess).GetField("_gameMovie", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
+            _notesManager = new NotesManager();
+            if (!_notesManager.IsPlaying())
             {
                 IsPlaying = true;
                 Timer = 0.0;
-                recordTime = 0;
+                RecordTime = 0;
             }
             if (sequence == GameSequence.Play)
             {
@@ -81,13 +81,13 @@ public class ChartTimer
                     if (IsPlaying)
                     {
                         SoundManager.PauseMusic(true);
-                        gameMovie.Pause(true);
+                        GameMoviePause(true);
                         NotesManager.Pause(true);
                     }
                     else
                     {
                         SoundManager.PauseMusic(false);
-                        gameMovie.Pause(false);
+                        GameMoviePause(false);
                         NotesManager.Pause(false);
                         //TimeSkip(0);
                     }
@@ -105,15 +105,15 @@ public class ChartTimer
                 }
                 else if (DebugInput.GetKeyDown(KeyCode.DownArrow) || ButtonStatus == Button.Set)
                 {
-                    recordTime = (int)Timer;
-                    MelonLogger.Msg($"Record Time: {recordTime}");
+                    RecordTime = (int)Timer;
+                    MelonLogger.Msg($"Record Time: {RecordTime}");
                 }
                 else if (DebugInput.GetKeyDown(KeyCode.UpArrow) || ButtonStatus == Button.Back)
                 {
-                    int time = recordTime == 0 ? 999999 : (int)Timer - recordTime;
+                    int time = RecordTime == 0 ? 999999 : (int)Timer - RecordTime;
                     TimeSkip(-time);
                     TimeSkip(0);
-                    MelonLogger.Msg($"Time Jump: {recordTime}({-time})");
+                    MelonLogger.Msg($"Time Jump: {RecordTime}({-time})");
                 }
                 else if (ButtonStatus != Button.None)
                 {
@@ -156,7 +156,7 @@ public class ChartTimer
 
     private static void TimeSkip(int addMsec)
     {
-        gameMovie.Pause(true);
+        GameMoviePause(true);
         NotesManager.Pause(true);
         if (addMsec >= 0)
         {
@@ -166,11 +166,11 @@ public class ChartTimer
         {
             Timer = ((Timer + (double)addMsec >= 0.0) ? (Timer + (double)addMsec) : 0.0);
         }
-        gameMovie.SetSeekFrame(Timer);
+        GameMovieSetSeekFrame(Timer);
         SoundManager.SeekMusic((int)Timer);
-        for (int i = 0; i < monitors.Length; i++)
+        for (int i = 0; i < _monitors.Length; i++)
         {
-            monitors[i].Seek((int)Timer);
+            _monitors[i].Seek((int)Timer);
         }
         int num = 91;
         NotesManager.StartPlay((int)Timer + num);
@@ -178,14 +178,14 @@ public class ChartTimer
         if (IsPlaying)
         {
             SoundManager.PauseMusic(pause: false);
-            gameMovie.Pause(pauseFlag: false);
+            GameMoviePause(false);
             NotesManager.Pause(false);
         }
         else
         {
-            gameMovie.Pause(pauseFlag: true);
+            GameMoviePause(true);
         }
-        gameProcess.UpdateNotes();
+        _gameProcess.UpdateNotes();
     }
 
     private static void ReUpdate()
@@ -194,8 +194,8 @@ public class ChartTimer
         int[] _retryPhase = new int[2] { -1, -1 };
         System.Type processBaseType = typeof(GameProcess).BaseType;
         var containerField = processBaseType.GetField("container", BindingFlags.NonPublic | BindingFlags.Instance);
-        ProcessDataContainer container = (ProcessDataContainer)containerField.GetValue(gameProcess);
-        for (int num30 = 0; num30 < monitors.Length; num30++)
+        ProcessDataContainer container = (ProcessDataContainer)containerField.GetValue(_gameProcess);
+        for (int num30 = 0; num30 < _monitors.Length; num30++)
         {
             if (Singleton<GamePlayManager>.Instance.GetGameScore(num30).IsTrackSkip || Singleton<GamePlayManager>.Instance.IsQuickRetry())
             {
@@ -204,14 +204,14 @@ public class ChartTimer
                     InputManager.SetUsedThisFrame(num30, (InputManager.TouchPanelArea)num31);
                 }
             }
-            monitors[num30].ViewUpdate();
+            _monitors[num30].ViewUpdate();
             if (!Singleton<UserDataManager>.Instance.GetUserData(num30).IsEntry)
             {
                 continue;
             }
-            if (_skipPhase[num30] != monitors[num30].GetPushPhase())
+            if (_skipPhase[num30] != _monitors[num30].GetPushPhase())
             {
-                _skipPhase[num30] = monitors[num30].GetPushPhase();
+                _skipPhase[num30] = _monitors[num30].GetPushPhase();
                 switch (_skipPhase[num30])
                 {
                     case -1:
@@ -231,9 +231,9 @@ public class ChartTimer
                         break;
                 }
             }
-            if (_retryPhase[num30] != monitors[num30].GetPushPhaseRetry())
+            if (_retryPhase[num30] != _monitors[num30].GetPushPhaseRetry())
             {
-                _retryPhase[num30] = monitors[num30].GetPushPhaseRetry();
+                _retryPhase[num30] = _monitors[num30].GetPushPhaseRetry();
                 switch (_retryPhase[num30])
                 {
                     case -1:
@@ -252,5 +252,34 @@ public class ChartTimer
             }
         }
         Singleton<GamePlayManager>.Instance.PlayLastUpdate();
+    }
+    
+    //修复1.55后 因SBGA程序员闲的没事觉得自己不写点东西就要被优化了,灵机一动给GameMovie类下的方法加上屏幕号 导致Mod调用旧方法时让你最新最热原地爆炸的问题
+    private static void GameMoviePause(bool pause)
+    {
+        var method = _gameMovie.GetType().GetMethod("Pause");
+        if (method.GetParameters().Length == 1)
+        {
+            method.Invoke(_gameMovie, [pause]);
+        }
+        else
+        {
+            method.Invoke(_gameMovie, [0, pause]);
+            method.Invoke(_gameMovie, [1, pause]);
+        }
+    }
+    
+    private static void GameMovieSetSeekFrame(double msec)
+    {
+        var method = _gameMovie.GetType().GetMethod("SetSeekFrame");
+        if (method.GetParameters().Length == 1)
+        {
+            method.Invoke(_gameMovie, [msec]);
+        }
+        else
+        {
+            method.Invoke(_gameMovie, [0, msec]);
+            method.Invoke(_gameMovie, [1, msec]);
+        }
     }
 }
