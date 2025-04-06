@@ -1,10 +1,13 @@
 ﻿using MAI2System;
 using MelonLoader;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using HarmonyLib;
+using SinmaiAssist.Attributes;
 using SinmaiAssist.Cheat;
 using SinmaiAssist.Common;
 using SinmaiAssist.Fix;
@@ -114,6 +117,8 @@ namespace SinmaiAssist
             }
 
             // 加载Patch
+            Patch(typeof(HarmonyLibPatch),true);
+            
             // DummyLogin
             if (config.Common.DummyLogin.Enable)
             {
@@ -227,18 +232,25 @@ namespace SinmaiAssist
             }
         }
 
-        private static bool Patch(Type type)
+        private static bool Patch(Type type, bool noLoggerPrint = false)
         {
             try
             {
-                MelonLogger.Msg($"- Patch: {type}");
+                var enableGameVersion = type.GetCustomAttribute<EnableGameVersionAttribute>();
+                if (enableGameVersion != null && !enableGameVersion.ShouldEnable())
+                {
+                    MelonLogger.Warning(
+                        $"! Patch: {type} skipped ,Game version need Min {enableGameVersion.MinGameVersion} Max {enableGameVersion.MaxGameVersion}");
+                    return false;
+                }
 
+                if (!noLoggerPrint) MelonLogger.Msg($"√ Patch: {type}");
                 HarmonyLib.Harmony.CreateAndPatchAll(type);
                 return true;
             }
             catch (Exception e)
             {
-                MelonLogger.Error($"Patch {type} failed.");
+                MelonLogger.Error($"× Patch: {type} failed.");
                 MelonLogger.Error(e.Message);
                 MelonLogger.Error(e.Source);
                 MelonLogger.Error(e.TargetSite);
@@ -273,6 +285,45 @@ namespace SinmaiAssist
                                 "\r\nCheck for conflicting mods, or enabled incompatible options." +
                                 "\r\nIf you believe this is an error, please report the issue to the mod author." +
                                 "\r\n=================================================================");
+        }
+    }
+    public class HarmonyLibPatch
+    {
+        [HarmonyPostfix]
+        [HarmonyPatch("HarmonyLib.PatchTools", "GetPatchMethod")]
+        public static void GetPatchMethod(ref MethodInfo __result)
+        {
+            if (__result != null)
+            {
+                var enableGameVersion = __result.GetCustomAttribute<EnableGameVersionAttribute>();
+                if (enableGameVersion != null && !enableGameVersion.ShouldEnable())
+                {
+#if DEBUG
+                    MelonLogger.Warning($"! Patch: {__result.ReflectedType}.{__result.Name} skipped, Game version need Min {enableGameVersion.MinGameVersion} Max {enableGameVersion.MaxGameVersion}");
+#endif
+                    __result = null;
+                }
+            }
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPatch("HarmonyLib.PatchTools", "GetPatchMethods")]
+        public static void GetPatchMethods(ref IList __result)
+        {
+            for (int i = 0; i < __result.Count; i++)
+            {
+                var harmonyMethod = Traverse.Create(__result[i]).Field("info").GetValue() as HarmonyMethod;
+                var method = harmonyMethod.method;
+                var enableGameVersion = method.GetCustomAttribute<EnableGameVersionAttribute>();
+                if (enableGameVersion != null && !enableGameVersion.ShouldEnable())
+                {
+#if DEBUG
+                    MelonLogger.Warning($"! Patch: {method.ReflectedType}.{method.Name} skipped, Game version need Min {enableGameVersion.MinGameVersion} Max {enableGameVersion.MaxGameVersion}");
+#endif
+                    __result.RemoveAt(i);
+                    i--;
+                }
+            }
         }
     }
 }
