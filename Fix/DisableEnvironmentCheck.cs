@@ -5,9 +5,11 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using MelonLoader;
 using Process;
+using SinmaiAssist.Attributes;
 
 namespace SinmaiAssist.Fix;
 
+[EnableGameVersion(25000)]
 public class DisableEnvironmentCheck
 {
     [HarmonyTranspiler]
@@ -22,16 +24,18 @@ public class DisableEnvironmentCheck
                 field.Name == "OnceDisp");
         if (onceDispIndex == -1)
         {
-            MelonLogger.Warning("Failed to patch DisableEnvironmentCheck, Method Not Found!");
+            MelonLogger.Warning("[Disable Environment Check] Failed to patch DisableEnvironmentCheck, Method Not Found!");
             return codes;
         }
         
+#if DEBUG
         var skippedInstructions = codes.Take(onceDispIndex).ToList();
         MelonLogger.Msg("Disable Environment Check Skipped Code Output:");
         foreach (var inst in skippedInstructions)
         {
             MelonLogger.Msg($"[Disable Environment Check] Opcode: {inst.opcode}, Operand: {inst.operand}");
         }
+#endif
         return codes.Skip(onceDispIndex);
     }
 }
