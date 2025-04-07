@@ -240,17 +240,17 @@ namespace SinmaiAssist
                 if (enableGameVersion != null && !enableGameVersion.ShouldEnable())
                 {
                     MelonLogger.Warning(
-                        $"! Patch: {type} skipped ,Game version need Min {enableGameVersion.MinGameVersion} Max {enableGameVersion.MaxGameVersion}");
+                        $"Patch: {type} skipped ,Game version need Min {enableGameVersion.MinGameVersion} Max {enableGameVersion.MaxGameVersion}");
                     return false;
                 }
 
-                if (!noLoggerPrint) MelonLogger.Msg($"√ Patch: {type}");
+                if (!noLoggerPrint) MelonLogger.Msg($"> Patch: {type}");
                 HarmonyLib.Harmony.CreateAndPatchAll(type);
                 return true;
             }
             catch (Exception e)
             {
-                MelonLogger.Error($"× Patch: {type} failed.");
+                MelonLogger.Error($"Patch: {type} failed.");
                 MelonLogger.Error(e.Message);
                 MelonLogger.Error(e.Source);
                 MelonLogger.Error(e.TargetSite);
@@ -299,7 +299,7 @@ namespace SinmaiAssist
                 if (enableGameVersion != null && !enableGameVersion.ShouldEnable())
                 {
 #if DEBUG
-                    MelonLogger.Warning($"! Patch: {__result.ReflectedType}.{__result.Name} skipped, Game version need Min {enableGameVersion.MinGameVersion} Max {enableGameVersion.MaxGameVersion}");
+                    MelonLogger.Warning($" Patch: {__result.ReflectedType}.{__result.Name} skipped, Game version need Min {enableGameVersion.MinGameVersion} Max {enableGameVersion.MaxGameVersion}");
 #endif
                     __result = null;
                 }
@@ -318,7 +318,7 @@ namespace SinmaiAssist
                 if (enableGameVersion != null && !enableGameVersion.ShouldEnable())
                 {
 #if DEBUG
-                    MelonLogger.Warning($"! Patch: {method.ReflectedType}.{method.Name} skipped, Game version need Min {enableGameVersion.MinGameVersion} Max {enableGameVersion.MaxGameVersion}");
+                    MelonLogger.Warning($" Patch: {method.ReflectedType}.{method.Name} skipped, Game version need Min {enableGameVersion.MinGameVersion} Max {enableGameVersion.MaxGameVersion}");
 #endif
                     __result.RemoveAt(i);
                     i--;
