@@ -10,7 +10,7 @@ public class MainGUI
     {
         AutoPlay,
         FastSkip,
-        ChartTimer,
+        ChartController,
         DummyLogin,
         UserData,
         Graphic,
@@ -64,7 +64,7 @@ public class MainGUI
         GUILayout.BeginVertical(GUILayout.Width(PanelWidth), GUILayout.Height(330f));
         if (_toolbar == Toolbar.AutoPlay && SinmaiAssist.config.Cheat.AutoPlay) AutoPlayPanel.OnGUI();
         else if (_toolbar == Toolbar.FastSkip && SinmaiAssist.config.Cheat.FastSkip) FastSkipPanel.OnGUI();
-        else if (_toolbar == Toolbar.ChartTimer && SinmaiAssist.config.Cheat.ChartTimer) ChartTimerPanel.OnGUI();
+        else if (_toolbar == Toolbar.ChartController && SinmaiAssist.config.Cheat.ChartController) ChartControllerPanel.OnGUI();
         else if (_toolbar == Toolbar.DummyLogin && SinmaiAssist.config.Common.DummyLogin.Enable) DummyLoginPanel.OnGUI();
         else if (_toolbar == Toolbar.UserData) UserDataPanel.OnGUI();
         else if (_toolbar == Toolbar.Graphic) GraphicPanel.OnGUI();

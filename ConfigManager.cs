@@ -115,7 +115,7 @@ namespace SinmaiAssist
     {
         public bool AutoPlay { get; set; }
         public bool FastSkip { get; set; }
-        public bool ChartTimer { get; set; }
+        public bool ChartController { get; set; }
         public bool AllCollection { get; set; }
         public bool UnlockEvent { get; set; }
         public bool UnlockMusic { get; set; }

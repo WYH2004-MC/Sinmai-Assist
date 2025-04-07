@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace SinmaiAssist.Cheat;
 
-public class ChartTimer
+public class ChartController
 {
     private enum GameSequence
     {

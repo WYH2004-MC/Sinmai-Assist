@@ -14,7 +14,7 @@ This is a cheat Mod, using by your own risk.
 - Cheat
 	- Auto Play
 	- Fast Skip
-	- Chart Timer
+	- Chart Controller
     - Unlock Music
     - Unlock Master
 	- Unlock Event

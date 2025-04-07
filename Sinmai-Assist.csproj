@@ -475,7 +475,7 @@
     <Compile Include="BuildInfo.cs" />
     <Compile Include="Cheat\AllCollection.cs" />
     <Compile Include="Cheat\AutoPlay.cs" />
-    <Compile Include="Cheat\ChartTimer.cs" />
+    <Compile Include="Cheat\ChartController.cs" />
     <Compile Include="Cheat\FastSkip.cs" />
     <Compile Include="Cheat\ForceCurrentIsBest.cs" />
     <Compile Include="Cheat\ResetLoginBonusRecord.cs" />
@@ -520,7 +520,7 @@
     <Compile Include="Fix\SkipSpecialNumCheck.cs" />
     <Compile Include="Fix\SkipVersionCheck.cs" />
     <Compile Include="GUI\AutoPlayPanel.cs" />
-    <Compile Include="GUI\ChartTimerPanel.cs" />
+    <Compile Include="GUI\ChartControllerPanel.cs" />
     <Compile Include="GUI\DebugPanel.cs" />
     <Compile Include="GUI\DummyLoginPanel.cs" />
     <Compile Include="GUI\FastSkipPanel.cs" />

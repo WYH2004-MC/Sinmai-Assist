@@ -179,7 +179,7 @@ namespace SinmaiAssist
             //Cheat
             if (config.Cheat.AutoPlay) Patch(typeof(AutoPlay));
             if (config.Cheat.FastSkip) Patch(typeof(FastSkip));
-            if (config.Cheat.ChartTimer) Patch(typeof(ChartTimer));
+            if (config.Cheat.ChartController) Patch(typeof(ChartController));
             if (config.Cheat.AllCollection) Patch(typeof(AllCollection));
             if (config.Cheat.UnlockMusic) Patch(typeof(UnlockMusic));
             if (config.Cheat.UnlockMaster) Patch(typeof(UnlockMaster));

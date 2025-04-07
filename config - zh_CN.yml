@@ -41,7 +41,7 @@
 cheat:
   autoPlay: false # 自动游玩 
   fastSkip: false # 快速跳过
-  chartTimer: false # 铺面计时器(歌曲进度控制)
+  chartController: false # 铺面控制器(歌曲进度控制)
   allCollection: false # 解锁全部收藏品
   unlockEvent: false # 解锁全部活动
   unlockMusic: false # 解锁全部歌曲

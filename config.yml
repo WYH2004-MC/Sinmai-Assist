@@ -41,7 +41,7 @@
 cheat:
   autoPlay: false
   fastSkip: false
-  chartTimer: false
+  chartController: false
   allCollection: false
   unlockEvent: false
   unlockMusic: false
