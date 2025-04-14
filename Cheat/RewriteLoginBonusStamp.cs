@@ -17,7 +17,7 @@ public class RewriteLoginBonusStamp
         if (src.userLoginBonusList == null) return true;
         for (int i = 0; i < src.userLoginBonusList.Length; i++)
         {
-            src.userLoginBonusList[i].point = SinmaiAssist.config.Cheat.RewriteLoginBonusStamp.Point;
+            src.userLoginBonusList[i].point = SinmaiAssist.MainConfig.Cheat.RewriteLoginBonusStamp.Point;
         }
         return false;
     }

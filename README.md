@@ -55,10 +55,9 @@ This is a cheat Mod, using by your own risk.
 ### Development
 
 1. Install [.NET Framework 4.7.2 Developer Pack](https://dotnet.microsoft.com/download/dotnet-framework/net472)
-2. Configure library.
+2. Configure library. (tips: Please use SDGB version library)
 3. Build the solution.
-4. Copy `Output/Sinmai-Assist.dll` to `Mods` folder.
-5. Configure and copy `config.yml` to `GameFolder\Sinmai-Assist\` folder.
+4. Copy `Sinmai-Assist.dll` to `Mods` folder.
 
 
 ### Relevant Links

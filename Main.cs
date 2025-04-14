@@ -10,6 +10,7 @@ using HarmonyLib;
 using SinmaiAssist.Attributes;
 using SinmaiAssist.Cheat;
 using SinmaiAssist.Common;
+using SinmaiAssist.Config;
 using SinmaiAssist.Fix;
 using SinmaiAssist.GUI;
 using SinmaiAssist.Utils;
@@ -31,34 +32,31 @@ namespace SinmaiAssist
     public class SinmaiAssist : MelonMod
     {
         private MainGUI _mainGUI;
-        private static bool isPatchFailed = false;
-        public static ConfigManager config;
-        public static string gameID = "Unknown";
-        public static uint gameVersion = 00000;
-        public static bool Flag1 = false;
+        private static bool _isPatchFailed = false;
+        private static ConfigManager<MainConfig> _mainConfigManager;
+        public static MainConfig MainConfig;
+        public static string GameID = "Unknown";
+        public static uint GameVersion = 00000;
 
         public override void OnInitializeMelon()
         {
-            File.Delete($"{BuildInfo.Name}/Unity.log");
-            Application.logMessageReceived += OnLogMessageReceived; // 注册Unity日志
+            if(!Directory.Exists($"./{BuildInfo.Name}")) Directory.CreateDirectory($"./{BuildInfo.Name}");
+            
+            // 初始化UnityLogger
+            if(File.Exists($"./{BuildInfo.Name}/Unity.log"))  File.Delete($"{BuildInfo.Name}/Unity.log"); 
+            File.WriteAllText($"./{BuildInfo.Name}/Unity.log", "");
+            Application.logMessageReceived += OnLogMessageReceived; 
+            
             PrintLogo();
             _mainGUI = new MainGUI();
-            config = new ConfigManager();
-
+            
             // 加载配置文件
-            MelonLogger.Msg("Load Mod Config.");
-            string yamlFilePath = $"{BuildInfo.Name}/config.yml";
-            if (!File.Exists(yamlFilePath))
-            {
-                MelonLogger.Error($"Path: \"{yamlFilePath}\" Not Found.");
-                return;
-            }
-
             try
             {
-                config.Initialize(yamlFilePath);
-                DummyLoginPanel.DummyUserId = config.Common.DummyLogin.DefaultUserId.ToString();
-                DebugPanel.UnityLogger = config.ModSetting.LogUnity;
+                _mainConfigManager = new ConfigManager<MainConfig>($"./{BuildInfo.Name}/config.yml");
+                MainConfig = _mainConfigManager.GetConfig();
+                DummyLoginPanel.DummyUserId = MainConfig.Common.DummyLogin.DefaultUserId.ToString();
+                DebugPanel.UnityLogger = MainConfig.Common.UnityLogger.Enable;
                 MelonLogger.Msg("Config Load Complete.");
             }
             catch (Exception e)
@@ -66,7 +64,6 @@ namespace SinmaiAssist
                 MelonLogger.Error($"Error initializing mod config: \n{e}");
                 return;
             }
-
 
             // 输出设备摄像头列表
             File.Delete($"{BuildInfo.Name}/WebCameraList.txt");
@@ -89,14 +86,14 @@ namespace SinmaiAssist
             
             try
             {
-                gameID = (string)typeof(ConstParameter).GetField("GameIDStr",
+                GameID = (string)typeof(ConstParameter).GetField("GameIDStr",
                     BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).GetValue(null);
-                gameVersion = (uint)typeof(ConstParameter).GetField("NowGameVersion",
+                GameVersion = (uint)typeof(ConstParameter).GetField("NowGameVersion",
                     BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).GetValue(null);
 
-                if (gameVersion < 24000)
+                if (GameVersion < 24000)
                 {
-                    MelonLogger.Warning($"Using untested version ({gameVersion}) maybe case some unexcepted problems!");
+                    MelonLogger.Warning($"Using untested version ({GameVersion}) maybe case some unexcepted problems!");
                 }
             }
             catch (Exception e)
@@ -105,12 +102,13 @@ namespace SinmaiAssist
                 MelonLogger.Error(e);
             }
             
-            MelonLogger.Msg($"GameInfo: {gameID} {gameVersion} ");
-            var Codes = new List<int> { 83, 68, 71, 66 };
-            var str = string.Concat(Codes.Select(code => (char)code));
-            if (gameID.Equals(str)) Flag1 = true;
+            MelonLogger.Msg($"GameInfo: {GameID} {GameVersion} ");
+            
+            // 弃用的神秘判断代码
+            // var Codes = new List<int> { 83, 68, 71, 66 };
+            // var str = string.Concat(Codes.Select(code => (char)code));
 
-            if (config.ModSetting.SafeMode)
+            if (MainConfig.ModSetting.SafeMode)
             {
                 MelonLogger.Warning("Safe mode is enabled, Disable all patch");
                 return;
@@ -120,9 +118,9 @@ namespace SinmaiAssist
             Patch(typeof(HarmonyLibPatch),true);
             
             // DummyLogin
-            if (config.Common.DummyLogin.Enable)
+            if (MainConfig.Common.DummyLogin.Enable)
             {
-                if (gameID.Equals(str))
+                if (GameID.Equals("SDGB"))
                 {
                     Patch(typeof(DummyChimeLogin));
                 }
@@ -134,9 +132,9 @@ namespace SinmaiAssist
                 }
             }
             
-            if (config.Common.CustomCameraId.Enable)
+            if (MainConfig.Common.CustomCameraId.Enable)
             {
-                if (config.Common.DummyLogin.Enable)
+                if (MainConfig.Common.DummyLogin.Enable)
                 {
                     MelonLogger.Warning("DummyLogin enabled, CustomCameraId has been automatically disabled.");
                 }
@@ -147,48 +145,48 @@ namespace SinmaiAssist
             }
 
             // Common
-            if (config.Common.InfinityTimer) Patch(typeof(InfinityTimer));
-            if (config.Common.InfinityTimerLegacy) Patch(typeof(InfinityTimerLegacy));
-            if (config.Common.DisableBackground) Patch(typeof(DisableBackground));
-            if (config.Common.DisableMask) Patch(typeof(DisableMask));
-            if (config.Common.SinglePlayer.Enable) Patch(typeof(SinglePlayer));
-            if (config.Common.ForceQuickRetry) Patch(typeof(ForceQuickRetry));
-            if (config.Common.ForwardATouchRegionToButton) Patch(typeof(ForwardATouchRegionToButton));
-            if (config.Common.QuickBoot) Patch(typeof(QuickBoot));
-            if (config.Common.BlockCoin) Patch(typeof(BlockCoin));
-            if (config.Common.SkipWarningScreen) Patch(typeof(SkipWarningScreen));
-            if (config.Common.SkipFade) Patch(typeof(SkipFade));
-            if (config.Common.NetworkLogger.Enable) Patch(typeof(NetworkLogger));
-            if (config.Common.CustomVersionText.Enable) Patch(typeof(CustomVersionText));
-            if (config.Common.IgnoreAnyGameInformation) Patch(typeof(IgnoreAnyGameInformation));
-            if (config.Common.ChangeDefaultOption) Patch(typeof(ChangeDefaultOption));
-            if (config.Common.ChangeFadeStyle) Patch(typeof(ChangeFadeStyle));
-            if (config.Common.ChangeGameSettings.Enable) Patch(typeof(ChangeGameSettings));
+            if (MainConfig.Common.InfinityTimer) Patch(typeof(InfinityTimer));
+            if (MainConfig.Common.InfinityTimerLegacy) Patch(typeof(InfinityTimerLegacy));
+            if (MainConfig.Common.DisableBackground) Patch(typeof(DisableBackground));
+            if (MainConfig.Common.DisableMask) Patch(typeof(DisableMask));
+            if (MainConfig.Common.SinglePlayer.Enable) Patch(typeof(SinglePlayer));
+            if (MainConfig.Common.ForceQuickRetry) Patch(typeof(ForceQuickRetry));
+            if (MainConfig.Common.ForwardATouchRegionToButton) Patch(typeof(ForwardATouchRegionToButton));
+            if (MainConfig.Common.QuickBoot) Patch(typeof(QuickBoot));
+            if (MainConfig.Common.BlockCoin) Patch(typeof(BlockCoin));
+            if (MainConfig.Common.SkipWarningScreen) Patch(typeof(SkipWarningScreen));
+            if (MainConfig.Common.SkipFade) Patch(typeof(SkipFade));
+            if (MainConfig.Common.NetworkLogger.Enable) Patch(typeof(NetworkLogger));
+            if (MainConfig.Common.CustomVersionText.Enable) Patch(typeof(CustomVersionText));
+            if (MainConfig.Common.IgnoreAnyGameInformation) Patch(typeof(IgnoreAnyGameInformation));
+            if (MainConfig.Common.ChangeDefaultOption) Patch(typeof(ChangeDefaultOption));
+            if (MainConfig.Common.ChangeFadeStyle) Patch(typeof(ChangeFadeStyle));
+            if (MainConfig.Common.ChangeGameSettings.Enable) Patch(typeof(ChangeGameSettings));
 
             //Fix
-            if (config.Fix.DisableEnvironmentCheck) Patch(typeof(DisableEnvironmentCheck));
-            if (config.Fix.DisableEncryption) Patch(typeof(DisableEncryption));
-            if (config.Fix.DisableReboot) Patch(typeof(DisableReboot));
-            if (config.Fix.FixCheckAuth) Patch(typeof(FixCheckAuth));
-            if (config.Fix.SkipCakeHashCheck) Patch(typeof(SkipCakeHashCheck));
-            if (config.Fix.SkipSpecialNumCheck) Patch(typeof(SkipSpecialNumCheck));
-            if (config.Fix.SkipVersionCheck) Patch(typeof(SkipVersionCheck));
-            if (config.Fix.RestoreCertificateValidation) Patch(typeof(RestoreCertificateValidation));
-            if (config.Fix.RewriteNoteJudgeTiming.Enable) Patch(typeof(RewriteNoteJudgeTiming));
+            if (MainConfig.Fix.DisableEnvironmentCheck) Patch(typeof(DisableEnvironmentCheck));
+            if (MainConfig.Fix.DisableEncryption) Patch(typeof(DisableEncryption));
+            if (MainConfig.Fix.DisableReboot) Patch(typeof(DisableReboot));
+            if (MainConfig.Fix.FixCheckAuth) Patch(typeof(FixCheckAuth));
+            if (MainConfig.Fix.SkipCakeHashCheck) Patch(typeof(SkipCakeHashCheck));
+            if (MainConfig.Fix.SkipSpecialNumCheck) Patch(typeof(SkipSpecialNumCheck));
+            if (MainConfig.Fix.SkipVersionCheck) Patch(typeof(SkipVersionCheck));
+            if (MainConfig.Fix.RestoreCertificateValidation) Patch(typeof(RestoreCertificateValidation));
+            if (MainConfig.Fix.RewriteNoteJudgeTiming.Enable) Patch(typeof(RewriteNoteJudgeTiming));
 
             //Cheat
-            if (config.Cheat.AutoPlay) Patch(typeof(AutoPlay));
-            if (config.Cheat.FastSkip) Patch(typeof(FastSkip));
-            if (config.Cheat.ChartController) Patch(typeof(ChartController));
-            if (config.Cheat.AllCollection) Patch(typeof(AllCollection));
-            if (config.Cheat.UnlockMusic) Patch(typeof(UnlockMusic));
-            if (config.Cheat.UnlockMaster) Patch(typeof(UnlockMaster));
-            if (config.Cheat.UnlockUtage.Enable) Patch(typeof(UnlockUtage));
-            if (config.Cheat.UnlockEvent) Patch(typeof(UnlockEvent));
-            if (config.Cheat.ResetLoginBonusRecord) Patch(typeof(ResetLoginBonusRecord));
-            if (config.Cheat.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
-            if (config.Cheat.SetAllCharacterAsSameAndLock) Patch(typeof(SetAllCharacterAsSameAndLock));
-            if (config.Cheat.RewriteLoginBonusStamp.Enable) Patch(typeof(RewriteLoginBonusStamp));
+            if (MainConfig.Cheat.AutoPlay) Patch(typeof(AutoPlay));
+            if (MainConfig.Cheat.FastSkip) Patch(typeof(FastSkip));
+            if (MainConfig.Cheat.ChartController) Patch(typeof(ChartController));
+            if (MainConfig.Cheat.AllCollection) Patch(typeof(AllCollection));
+            if (MainConfig.Cheat.UnlockMusic) Patch(typeof(UnlockMusic));
+            if (MainConfig.Cheat.UnlockMaster) Patch(typeof(UnlockMaster));
+            if (MainConfig.Cheat.UnlockUtage.Enable) Patch(typeof(UnlockUtage));
+            if (MainConfig.Cheat.UnlockEvent) Patch(typeof(UnlockEvent));
+            if (MainConfig.Cheat.ResetLoginBonusRecord) Patch(typeof(ResetLoginBonusRecord));
+            if (MainConfig.Cheat.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
+            if (MainConfig.Cheat.SetAllCharacterAsSameAndLock) Patch(typeof(SetAllCharacterAsSameAndLock));
+            if (MainConfig.Cheat.RewriteLoginBonusStamp.Enable) Patch(typeof(RewriteLoginBonusStamp));
 
             // 默认加载项
             Patch(typeof(FixDebugInput));
@@ -196,23 +194,23 @@ namespace SinmaiAssist
             Patch(typeof(InputManager));
             Patch(typeof(GameMessageManager));
             
-            if(isPatchFailed) PatchFailedWarn();
+            if(_isPatchFailed) PatchFailedWarn();
             MelonLogger.Msg("Loading completed");
         }
 
         public override void OnGUI()
         {
             _mainGUI.OnGUI();
-            if (config.Common.ShowFPS) ShowFPS.OnGUI();
-            if (config.ModSetting.ShowInfo) ShowVersionInfo.OnGUI();
+            if (MainConfig.Common.ShowFPS) ShowFPS.OnGUI();
+            if (MainConfig.ModSetting.ShowInfo) ShowVersionInfo.OnGUI();
         }
         
         private void OnLogMessageReceived(string condition, string stackTrace, LogType type)
         {
             string logString = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] [{type}] {condition}\n{stackTrace}";
 
-            File.AppendAllText(Path.Combine($"{BuildInfo.Name}/Unity.log"),logString + "\n");
-            if (DebugPanel.UnityLogger)
+            if (MainConfig.Common.UnityLogger.Enable) File.AppendAllText(Path.Combine($"{BuildInfo.Name}/Unity.log"),logString + "\n");
+            if (MainConfig.Common.UnityLogger.Enable && MainConfig.Common.UnityLogger.PrintToConsole)
             {
                 switch (type)
                 {
@@ -256,7 +254,7 @@ namespace SinmaiAssist
                 MelonLogger.Error(e.TargetSite);
                 MelonLogger.Error(e.InnerException);
                 MelonLogger.Error(e.StackTrace);
-                isPatchFailed = true;
+                _isPatchFailed = true;
                 return false;
             }
         }

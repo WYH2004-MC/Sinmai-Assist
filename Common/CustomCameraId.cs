@@ -24,16 +24,16 @@ public class CustomCameraId
     [HarmonyPatch(typeof(CameraManager), "Initialize")]
     public static void SetCameraResolution(CameraManager __instance)
     {
-        if (SinmaiAssist.gameID != "SDEZ")
+        if (SinmaiAssist.GameID != "SDEZ")
         {
-            WebCamDevice qrDevice = WebCamTexture.devices[SinmaiAssist.gameID == "SDGB" ? SinmaiAssist.config.Common.CustomCameraId.ChimeCameraId : SinmaiAssist.config.Common.CustomCameraId.LeftQrCameraId];
+            WebCamDevice qrDevice = WebCamTexture.devices[SinmaiAssist.GameID == "SDGB" ? SinmaiAssist.MainConfig.Common.CustomCameraId.ChimeCameraId : SinmaiAssist.MainConfig.Common.CustomCameraId.LeftQrCameraId];
             WebCamTexture qrTexture = new WebCamTexture(qrDevice.name);
             qrTexture.Play();
             _qrCameraParam = new CameraParameter(qrTexture.width, qrTexture.height, (int)qrTexture.requestedFPS);
             AccessTools.Field(typeof(CameraManager), "QrCameraParam").SetValue(__instance, _qrCameraParam);
             qrTexture.Stop();
         }
-        WebCamDevice gameDevice = WebCamTexture.devices[SinmaiAssist.config.Common.CustomCameraId.PhotoCameraId];
+        WebCamDevice gameDevice = WebCamTexture.devices[SinmaiAssist.MainConfig.Common.CustomCameraId.PhotoCameraId];
         WebCamTexture gameTexture = new WebCamTexture(gameDevice.name);
         gameTexture.Play();
         _gameCameraParam = new CameraParameter(gameTexture.width, gameTexture.height, (int)gameTexture.requestedFPS);
@@ -44,20 +44,20 @@ public class CustomCameraId
     private static IEnumerator CameraInitialize(CameraManager __instance)
     {
         WebCamTexture[] webcamtex = new WebCamTexture[WebCamTexture.devices.Length];
-        int leftQrCameraId = ((SinmaiAssist.config.Common.CustomCameraId.LeftQrCameraId < WebCamTexture.devices.Length)
-            ? SinmaiAssist.config.Common.CustomCameraId.LeftQrCameraId
+        int leftQrCameraId = ((SinmaiAssist.MainConfig.Common.CustomCameraId.LeftQrCameraId < WebCamTexture.devices.Length)
+            ? SinmaiAssist.MainConfig.Common.CustomCameraId.LeftQrCameraId
             : 0);
-        int rightQrCameraId = ((SinmaiAssist.config.Common.CustomCameraId.RightQrCameraId < WebCamTexture.devices.Length)
-            ? SinmaiAssist.config.Common.CustomCameraId.RightQrCameraId
+        int rightQrCameraId = ((SinmaiAssist.MainConfig.Common.CustomCameraId.RightQrCameraId < WebCamTexture.devices.Length)
+            ? SinmaiAssist.MainConfig.Common.CustomCameraId.RightQrCameraId
             : 0);
-        int photoCameraId = ((SinmaiAssist.config.Common.CustomCameraId.PhotoCameraId < WebCamTexture.devices.Length)
-            ? SinmaiAssist.config.Common.CustomCameraId.PhotoCameraId
+        int photoCameraId = ((SinmaiAssist.MainConfig.Common.CustomCameraId.PhotoCameraId < WebCamTexture.devices.Length)
+            ? SinmaiAssist.MainConfig.Common.CustomCameraId.PhotoCameraId
             : 0);
-        int chimeQrCameraId = ((SinmaiAssist.config.Common.CustomCameraId.ChimeCameraId < WebCamTexture.devices.Length)
-            ? SinmaiAssist.config.Common.CustomCameraId.ChimeCameraId
+        int chimeQrCameraId = ((SinmaiAssist.MainConfig.Common.CustomCameraId.ChimeCameraId < WebCamTexture.devices.Length)
+            ? SinmaiAssist.MainConfig.Common.CustomCameraId.ChimeCameraId
             : 0);
 
-        switch (SinmaiAssist.gameID)
+        switch (SinmaiAssist.GameID)
         {
             case "SDGB":
                 webcamtex[chimeQrCameraId] = new WebCamTexture(WebCamTexture.devices[chimeQrCameraId].name, _qrCameraParam.Width, _qrCameraParam.Height, _qrCameraParam.Fps);

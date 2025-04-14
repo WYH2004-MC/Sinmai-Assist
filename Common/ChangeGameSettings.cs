@@ -54,10 +54,10 @@ public class ChangeGameSettings
 
     private static void InitSettings(UserData userData)
     {
-        SettingEnable[0] = SinmaiAssist.config.Common.ChangeGameSettings.CodeRead;
-        SettingEnable[1] = SinmaiAssist.config.Common.ChangeGameSettings.IconPhoto;
-        SettingEnable[2] = SinmaiAssist.config.Common.ChangeGameSettings.CharaSelect;
-        SettingEnable[3] = SinmaiAssist.config.Common.ChangeGameSettings.UploadPhoto;
+        SettingEnable[0] = SinmaiAssist.MainConfig.Common.ChangeGameSettings.CodeRead;
+        SettingEnable[1] = SinmaiAssist.MainConfig.Common.ChangeGameSettings.IconPhoto;
+        SettingEnable[2] = SinmaiAssist.MainConfig.Common.ChangeGameSettings.CharaSelect;
+        SettingEnable[3] = SinmaiAssist.MainConfig.Common.ChangeGameSettings.UploadPhoto;
         UserSettingToggleState[0] = userData.Extend.ExtendContendBit.IsFlagOn(ExtendContentBitID.GotoCodeRead) && SettingEnable[0];
         UserSettingToggleState[1] = userData.Extend.ExtendContendBit.IsFlagOn(ExtendContentBitID.GotoIconPhotoShoot) && SettingEnable[1];
         UserSettingToggleState[2] = userData.Extend.ExtendContendBit.IsFlagOn(ExtendContentBitID.GotoCharaSelect) && SettingEnable[2];

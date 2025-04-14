@@ -10,7 +10,7 @@ public class EnableGameVersionAttribute(uint minGameVersion, uint maxGameVersion
         
     public bool ShouldEnable() 
     { 
-        if (SinmaiAssist.gameVersion >= MinGameVersion && SinmaiAssist.gameVersion <= MaxGameVersion)
+        if (SinmaiAssist.GameVersion >= MinGameVersion && SinmaiAssist.GameVersion <= MaxGameVersion)
         {
             return true; 
         } 

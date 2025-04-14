@@ -24,8 +24,8 @@ public class DebugPanel
         if (GUILayout.Button("↑ ↓ ↑ ↓", MainGUI.Style.Button)) SoundManager.PlaySE(Mai2.Mai2Cue.Cue.SE_ENTRY_AIME_ERROR, 1);
         if (GUILayout.Button("Switch Utage Mode", MainGUI.Style.Button)) UnlockUtage.SwitchUtageMode();
         GUILayout.Label($"GUI Toggle", MainGUI.Style.Title);
-        if (GUILayout.Button("Toggle Show Info", MainGUI.Style.Button)) SinmaiAssist.config.ModSetting.ShowInfo = !SinmaiAssist.config.ModSetting.ShowInfo;
-        if (GUILayout.Button("Toggle Show FPS", MainGUI.Style.Button)) SinmaiAssist.config.Common.ShowFPS = !SinmaiAssist.config.Common.ShowFPS;
+        if (GUILayout.Button("Toggle Show Info", MainGUI.Style.Button)) SinmaiAssist.MainConfig.ModSetting.ShowInfo = !SinmaiAssist.MainConfig.ModSetting.ShowInfo;
+        if (GUILayout.Button("Toggle Show FPS", MainGUI.Style.Button)) SinmaiAssist.MainConfig.Common.ShowFPS = !SinmaiAssist.MainConfig.Common.ShowFPS;
         UnityLogger = GUILayout.Toggle(UnityLogger, "Log Unity Debug?");
     }
 }

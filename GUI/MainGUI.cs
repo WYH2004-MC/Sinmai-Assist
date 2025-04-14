@@ -36,7 +36,7 @@ public class MainGUI
     {
         if (DebugInput.GetKey(KeyCode.Backspace))
         {
-            if(!_backspaceKeyDown) SinmaiAssist.config.ModSetting.ShowPanel = !SinmaiAssist.config.ModSetting.ShowPanel;
+            if(!_backspaceKeyDown) SinmaiAssist.MainConfig.ModSetting.ShowPanel = !SinmaiAssist.MainConfig.ModSetting.ShowPanel;
             _backspaceKeyDown = true;
         }
         else
@@ -44,11 +44,11 @@ public class MainGUI
             _backspaceKeyDown = false;
         }
                 
-        if (SinmaiAssist.config.ModSetting.ShowPanel)
+        if (SinmaiAssist.MainConfig.ModSetting.ShowPanel)
         {
-            if (SinmaiAssist.config.ModSetting.SafeMode) _titleStr += "(SafeMode)";
+            if (SinmaiAssist.MainConfig.ModSetting.SafeMode) _titleStr += "(SafeMode)";
             _panelWindow = GUILayout.Window(10086, _panelWindow, MainPanel, _titleStr);
-            SinmaiAssist.config.ModSetting.ShowPanel = true;
+            SinmaiAssist.MainConfig.ModSetting.ShowPanel = true;
         }
         else
         {
@@ -62,10 +62,10 @@ public class MainGUI
         ToolBarPanel();
         GUILayout.EndVertical();
         GUILayout.BeginVertical(GUILayout.Width(PanelWidth), GUILayout.Height(330f));
-        if (_toolbar == Toolbar.AutoPlay && SinmaiAssist.config.Cheat.AutoPlay) AutoPlayPanel.OnGUI();
-        else if (_toolbar == Toolbar.FastSkip && SinmaiAssist.config.Cheat.FastSkip) FastSkipPanel.OnGUI();
-        else if (_toolbar == Toolbar.ChartController && SinmaiAssist.config.Cheat.ChartController) ChartControllerPanel.OnGUI();
-        else if (_toolbar == Toolbar.DummyLogin && SinmaiAssist.config.Common.DummyLogin.Enable) DummyLoginPanel.OnGUI();
+        if (_toolbar == Toolbar.AutoPlay && SinmaiAssist.MainConfig.Cheat.AutoPlay) AutoPlayPanel.OnGUI();
+        else if (_toolbar == Toolbar.FastSkip && SinmaiAssist.MainConfig.Cheat.FastSkip) FastSkipPanel.OnGUI();
+        else if (_toolbar == Toolbar.ChartController && SinmaiAssist.MainConfig.Cheat.ChartController) ChartControllerPanel.OnGUI();
+        else if (_toolbar == Toolbar.DummyLogin && SinmaiAssist.MainConfig.Common.DummyLogin.Enable) DummyLoginPanel.OnGUI();
         else if (_toolbar == Toolbar.UserData) UserDataPanel.OnGUI();
         else if (_toolbar == Toolbar.Graphic) GraphicPanel.OnGUI();
         else if (_toolbar == Toolbar.Debug) DebugPanel.OnGUI();

@@ -20,7 +20,7 @@ public class DisableBackground
     {
         try
         {
-            if (SinmaiAssist.config.Common.SinglePlayer.HideSubMonitor) return;
+            if (SinmaiAssist.MainConfig.Common.SinglePlayer.HideSubMonitor) return;
             GameObject leftSubMonitor = GameObject.Find("LeftMonitor")
                 .transform.Find("CommonProcess(Clone)")
                 .transform.Find("RearCanvas")

@@ -22,7 +22,7 @@ public class SinglePlayer
         }
 
         var position = mainCamera.gameObject.transform.position;
-        if (SinmaiAssist.config.Common.SinglePlayer.HideSubMonitor)
+        if (SinmaiAssist.MainConfig.Common.SinglePlayer.HideSubMonitor)
         {
             mainCamera.gameObject.transform.position = new Vector3(-540f, -420f, position.z);
             mainCamera.orthographicSize = 540f;
@@ -52,7 +52,7 @@ public class SinglePlayer
 
         for (int i = 0; i < customGraphic.vertex.Count; i++)
         {
-            if (SinmaiAssist.config.Common.SinglePlayer.HideSubMonitor)
+            if (SinmaiAssist.MainConfig.Common.SinglePlayer.HideSubMonitor)
             {
                 vertexArray[i] = RectTransformUtility.WorldToScreenPoint(
                     Camera.main,

@@ -60,7 +60,7 @@ public class UnlockUtage
     [HarmonyPatch(typeof(MusicData), "Init")]
     public static void ForceSetUtagePlayStyle(MusicData __instance)
     {
-        if(!SinmaiAssist.config.Cheat.UnlockUtage.UnlockDoublePlayerMusic) return;
+        if(!SinmaiAssist.MainConfig.Cheat.UnlockUtage.UnlockDoublePlayerMusic) return;
         if (__instance.utagePlayStyle == UtagePlayStyle.DoublePlayerScore)
         {
             PropertyInfo utagePlayStyleProperty = typeof(MusicData).GetProperty("utagePlayStyle", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);

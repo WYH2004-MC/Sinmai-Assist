@@ -21,19 +21,22 @@ public class DummyLoginPanel
         if (GUILayout.Button("Code Login", MainGUI.Style.Button))
         {
             CodeLoginFlag = true;
-            if(!SinmaiAssist.Flag1)DummyAimeLogin.ReadCard();
+            if(SinmaiAssist.GameID != "SDGB")DummyAimeLogin.ReadCard();
         }
         GUILayout.Label("UserID:", MainGUI.Style.Text);
         DummyUserId = GUILayout.TextField(DummyUserId, GUILayout.Height(20f));
         if (GUILayout.Button("UserId Login", MainGUI.Style.Button))
         {
             UserIdLoginFlag = true;
-            if(!SinmaiAssist.Flag1)DummyAimeLogin.ReadCard("12312312312312312312", DummyLoginCode);
+            if(SinmaiAssist.GameID != "SDGB")DummyAimeLogin.ReadCard("12312312312312312312", DummyLoginCode);
         }
         GUILayout.Label($"AMDaemon BootTime: {AMDaemon.Allnet.Auth.AuthTime}", MainGUI.Style.Text);
-        if (GUILayout.Button("UserId Logout", MainGUI.Style.Button))
+        if (SinmaiAssist.GameID == "SDGB")
         {
-            PacketHelper.StartPacket(new UserLogout(ulong.Parse(DummyUserId), AMDaemon.Allnet.Auth.AuthTime, "", LogoutComplete,LogoutFailed));
+            if (GUILayout.Button("UserId Logout", MainGUI.Style.Button))
+            {
+                PacketHelper.StartPacket(new UserLogout(ulong.Parse(DummyUserId), AMDaemon.Allnet.Auth.AuthTime, "", LogoutComplete,LogoutFailed));
+            }
         }
     }
     

@@ -81,7 +81,7 @@ public class NetworkLogger
             string logText = now.ToString("[HH:mm:ss.fff] ");
             logText += $"[{httpMessageType}] [{api}] -> {content}\n";
 
-            if (SinmaiAssist.config.Common.NetworkLogger.PrintToConsole)
+            if (SinmaiAssist.MainConfig.Common.NetworkLogger.PrintToConsole)
                 MelonLogger.Msg($"[NetworkLogger] [{httpMessageType}] [{api}] -> {content}");
 
             lock (logLock)
