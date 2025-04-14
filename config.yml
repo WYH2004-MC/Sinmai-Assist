@@ -63,6 +63,7 @@ fix:
   disableEncryption: false
   disableReboot: false
   fixCheckAuth: false
+  forceAsServer: false
   skipCakeHashCheck: false
   skipSpecialNumCheck: false
   skipVersionCheck: false

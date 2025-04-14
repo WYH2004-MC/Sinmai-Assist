@@ -168,6 +168,7 @@ namespace SinmaiAssist
             if (MainConfig.Fix.DisableEncryption) Patch(typeof(DisableEncryption));
             if (MainConfig.Fix.DisableReboot) Patch(typeof(DisableReboot));
             if (MainConfig.Fix.FixCheckAuth) Patch(typeof(FixCheckAuth));
+            if (MainConfig.Fix.ForceAsServer) Patch(typeof(ForceAsServer));
             if (MainConfig.Fix.SkipCakeHashCheck) Patch(typeof(SkipCakeHashCheck));
             if (MainConfig.Fix.SkipSpecialNumCheck) Patch(typeof(SkipSpecialNumCheck));
             if (MainConfig.Fix.SkipVersionCheck) Patch(typeof(SkipVersionCheck));
