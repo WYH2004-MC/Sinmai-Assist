@@ -62,6 +62,7 @@ fix:
   disableEnvironmentCheck: false
   disableEncryption: false
   disableReboot: false
+  disableIniClear: false
   fixCheckAuth: false
   forceAsServer: false
   skipCakeHashCheck: false

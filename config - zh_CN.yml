@@ -62,6 +62,7 @@ fix:
   disableEnvironmentCheck: false # 禁用运行环境检查
   disableEncryption: false # 禁用加密
   disableReboot: false # 禁用自动重启
+  disableIniClear: false # 禁止程序清除ini配置文件文件
   fixCheckAuth: false # 修复CheckAuth
   forceAsServer: false # 强制以服务器模式运行
   skipCakeHashCheck: false # 跳过Cake.dll Hash检查

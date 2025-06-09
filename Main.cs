@@ -152,7 +152,8 @@ namespace SinmaiAssist
             if (MainConfig.Common.SinglePlayer.Enable) Patch(typeof(SinglePlayer));
             if (MainConfig.Common.ForceQuickRetry) Patch(typeof(ForceQuickRetry));
             if (MainConfig.Common.ForwardATouchRegionToButton) Patch(typeof(ForwardATouchRegionToButton));
-            if (MainConfig.Common.QuickBoot) Patch(typeof(QuickBoot));
+            // 存在资源加载问题，现已禁用
+            // if (MainConfig.Common.QuickBoot) Patch(typeof(QuickBoot)); 
             if (MainConfig.Common.BlockCoin) Patch(typeof(BlockCoin));
             if (MainConfig.Common.SkipWarningScreen) Patch(typeof(SkipWarningScreen));
             if (MainConfig.Common.SkipFade) Patch(typeof(SkipFade));
@@ -167,6 +168,7 @@ namespace SinmaiAssist
             if (MainConfig.Fix.DisableEnvironmentCheck) Patch(typeof(DisableEnvironmentCheck));
             if (MainConfig.Fix.DisableEncryption) Patch(typeof(DisableEncryption));
             if (MainConfig.Fix.DisableReboot) Patch(typeof(DisableReboot));
+            if (MainConfig.Fix.DisableIniClear) Patch(typeof(DisableIniClear));
             if (MainConfig.Fix.FixCheckAuth) Patch(typeof(FixCheckAuth));
             if (MainConfig.Fix.ForceAsServer) Patch(typeof(ForceAsServer));
             if (MainConfig.Fix.SkipCakeHashCheck) Patch(typeof(SkipCakeHashCheck));
