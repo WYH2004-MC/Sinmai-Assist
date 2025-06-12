@@ -61,7 +61,7 @@ public class MainGUI
         GUILayout.BeginVertical($"{BuildInfo.Name} {BuildInfo.Version} ({BuildInfo.CommitHash??"NOT SET"})", GUILayout.Height(20f));
         ToolBarPanel();
         GUILayout.EndVertical();
-        GUILayout.BeginVertical(GUILayout.Width(PanelWidth), GUILayout.Height(330f));
+        GUILayout.BeginVertical(GUILayout.Width(PanelWidth), GUILayout.Height(380f));
         if (_toolbar == Toolbar.AutoPlay && SinmaiAssist.MainConfig.Cheat.AutoPlay) AutoPlayPanel.OnGUI();
         else if (_toolbar == Toolbar.FastSkip && SinmaiAssist.MainConfig.Cheat.FastSkip) FastSkipPanel.OnGUI();
         else if (_toolbar == Toolbar.ChartController && SinmaiAssist.MainConfig.Cheat.ChartController) ChartControllerPanel.OnGUI();

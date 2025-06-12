@@ -24,7 +24,7 @@ public class UserDataPanel
         Frame = UserData.Collection.Frame
     }
     
-    private static string[] _userInputId = new string[6] { "", "", "", "", "", ""};
+    private static string[] _userInputId = ["", "", "", "", "", "", ""];
     
     public static void OnGUI()
     {
@@ -65,6 +65,17 @@ public class UserDataPanel
         {
             UnlockMusic(0, _userInputId[0]);
             UnlockMusic(1, _userInputId[0]);
+        }
+        GUILayout.EndHorizontal();
+        
+        GUILayout.Label("MaiMile", MainGUI.Style.Title);
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("MaiMile", new GUIStyle(MainGUI.Style.Text){fixedWidth = 50});
+        _userInputId[6] = GUILayout.TextField(_userInputId[7]);
+        if (GUILayout.Button("Add", new GUIStyle(MainGUI.Style.Button){ fixedWidth = 50}))
+        {
+            UnlockMusic(0, _userInputId[6]);
+            UnlockMusic(1, _userInputId[6]);
         }
         GUILayout.EndHorizontal();
         
@@ -152,6 +163,43 @@ public class UserDataPanel
         {
             GameMessageManager.SendMessage((int)index,$"Unknown error");
             MelonLogger.Error(e);
+        }
+    }
+
+    private static void AddMaiMile(long index, string input)
+    {
+        UserData userData = Singleton<UserDataManager>.Instance.GetUserData(index);
+        if (SinmaiAssist.GameVersion < 25000)
+        {
+            GameMessageManager.SendMessage((int)index,"MaiMile is not supported in this version");
+            return;
+        }
+        if (userData.IsGuest())
+        {
+            GameMessageManager.SendMessage((int)index,"Guest Account\nUnable to add MaiMile");
+            return;
+        }
+        try
+        {
+            if (int.TryParse(input , out int addMile))
+            {
+                var haveMile = userData.Detail.Point;
+                if (haveMile + addMile >= 99999)
+                    addMile = 99999 - haveMile;
+                var addMileBefore = haveMile + addMile;
+                
+                userData.AddPresentMile(addMile);
+                GameMessageManager.SendMessage((int)index,$"Add {addMile} MaiMile\n ({addMileBefore} -> {haveMile})");
+            }
+            else
+            {
+                GameMessageManager.SendMessage((int)index,$"Invalid MaiMile\n {input}");
+            }
+        }
+        catch (Exception e)
+        {
+            System.Console.WriteLine(e);
+            throw;
         }
     }
 }
