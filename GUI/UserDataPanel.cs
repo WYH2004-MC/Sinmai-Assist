@@ -74,8 +74,8 @@ public class UserDataPanel
         _userInputId[6] = GUILayout.TextField(_userInputId[7]);
         if (GUILayout.Button("Add", new GUIStyle(MainGUI.Style.Button){ fixedWidth = 50}))
         {
-            UnlockMusic(0, _userInputId[6]);
-            UnlockMusic(1, _userInputId[6]);
+            AddMaiMile(0, _userInputId[6]);
+            AddMaiMile(1, _userInputId[6]);
         }
         GUILayout.EndHorizontal();
         
@@ -198,8 +198,8 @@ public class UserDataPanel
         }
         catch (Exception e)
         {
-            System.Console.WriteLine(e);
-            throw;
+            GameMessageManager.SendMessage((int)index,$"Unknown error");
+            MelonLogger.Error(e);
         }
     }
 }
