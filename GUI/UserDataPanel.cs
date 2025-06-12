@@ -71,7 +71,7 @@ public class UserDataPanel
         GUILayout.Label("MaiMile", MainGUI.Style.Title);
         GUILayout.BeginHorizontal();
         GUILayout.Label("MaiMile", new GUIStyle(MainGUI.Style.Text){fixedWidth = 50});
-        _userInputId[6] = GUILayout.TextField(_userInputId[7]);
+        _userInputId[6] = GUILayout.TextField(_userInputId[6]);
         if (GUILayout.Button("Add", new GUIStyle(MainGUI.Style.Button){ fixedWidth = 50}))
         {
             AddMaiMile(0, _userInputId[6]);
