@@ -3,14 +3,11 @@ Mods for maimai DX (Sinmai.exe). Patch with MelonLoader.
 
 This is a cheat Mod, using by your own risk.
 
-
-![Sinmai-Assist](https://counter.wyh2004.top/get/@Sinmai-Assist?theme=gelbooru)
-
 > [!WARNING] 
 > Please use MelonLoader version 0.6.4 or lower. 
 > Higher versions will crash.
 
-### Feature
+## Feature
 - Cheat
 	- Auto Play
 	- Fast Skip
@@ -46,13 +43,19 @@ This is a cheat Mod, using by your own risk.
 - Fix
     - Disable Environment Check(For versions after 1.50)
 	- Disable Encryption
+    - Disable Ini Clear
 	- Disable Reboot
+    - Fix Check Auth
 	- Fix DebugInput
+    - Force As Server
+    - Restore Certificate Validation
 	- Rewrite Judge Timing
 	- Skip Version Check
+    - Skip Cake Hash Check
+    - Skip SpecialNum Check
 
 
-### Development
+## Development
 
 1. Install [.NET Framework 4.7.2 Developer Pack](https://dotnet.microsoft.com/download/dotnet-framework/net472)
 2. Configure library. (tips: Please use SDGB version library)
@@ -60,7 +63,19 @@ This is a cheat Mod, using by your own risk.
 4. Copy `Sinmai-Assist.dll` to `Mods` folder.
 
 
-### Relevant Links
+## Relevant Links
 
 * [MelonLoader Wiki](https://melonwiki.xyz/#/modders/quickstart)
 * [Harmony Docs](https://harmony.pardeike.net/articles/patching-prefix.html)
+
+
+## Contributors
+
+<a href="https://github.com/WYH2004-MC/Sinmai-Assist/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=WYH2004-MC/Sinmai-Assist" />
+</a>
+
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=WYH2004-MC/Sinmai-Assist&type=Date)](https://www.star-history.com/#WYH2004-MC/Sinmai-Assist&Date)
