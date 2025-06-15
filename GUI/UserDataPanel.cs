@@ -189,7 +189,7 @@ public class UserDataPanel
                 var addMileBefore = haveMile + addMile;
                 
                 userData.AddPresentMile(addMile);
-                GameMessageManager.SendMessage((int)index,$"Add {addMile} MaiMile\n ({addMileBefore} -> {haveMile})");
+                GameMessageManager.SendMessage((int)index,$"Add {addMile} MaiMile\n ({haveMile} -> {addMileBefore})");
             }
             else
             {
