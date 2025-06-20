@@ -1,4 +1,5 @@
-﻿using static Manager.CameraManager;
+﻿using System;
+using static Manager.CameraManager;
 using System.Collections;
 using HarmonyLib;
 using Manager;
@@ -43,7 +44,9 @@ public class CustomCameraId
     
     private static IEnumerator CameraInitialize(CameraManager __instance)
     {
-        WebCamTexture[] webcamtex = new WebCamTexture[WebCamTexture.devices.Length];
+        int webcamtexLength = Math.Max(2, WebCamTexture.devices.Length);
+        WebCamTexture[] webcamtex = new WebCamTexture[webcamtexLength];
+        
         int leftQrCameraId = ((SinmaiAssist.MainConfig.Common.CustomCameraId.LeftQrCameraId < WebCamTexture.devices.Length)
             ? SinmaiAssist.MainConfig.Common.CustomCameraId.LeftQrCameraId
             : 0);
@@ -76,18 +79,25 @@ public class CustomCameraId
                 break;
         }
         webcamtex[photoCameraId] = new WebCamTexture(WebCamTexture.devices[photoCameraId].name, _gameCameraParam.Width, _gameCameraParam.Height, _gameCameraParam.Fps);
+        
+        // 判断如果设备只连接了一个摄像头，就将相机0复制到相机1，防止其他代码调用相机1导致读到个Null
+        if (WebCamTexture.devices.Length == 1)
+        {
+            webcamtex[1] = webcamtex[0];
+        }
+        
         AccessTools.Field(typeof(CameraManager), "_webcamtex").SetValue(__instance, webcamtex);
         
         __instance.isAvailableCamera = new bool[webcamtex.Length];
-        __instance.cameraProcMode = new CameraManager.CameraProcEnum[webcamtex.Length];
+        __instance.cameraProcMode = new CameraProcEnum[webcamtex.Length];
         
         for (int i = 0; i < webcamtex.Length; i++)
         {
             __instance.isAvailableCamera[i] = true;
-            __instance.cameraProcMode[i] = CameraManager.CameraProcEnum.Good;
+            __instance.cameraProcMode[i] = CameraProcEnum.Good;
         }
 
-        CameraManager.IsReady = true;
+        IsReady = true;
         yield break;
     }
 }
