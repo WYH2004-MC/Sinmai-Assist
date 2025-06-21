@@ -46,13 +46,16 @@ public class UnlockEvent
                 {
                     if (eventFolder.Name.StartsWith("event") && int.TryParse(eventFolder.Name.Replace("event", ""), out var eventId))
                     {
-                        list.Add(new GameEvent
+                        if (eventId > 0)
                         {
-                            id = eventId,
-                            startDate = "2000-01-01 00:00:00",
-                            endDate = "2077-07-21 11:45:14",
-                            type = 1
-                        });
+                            list.Add(new GameEvent
+                            {
+                                id = eventId,
+                                startDate = "2000-01-01 00:00:00",
+                                endDate = "2077-07-21 11:45:14",
+                                type = 1
+                            });
+                        }
                     }
                 }
             }
