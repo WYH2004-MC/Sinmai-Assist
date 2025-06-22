@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using MAI2.Util;
 using Manager;
 using Monitor;
@@ -89,14 +89,21 @@ namespace SinmaiAssist.Cheat
                 case AutoPlayMode.Critical:
                     __result = NoteJudge.ETiming.Critical;
                     break;
+                // 随机Fast或Late
                 case AutoPlayMode.Perfect:
-                    __result = NoteJudge.ETiming.LatePerfect2nd;
+                    __result = UnityEngine.Random.Range(0, 2) == 0 
+                        ? NoteJudge.ETiming.LatePerfect2nd 
+                        : NoteJudge.ETiming.FastPerfect2nd;
                     break;
                 case AutoPlayMode.Great:
-                    __result = NoteJudge.ETiming.LateGreat;
+                    __result = UnityEngine.Random.Range(0, 2) == 0 
+                        ? NoteJudge.ETiming.LateGreat 
+                        : NoteJudge.ETiming.FastGreat;
                     break;
                 case AutoPlayMode.Good:
-                    __result = NoteJudge.ETiming.LateGood;
+                    __result = UnityEngine.Random.Range(0, 2) == 0 
+                        ? NoteJudge.ETiming.LateGood 
+                        : NoteJudge.ETiming.FastGood;
                     break;
                 case AutoPlayMode.Random:
                     __result = RandomJudgeTiming[UnityEngine.Random.Range(0, RandomJudgeTiming.Count)];
