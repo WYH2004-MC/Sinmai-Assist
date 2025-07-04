@@ -11,7 +11,7 @@ public class KeyBindConfig
 {
     public AutoPlayConfig AutoPlay { get; set; } = new AutoPlayConfig();
     public ChartControllerConfig ChartController { get; set; } = new ChartControllerConfig();
-    public SinmaiAssistConfig SinaiAssist { get; set; } = new SinmaiAssistConfig();
+    public SinmaiAssistConfig SinmaiAssist { get; set; } = new SinmaiAssistConfig();
 
     public class AutoPlayConfig
     {
