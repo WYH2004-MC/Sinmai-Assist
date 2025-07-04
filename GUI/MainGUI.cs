@@ -34,7 +34,7 @@ public class MainGUI
     
     public void OnGUI()
     {
-        if (DebugInput.GetKey(KeyCode.Backspace))
+        if (DebugInput.GetKey(SinmaiAssist.KeyBindConfig.SinaiAssist.ShowUserPanel.KeyCode))
         {
             if(!_backspaceKeyDown) SinmaiAssist.MainConfig.ModSetting.ShowPanel = !SinmaiAssist.MainConfig.ModSetting.ShowPanel;
             _backspaceKeyDown = true;

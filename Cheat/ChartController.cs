@@ -76,7 +76,7 @@ public class ChartController
                 {
                     Timer += GameManager.GetGameMSecAddD();
                 }
-                if (ButtonStatus == Button.Pause || DebugInput.GetKeyDown(KeyCode.Return))
+                if (ButtonStatus == Button.Pause || DebugInput.GetKeyDown(SinmaiAssist.KeyBindConfig.ChartController.Pause.KeyCode))
                 {
                     if (IsPlaying)
                     {
@@ -93,22 +93,22 @@ public class ChartController
                     }
                     IsPlaying = !IsPlaying;
                 }
-                else if (DebugInput.GetKey(KeyCode.LeftArrow) && !IsPlaying)
+                else if (DebugInput.GetKey(SinmaiAssist.KeyBindConfig.ChartController.Backward.KeyCode) && !IsPlaying)
                 {
                     Singleton<GamePlayManager>.Instance.Initialize(IsPartyPlay);
                     TimeSkip(-16);
                 }
-                else if (DebugInput.GetKey(KeyCode.RightArrow) && !IsPlaying)
+                else if (DebugInput.GetKey(SinmaiAssist.KeyBindConfig.ChartController.Forward.KeyCode) && !IsPlaying)
                 {
                     Singleton<GamePlayManager>.Instance.Initialize(IsPartyPlay);
                     TimeSkip(16);
                 }
-                else if (DebugInput.GetKeyDown(KeyCode.DownArrow) || ButtonStatus == Button.Set)
+                else if (DebugInput.GetKeyDown(SinmaiAssist.KeyBindConfig.ChartController.SetRecord.KeyCode) || ButtonStatus == Button.Set)
                 {
                     RecordTime = (int)Timer;
                     MelonLogger.Msg($"Record Time: {RecordTime}");
                 }
-                else if (DebugInput.GetKeyDown(KeyCode.UpArrow) || ButtonStatus == Button.Back)
+                else if (DebugInput.GetKeyDown(SinmaiAssist.KeyBindConfig.ChartController.ReturnRecord.KeyCode) || ButtonStatus == Button.Back)
                 {
                     int time = RecordTime == 0 ? 999999 : (int)Timer - RecordTime;
                     TimeSkip(-time);

@@ -509,6 +509,7 @@
     <Compile Include="Common\SinglePlayer.cs" />
     <Compile Include="Common\SkipWarningScreen.cs" />
     <Compile Include="Config\ConfigManager.cs" />
+    <Compile Include="Config\KeyBindConfig.cs" />
     <Compile Include="Config\MainConfig.cs" />
     <Compile Include="Fix\DisableIniClear.cs" />
     <Compile Include="Fix\ForceAsServer.cs" />

@@ -28,13 +28,5 @@ public class ChartControllerPanel
         if (GUILayout.Button("Set", MainGUI.Style.Button)) ChartController.ButtonStatus = ChartController.Button.Set;
         if (GUILayout.Button("Back", MainGUI.Style.Button)) ChartController.ButtonStatus = ChartController.Button.Back;
         GUILayout.EndHorizontal();
-        GUILayout.Label(
-            "While paused, you can use the LeftArrow and RightArrow keys to perform small range fast forward or rewind.",
-            new GUIStyle(MainGUI.Style.Text)
-            {
-                fontSize = 11,
-                wordWrap = true
-            }
-        );
     }
 }

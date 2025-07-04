@@ -34,7 +34,9 @@ namespace SinmaiAssist
         private MainGUI _mainGUI;
         private static bool _isPatchFailed = false;
         private static ConfigManager<MainConfig> _mainConfigManager;
+        private static ConfigManager<KeyBindConfig> _keyBindConfigManager;
         public static MainConfig MainConfig;
+        public static KeyBindConfig KeyBindConfig;
         public static string GameID = "Unknown";
         public static uint GameVersion = 00000;
 
@@ -54,7 +56,9 @@ namespace SinmaiAssist
             try
             {
                 _mainConfigManager = new ConfigManager<MainConfig>($"./{BuildInfo.Name}/config.yml");
+                _keyBindConfigManager = new ConfigManager<KeyBindConfig>($"./{BuildInfo.Name}/keybind.yml");
                 MainConfig = _mainConfigManager.GetConfig();
+                KeyBindConfig = _keyBindConfigManager.GetConfig();
                 DummyLoginPanel.DummyUserId = MainConfig.Common.DummyLogin.DefaultUserId.ToString();
                 DebugPanel.UnityLogger = MainConfig.Common.UnityLogger.Enable;
                 MelonLogger.Msg("Config Load Complete.");
