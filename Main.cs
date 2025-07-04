@@ -55,8 +55,9 @@ namespace SinmaiAssist
             // 加载配置文件
             try
             {
+                var keyBindCoverter = new KeyBindConfig.Converter();
                 _mainConfigManager = new ConfigManager<MainConfig>($"./{BuildInfo.Name}/config.yml");
-                _keyBindConfigManager = new ConfigManager<KeyBindConfig>($"./{BuildInfo.Name}/keybind.yml");
+                _keyBindConfigManager = new ConfigManager<KeyBindConfig>($"./{BuildInfo.Name}/keybind.yml", keyBindCoverter);
                 MainConfig = _mainConfigManager.GetConfig();
                 KeyBindConfig = _keyBindConfigManager.GetConfig();
                 DummyLoginPanel.DummyUserId = MainConfig.Common.DummyLogin.DefaultUserId.ToString();

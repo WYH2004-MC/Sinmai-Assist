@@ -14,10 +14,12 @@ namespace SinmaiAssist.Config
     {
         private readonly string _configPath;
         private T _config;
+        private readonly IYamlTypeConverter _customConverter;
         
-        public ConfigManager(string configPath = "config.yml")
+        public ConfigManager(string configPath = "config.yml", IYamlTypeConverter customConverter = null)
         {
             _configPath = configPath;
+            _customConverter = customConverter;
             InitConfig();
         }
 
@@ -56,16 +58,40 @@ namespace SinmaiAssist.Config
             }
             return _config;
         }
+        
+        private ISerializer CreateSerializer()
+        {
+            var builder = new SerializerBuilder()
+                .WithNamingConvention(CamelCaseNamingConvention.Instance);
+
+            if (_customConverter != null)
+            {
+                builder = builder.WithTypeConverter(_customConverter);
+            }
+
+            return builder.Build();
+        }
+
+        private IDeserializer CreateDeserializer()
+        {
+            var builder = new DeserializerBuilder()
+                .WithNamingConvention(CamelCaseNamingConvention.Instance);
+
+            if (_customConverter != null)
+            {
+                builder = builder.WithTypeConverter(_customConverter);
+            }
+
+            return builder.Build();
+        }
 
         private void SaveConfig()
         {
             var directory = Path.GetDirectoryName(_configPath);
             if (!Directory.Exists(directory))
                 Directory.CreateDirectory(directory);
-            
-            var serializer = new SerializerBuilder()
-                .WithNamingConvention(CamelCaseNamingConvention.Instance)
-                .Build();
+
+            var serializer = CreateSerializer();
             var yaml = serializer.Serialize(_config);
             File.WriteAllText(_configPath, yaml);
         }
@@ -73,9 +99,7 @@ namespace SinmaiAssist.Config
         
         private void LoadConfig()
         {
-            var deserializer = new DeserializerBuilder()
-                .WithNamingConvention(CamelCaseNamingConvention.Instance)
-                .Build();
+            var deserializer = CreateDeserializer();
             var yaml = File.ReadAllText(_configPath);
             _config = deserializer.Deserialize<T>(yaml);
         }

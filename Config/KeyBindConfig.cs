@@ -1,6 +1,9 @@
 using System;
 using MelonLoader;
 using UnityEngine;
+using YamlDotNet.Core;
+using YamlDotNet.Core.Events;
+using YamlDotNet.Serialization;
 
 namespace SinmaiAssist.Config;
 
@@ -39,39 +42,56 @@ public class KeyBindConfig
     
     public class Key
     {
-        private string _key;
-        
+        private string _keyCode;
+
         public Key(string key)
         {
-            _key = key;
+            _keyCode = key;
         }
 
-        public static implicit operator Key(string key)
-        {
-            return new Key(key);
-        }
-        
-        public static implicit operator string (Key key)
-        {
-            return key._key;
-        }
+        public static implicit operator Key(string key) => new Key(key);
+        public static implicit operator string(Key key) => key._keyCode;
+        public new string ToString() => _keyCode;
         
         public KeyCode KeyCode
         {
             get
             {
-                if (_key == "None")
-                    return KeyCode.None;
-                if (Enum.TryParse<KeyCode>(_key, out var code))
+                if (_keyCode == "None")
+                    return UnityEngine.KeyCode.None;
+                if (Enum.TryParse<KeyCode>(_keyCode, out var code))
                     return code;
                 
                 return KeyCode.None;
             }
         }
-        
-        public new string ToString()
+    }
+
+    public class Converter : IYamlTypeConverter
+    {
+        public bool Accepts(Type type)
         {
-            return _key;
+            return type == typeof(Key);
+        }
+        
+        public object ReadYaml(IParser parser, Type type, ObjectDeserializer rootDeserializer)
+        {
+            var scalar = (Scalar) parser.Current;
+            var value = scalar.Value;
+            parser.MoveNext();
+            return new Key(value);
+        }
+
+        public void WriteYaml(IEmitter emitter, object? value, Type type, ObjectSerializer serializer)
+        {
+            if (value is Key key)
+            {
+                emitter.Emit(new Scalar(key.ToString()));
+            }
+            else
+            {
+                emitter.Emit(new Scalar("None"));
+            }
         }
     }
 }
