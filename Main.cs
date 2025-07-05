@@ -150,6 +150,7 @@ namespace SinmaiAssist
             }
 
             // Common
+            if (MainConfig.Common.AutoBackupData) Patch(typeof(AutoBackupData));
             if (MainConfig.Common.InfinityTimer) Patch(typeof(InfinityTimer));
             if (MainConfig.Common.InfinityTimerLegacy) Patch(typeof(InfinityTimerLegacy));
             if (MainConfig.Common.DisableBackground) Patch(typeof(DisableBackground));

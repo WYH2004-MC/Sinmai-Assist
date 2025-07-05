@@ -13,13 +13,14 @@ namespace SinmaiAssist.Utils;
 
 public class User
 {
-    public static void ExportBackupData(long index)
+    public static string ExportBackupData(long index, string fileName = null , bool sendMessage = true)
     {
         UserData userData = Singleton<UserDataManager>.Instance.GetUserData(index);
         if (userData.IsGuest())
         {
-            GameMessageManager.SendMessage((int)index,"Guest Account\nUnable to export backup");
-            return;
+            if (sendMessage)
+                GameMessageManager.SendMessage((int)index,"Guest Account\nUnable to export backup");
+            return null;
         }
         string path = $"{BuildInfo.Name}/UserBackup";
         string userDataJson = "{";
@@ -41,8 +42,14 @@ public class User
         {
             Directory.CreateDirectory(path);
         }
-        File.WriteAllText(Path.Combine(path, $"User{userData.Detail.UserID}-{timestamp}.json"), userDataJson);
-        GameMessageManager.SendMessage((int)index,$"Export Backup Data:\nUser{userData.Detail.UserID}-{timestamp}.json");
+        if (string.IsNullOrEmpty(fileName))
+        {
+            fileName = $"User{userData.Detail.UserID}-{timestamp}.json";
+        }
+        File.WriteAllText(Path.Combine(path, fileName), userDataJson);
+        if (sendMessage)
+            GameMessageManager.SendMessage((int)index,$"Export Backup Data:\n{fileName}");
+        return fileName;
     }
 
     public static string GetCharacterList(UserData userData)

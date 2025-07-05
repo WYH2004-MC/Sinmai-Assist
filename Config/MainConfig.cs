@@ -10,6 +10,7 @@ public class MainConfig
     public class CommonConfig
     {
         public UnityLoggerConfig UnityLogger { get; set; } = new UnityLoggerConfig();
+        public bool AutoBackupData { get; set; } = false;
         public bool InfinityTimer { get; set; } = false;
         public bool InfinityTimerLegacy { get; set; } = false;
         public bool DisableMask { get; set; } = false;

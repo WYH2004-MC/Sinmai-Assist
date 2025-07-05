@@ -1,4 +1,5 @@
 ﻿common:
+  autoBackupData: false
   infinityTimer: false
   infinityTimerLegacy: false
   disableMask: false

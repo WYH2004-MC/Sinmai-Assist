@@ -1,4 +1,5 @@
 ﻿common:
+  autoBackupData: false # 自动备份玩家数据
   infinityTimer: false # 无限计时器
   infinityTimerLegacy: false # 无限计时器(传统方案)
   disableMask: false # 禁用遮罩
