@@ -175,6 +175,7 @@ namespace SinmaiAssist
             if (MainConfig.Fix.DisableEncryption) Patch(typeof(DisableEncryption));
             if (MainConfig.Fix.DisableReboot) Patch(typeof(DisableReboot));
             if (MainConfig.Fix.DisableIniClear) Patch(typeof(DisableIniClear));
+            if (MainConfig.Fix.FixDebugInput) Patch(typeof(FixDebugInput));
             if (MainConfig.Fix.FixCheckAuth) Patch(typeof(FixCheckAuth));
             if (MainConfig.Fix.ForceAsServer) Patch(typeof(ForceAsServer));
             if (MainConfig.Fix.SkipCakeHashCheck) Patch(typeof(SkipCakeHashCheck));
@@ -198,7 +199,6 @@ namespace SinmaiAssist
             if (MainConfig.Cheat.RewriteLoginBonusStamp.Enable) Patch(typeof(RewriteLoginBonusStamp));
 
             // 默认加载项
-            Patch(typeof(FixDebugInput));
             Patch(typeof(PrintUserData));
             Patch(typeof(InputManager));
             Patch(typeof(GameMessageManager));

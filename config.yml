@@ -64,6 +64,7 @@ fix:
   disableEncryption: false
   disableReboot: false
   disableIniClear: false
+  fixDebugInput: false
   fixCheckAuth: false
   forceAsServer: false
   skipCakeHashCheck: false

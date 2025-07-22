@@ -64,6 +64,7 @@ fix:
   disableEncryption: false # 禁用加密
   disableReboot: false # 禁用自动重启
   disableIniClear: false # 禁止程序清除ini配置文件文件
+  fixDebugInput: false # 修复DebugInput
   fixCheckAuth: false # 修复CheckAuth
   forceAsServer: false # 强制以服务器模式运行
   skipCakeHashCheck: false # 跳过Cake.dll Hash检查

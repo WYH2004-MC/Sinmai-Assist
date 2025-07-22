@@ -57,6 +57,7 @@ public class MainConfig
         public bool DisableEncryption { get; set; } = false;
         public bool DisableReboot { get; set; } = true;
         public bool DisableIniClear { get; set; } = true;
+        public bool FixDebugInput { get; set; } = true;
         public bool FixCheckAuth { get; set; } = false;
         public bool ForceAsServer { get; set; } = false;
         public bool SkipCakeHashCheck { get; set; } = false;
