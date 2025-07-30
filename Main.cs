@@ -294,7 +294,16 @@ namespace SinmaiAssist
                             "\r\n=================================================================" +
                             $"\r\n Version: {BuildInfo.Version} ({BuildInfo.CommitHash}) Build Date: {BuildInfo.BuildDate}" +
                             $"\r\n Author: {BuildInfo.Author}");
-            MelonLogger.Warning("This is a cheat mod. Use at your own risk!");
+            MelonLogger.Warning("\n" +
+                                "\r\n=================================================================" +
+                                "\r\n这是一个作弊Mod，后果自负,Mod仅限测试使用，禁止用于其他操作!" +
+                                "\r\nThis is a cheat mod. Use at your own risk!" +
+                                "\r\n这是一个免费的开源Mod项目，禁止倒卖!" +
+                                "\r\nThis is a free and open-source mod. Resale is strictly prohibited." +
+                                "\r\n如果你花了钱买了这个Mod，那你很愚蠢。" +
+                                "\r\nIf you paid for this mod, you are stupid." +
+                                "\r\n================================================================="
+                                );
         }
 
         private static void PatchFailedWarn()
