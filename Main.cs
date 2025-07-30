@@ -2,9 +2,7 @@
 using MelonLoader;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using SinmaiAssist.Attributes;
@@ -35,6 +33,7 @@ namespace SinmaiAssist
         private static bool _isPatchFailed = false;
         private static ConfigManager<MainConfig> _mainConfigManager;
         private static ConfigManager<KeyBindConfig> _keyBindConfigManager;
+        private static WebServer.WebServer _webServer;
         public static MainConfig MainConfig;
         public static KeyBindConfig KeyBindConfig;
         public static string GameID = "Unknown";
@@ -68,6 +67,17 @@ namespace SinmaiAssist
             {
                 MelonLogger.Error($"Error initializing mod config: \n{e}");
                 return;
+            }
+            
+            // 初始化WebServer
+            if (MainConfig.ModSetting.WebServer.Enable)
+            {
+                _webServer = new WebServer.WebServer(
+                    MainConfig.ModSetting.WebServer.Host,
+                    MainConfig.ModSetting.WebServer.Port,
+                    MainConfig.ModSetting.WebServer.Token
+                );
+                _webServer.Start();
             }
 
             // 输出设备摄像头列表
@@ -205,6 +215,10 @@ namespace SinmaiAssist
             
             if(_isPatchFailed) PatchFailedWarn();
             MelonLogger.Msg("Loading completed");
+        }
+        public override void OnApplicationQuit()
+        {
+            if (MainConfig.ModSetting.WebServer.Enable && _webServer.IsRunning()) _webServer.Stop();
         }
 
         public override void OnGUI()

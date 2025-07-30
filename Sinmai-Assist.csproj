@@ -74,6 +74,9 @@
     <Reference Include="CustomMarshalers">
       <HintPath>Output\CustomMarshalers.dll</HintPath>
     </Reference>
+    <Reference Include="EmbedIO, Version=3.5.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\EmbedIO.3.5.2\lib\netstandard2.0\EmbedIO.dll</HintPath>
+    </Reference>
     <Reference Include="ILMerge, Version=1.24.0.0, Culture=neutral, PublicKeyToken=4d0e9a1cbec0d397, processorArchitecture=MSIL">
       <HintPath>packages\ILMerge.Fody.1.24.0\lib\net452\ILMerge.dll</HintPath>
     </Reference>
@@ -94,6 +97,9 @@
     </Reference>
     <Reference Include="SMDiagnostics">
       <HintPath>Output\SMDiagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="Swan.Lite, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Unosquare.Swan.Lite.3.1.0\lib\net461\Swan.Lite.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition">
@@ -222,6 +228,9 @@
     </Reference>
     <Reference Include="System.Transactions">
       <HintPath>Output\System.Transactions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web">
       <HintPath>Output\System.Web.dll</HintPath>
@@ -543,6 +552,8 @@
     <Compile Include="Utils\Server.cs" />
     <Compile Include="Utils\User.cs" />
     <Compile Include="Utils\UserLogout.cs" />
+    <Compile Include="WebServer\Api\ApiController.cs" />
+    <Compile Include="WebServer\WebServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -77,7 +77,13 @@ fix:
     judgeTiming: 0.0 # 判定延迟(单位:帧)
 
 modSetting:
+  safeMode: false # 启用安全模式
   showInfo: false # 显示信息
   showPanel: false # 显示面板
   logUnity: false # 显示Unity日志到控制台
-  safeMode: false # 启用安全模式
+  webServer: # Web服务
+    enable: false # 是否启用
+    host: "0.0.0.0" # 地址
+    port: 8080 # 端口
+    token: "" # token
+    printDebugLog: false # 输出调试日志

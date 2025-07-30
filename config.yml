@@ -77,7 +77,13 @@ fix:
     judgeTiming: 0.0
 
 modSetting:
+  safeMode: false
   showInfo: false
   showPanel: false
   logUnity: false
-  safeMode: false
+  webServer:
+    enable: false
+    host: "0.0.0.0"
+    port: 8080
+    token: ""
+    printDebugLog: false
