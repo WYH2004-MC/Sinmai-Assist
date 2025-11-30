@@ -33,7 +33,6 @@ namespace SinmaiAssist
         private static bool _isPatchFailed = false;
         private static ConfigManager<MainConfig> _mainConfigManager;
         private static ConfigManager<KeyBindConfig> _keyBindConfigManager;
-        private static WebServer.WebServer _webServer;
         public static MainConfig MainConfig;
         public static KeyBindConfig KeyBindConfig;
         public static string GameID = "Unknown";
@@ -69,17 +68,6 @@ namespace SinmaiAssist
                 return;
             }
             
-            // 初始化WebServer
-            if (MainConfig.ModSetting.WebServer.Enable)
-            {
-                _webServer = new WebServer.WebServer(
-                    MainConfig.ModSetting.WebServer.Host,
-                    MainConfig.ModSetting.WebServer.Port,
-                    MainConfig.ModSetting.WebServer.Token
-                );
-                _webServer.Start();
-            }
-
             // 输出设备摄像头列表
             File.Delete($"{BuildInfo.Name}/WebCameraList.txt");
             WebCamDevice[] devices = WebCamTexture.devices;
@@ -218,7 +206,7 @@ namespace SinmaiAssist
         }
         public override void OnApplicationQuit()
         {
-            if (MainConfig.ModSetting.WebServer.Enable && _webServer.IsRunning()) _webServer.Stop();
+            
         }
 
         public override void OnGUI()
@@ -296,11 +284,8 @@ namespace SinmaiAssist
                             $"\r\n Author: {BuildInfo.Author}");
             MelonLogger.Warning("\n" +
                                 "\r\n=================================================================" +
-                                "\r\n这是一个作弊Mod，后果自负,Mod仅限测试使用，禁止用于其他操作!" +
                                 "\r\nThis is a cheat mod. Use at your own risk!" +
-                                "\r\n这是一个免费的开源Mod项目，禁止倒卖!" +
                                 "\r\nThis is a free and open-source mod. Resale is strictly prohibited." +
-                                "\r\n如果你花了钱买了这个Mod，那你很愚蠢。" +
                                 "\r\nIf you paid for this mod, you are stupid." +
                                 "\r\n================================================================="
                                 );

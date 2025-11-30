@@ -552,8 +552,6 @@
     <Compile Include="Utils\Server.cs" />
     <Compile Include="Utils\User.cs" />
     <Compile Include="Utils\UserLogout.cs" />
-    <Compile Include="WebServer\Api\ApiController.cs" />
-    <Compile Include="WebServer\WebServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
