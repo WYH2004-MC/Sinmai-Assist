@@ -54,8 +54,8 @@ namespace SinmaiAssist
             try
             {
                 var keyBindCoverter = new KeyBindConfig.Converter();
-                _mainConfigManager = new ConfigManager<MainConfig>($"./{BuildInfo.Name}/config.yml");
-                _keyBindConfigManager = new ConfigManager<KeyBindConfig>($"./{BuildInfo.Name}/keybind.yml", keyBindCoverter);
+                _mainConfigManager = new ConfigManager<MainConfig>($"./{BuildInfo.Name}/Config.yml");
+                _keyBindConfigManager = new ConfigManager<KeyBindConfig>($"./{BuildInfo.Name}/KeyBindConfig.yml", keyBindCoverter);
                 MainConfig = _mainConfigManager.GetConfig();
                 KeyBindConfig = _keyBindConfigManager.GetConfig();
                 DummyLoginPanel.DummyUserId = MainConfig.Common.DummyLogin.DefaultUserId.ToString();
@@ -187,8 +187,8 @@ namespace SinmaiAssist
             if (MainConfig.Cheat.FastSkip) Patch(typeof(FastSkip));
             if (MainConfig.Cheat.ChartController) Patch(typeof(ChartController));
             if (MainConfig.Cheat.AllCollection) Patch(typeof(AllCollection));
-            if (MainConfig.Cheat.UnlockMusic) Patch(typeof(UnlockMusic));
-            if (MainConfig.Cheat.UnlockMaster) Patch(typeof(UnlockMaster));
+            if (MainConfig.Cheat.UnlockMusic.Enable) Patch(typeof(UnlockMusic));
+            if (MainConfig.Cheat.UnlockMaster.Enable) Patch(typeof(UnlockMaster));
             if (MainConfig.Cheat.UnlockUtage.Enable) Patch(typeof(UnlockUtage));
             if (MainConfig.Cheat.UnlockEvent) Patch(typeof(UnlockEvent));
             if (MainConfig.Cheat.ResetLoginBonusRecord) Patch(typeof(ResetLoginBonusRecord));

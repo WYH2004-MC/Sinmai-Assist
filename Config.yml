@@ -45,13 +45,15 @@ cheat:
   chartController: false
   allCollection: false
   unlockEvent: false
-  unlockMusic: false
-  unlockMaster: false
+  unlockMusic:
+    enable: false
+    saveToUserData: false
+  unlockMaster:
+    enable: false
+    saveToUserData: false
   unlockUtage:
     enable: false
     unlockDoublePlayerMusic: false
-  saveUnlockMusic: false
-  saveUnlockMaster: false
   resetLoginBonusRecord: false
   forceCurrentIsBest: false
   setAllCharacterAsSameAndLock: false
@@ -81,9 +83,3 @@ modSetting:
   showInfo: false
   showPanel: false
   logUnity: false
-  webServer:
-    enable: false
-    host: "0.0.0.0"
-    port: 8080
-    token: ""
-    printDebugLog: false

@@ -40,11 +40,9 @@ public class MainConfig
         public bool ChartController { get; set; } = false;
         public bool AllCollection { get; set; } = false;
         public bool UnlockEvent { get; set; } = false;
-        public bool UnlockMusic { get; set; } = false;
-        public bool UnlockMaster { get; set; } = false;
+        public UnlockMusicConfig UnlockMusic { get; set; } = new UnlockMusicConfig();
+        public UnlockMasterConfig UnlockMaster { get; set; } = new UnlockMasterConfig();
         public UnlockUtageConfig UnlockUtage { get; set; } = new UnlockUtageConfig();
-        public bool SaveUnlockMusic { get; set; } = false;
-        public bool SaveUnlockMaster { get; set; } = false;
         public bool ResetLoginBonusRecord { get; set; } = false;
         public bool ForceCurrentIsBest { get; set; } = false;
         public bool SetAllCharacterAsSameAndLock { get; set; } = false;
@@ -99,6 +97,18 @@ public class MainConfig
     {
         public bool Enable { get; set; } = false;
         public string VersionText { get; set; } = "Sinmai-Assist";
+    }
+    
+    public class UnlockMusicConfig
+    {
+        public bool Enable { get; set; } = false;
+        public bool SaveToUserData { get; set; } = false;
+    }
+    
+    public class UnlockMasterConfig
+    {
+        public bool Enable { get; set; } = false;
+        public bool SaveToUserData { get; set; } = false;
     }
     
     public class UnlockUtageConfig

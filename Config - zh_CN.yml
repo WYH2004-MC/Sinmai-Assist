@@ -45,13 +45,15 @@ cheat:
   chartController: false # 铺面控制器(歌曲进度控制)
   allCollection: false # 解锁全部收藏品
   unlockEvent: false # 解锁全部活动
-  unlockMusic: false # 解锁全部歌曲
-  unlockMaster: false # 解锁全部歌曲Master和ReMaster难度
+  unlockMusic: # 解锁全部歌曲
+    enable: false # 是否启用
+    saveToUserData: false # 保存到用户存档
+  unlockMaster: # 解锁全部歌曲Master和ReMaster难度
+    enable: false # 是否启用
+    saveToUserData: false # 保存到用户存档
   unlockUtage: # 解锁宴会场
     enable: false # 是否启用
     unlockDoublePlayerMusic: false # 强制解锁宴会场双人模式歌曲
-  saveUnlockMusic: false # 保存unlockMusic解锁的歌曲到用户存档
-  saveUnlockMaster: false # 保存unlockMaster解锁的歌曲难度到用户存档
   resetLoginBonusRecord: false # 重置登录奖励记录
   forceCurrentIsBest: false # 强制当前游玩成绩为新成绩(可能会对Best50造成改动)
   setAllCharacterAsSameAndLock: false # 允许你设置5个相同的旅行伙伴并锁定设置（以队长为准）
@@ -81,9 +83,3 @@ modSetting:
   showInfo: false # 显示信息
   showPanel: false # 显示面板
   logUnity: false # 显示Unity日志到控制台
-  webServer: # Web服务
-    enable: false # 是否启用
-    host: "0.0.0.0" # 地址
-    port: 8080 # 端口
-    token: "" # token
-    printDebugLog: false # 输出调试日志

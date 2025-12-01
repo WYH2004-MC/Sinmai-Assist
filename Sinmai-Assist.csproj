@@ -555,12 +555,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="config - zh_CN.yml" />
+    <None Include="Config - zh_CN.yml" />
     <None Include="packages.config" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="config.yml" />
+    <None Include="Config.yml" />
     <Content Include="BeforeBuild.bat" />
     <Content Include="FodyWeavers.xml" />
     <Content Include="FodyWeavers.xsd" />
