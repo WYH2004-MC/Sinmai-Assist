@@ -70,6 +70,8 @@ public class MainConfig
         public bool SafeMode { get; set; } = false;
         public bool ShowInfo { get; set; } = true;
         public bool ShowPanel { get; set; } = true;
+        
+        public WebServerConfig WebServer { get; set; } = new WebServerConfig();
     }
     
     public class ChangeGameSettingsConfig
@@ -149,5 +151,13 @@ public class MainConfig
     {
         public bool Enable { get; set; } = true;
         public bool PrintToConsole { get; set; } = true;
+    }
+
+    public class WebServerConfig
+    {
+        public bool Enable { get; set; } = false;
+        public string Host { get; set; } = "127.0.0.1";
+        public int Port { get; set; } = 8080;
+        public string Token { get; set; } = "";
     }
 }
