@@ -245,13 +245,13 @@ namespace SinmaiAssist
         {
             try
             {
-                var enableGameVersion = type.GetCustomAttribute<EnableGameVersionAttribute>();
-                if (enableGameVersion != null && !enableGameVersion.ShouldEnable())
-                {
-                    MelonLogger.Warning(
-                        $"Patch: {type} skipped ,Game version need Min {enableGameVersion.MinGameVersion} Max {enableGameVersion.MaxGameVersion}");
-                    return false;
-                }
+                // var enableGameVersion = type.GetCustomAttribute<EnableGameVersionAttribute>();
+                // if (enableGameVersion != null && !enableGameVersion.ShouldEnable())
+                // {
+                //     MelonLogger.Warning(
+                //         $"Patch: {type} skipped ,Game version need Min {enableGameVersion.MinGameVersion} Max {enableGameVersion.MaxGameVersion}");
+                //     return false;
+                // }
 
                 if (!noLoggerPrint) MelonLogger.Msg($"> Patch: {type}");
                 HarmonyLib.Harmony.CreateAndPatchAll(type);
