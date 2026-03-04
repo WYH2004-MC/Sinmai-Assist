@@ -2,6 +2,7 @@ name: Build and Test C# Project (Framework 4.7.2)
 
 
 on:
+  workflow_dispatch:
   push:
     branches: [ master ]  # 触发条件，当main分支有push时触发
   pull_request:
