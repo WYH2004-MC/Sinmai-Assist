@@ -29,16 +29,16 @@ public class UserLogout : Packet
         _userId = userId;
         _dateTime = dateTime;
         _unixTime = new DateTimeOffset(dateTime).ToUnixTimeSeconds();
-        NetQuery<UserLogoutRequestVO, UserLogoutResponseVO> netQuery = new NetQuery<UserLogoutRequestVO, UserLogoutResponseVO>("UserLogoutApi", userId);
+        // NetQuery<UserLogoutRequestVO, UserLogoutResponseVO> netQuery = new NetQuery<UserLogoutRequestVO, UserLogoutResponseVO>("UserLogoutApi", userId);
         
-        netQuery.Request.accessCode = acsessCode;
-        netQuery.Request.regionId = Auth.RegionCode;
-        netQuery.Request.placeId = (int)Auth.LocationId;
-        netQuery.Request.clientId = AMDaemon.System.KeychipId.ShortValue;
-        netQuery.Request.dateTime = _unixTime;
-        netQuery.Request.type = (int)LogoutType.Logout;
-        netQuery.Request.userId = userId;
-        Create(netQuery);
+        // netQuery.Request.accessCode = acsessCode;
+        // netQuery.Request.regionId = Auth.RegionCode;
+        // netQuery.Request.placeId = (int)Auth.LocationId;
+        // netQuery.Request.clientId = AMDaemon.System.KeychipId.ShortValue;
+        // netQuery.Request.dateTime = _unixTime;
+        // netQuery.Request.type = (int)LogoutType.Logout;
+        // netQuery.Request.userId = userId;
+        // Create(netQuery);
     }
 
     public override PacketState Proc()
