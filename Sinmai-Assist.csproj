@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="packages\ILMerge.Fody.1.24.0\build\ILMerge.Fody.props" Condition="Exists('packages\ILMerge.Fody.1.24.0\build\ILMerge.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
@@ -15,6 +14,7 @@
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
     <LangVersion>12</LangVersion>
+    <RuntimeIdentifiers>win</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -59,15 +59,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libs\ChimeLib.NET.dll</HintPath>
     </Reference>
-    <Reference Include="EmbedIO, Version=3.5.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\EmbedIO.3.5.2\lib\netstandard2.0\EmbedIO.dll</HintPath>
-    </Reference>
-    <Reference Include="ILMerge, Version=1.24.0.0, Culture=neutral, PublicKeyToken=4d0e9a1cbec0d397, processorArchitecture=MSIL">
-      <HintPath>packages\ILMerge.Fody.1.24.0\lib\net452\ILMerge.dll</HintPath>
-    </Reference>
-    <Reference Include="MelonLoader">
-      <HintPath>Libs\MelonLoader.dll</HintPath>
-    </Reference>
     <Reference Include="Mono.Posix">
       <HintPath>Libs\Mono.Posix.dll</HintPath>
     </Reference>
@@ -76,9 +67,6 @@
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>Libs\mscorlib.dll</HintPath>
-    </Reference>
-    <Reference Include="Swan.Lite, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Unosquare.Swan.Lite.3.1.0\lib\net461\Swan.Lite.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration">
@@ -90,9 +78,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Security">
       <HintPath>Libs\System.Security.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml">
       <HintPath>Libs\System.Xml.dll</HintPath>
@@ -295,8 +280,21 @@
     <Reference Include="UnityEngine.XRModule">
       <HintPath>Libs\UnityEngine.XRModule.dll</HintPath>
     </Reference>
-    <Reference Include="YamlDotNet, Version=16.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
-      <HintPath>packages\YamlDotNet.16.1.0\lib\net47\YamlDotNet.dll</HintPath>
+    <Reference Include="EmbedIO">
+      <HintPath>$(NuGetPackageRoot)embedio/3.5.2/lib/netstandard2.0/EmbedIO.dll</HintPath>
+    </Reference>
+    <Reference Include="MelonLoader">
+      <HintPath>$(NuGetPackageRoot)lavagang.melonloader/0.6.4/lib/net35/MelonLoader.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Swan.Lite">
+      <HintPath>$(NuGetPackageRoot)unosquare.swan.lite/3.1.0/lib/net461/Swan.Lite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple">
+      <HintPath>$(NuGetPackageRoot)system.valuetuple/4.5.0/ref/net47/System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="YamlDotNet">
+      <HintPath>$(NuGetPackageRoot)yamldotnet/16.1.0/lib/net47/YamlDotNet.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -375,7 +373,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Config - zh_CN.yml" />
-    <None Include="packages.config" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
@@ -387,6 +384,21 @@
     <Content Include="PostBuild.bat" />
     <Content Include="PostBuild.sh" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net472" Version="1.0.3">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="EmbedIO" Version="3.5.2" />
+    <PackageReference Include="Fody" Version="6.9.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="ILMerge.Fody" Version="1.24.0" />
+    <PackageReference Include="LavaGang.MelonLoader" Version="0.6.4" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="Unosquare.Swan.Lite" Version="3.1.0" />
+    <PackageReference Include="YamlDotNet" Version="16.1.0" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
     <PostBuildEvent>"$(ProjectDir)PostBuild.bat"</PostBuildEvent>
@@ -396,12 +408,4 @@
     <PostBuildEvent>/bin/sh "$(ProjectDir)PostBuild.sh"</PostBuildEvent>
     <PreBuildEvent>/bin/sh "$(ProjectDir)BeforeBuild.sh"</PreBuildEvent>
   </PropertyGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('packages\ILMerge.Fody.1.24.0\build\ILMerge.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\ILMerge.Fody.1.24.0\build\ILMerge.Fody.props'))" />
-    <Error Condition="!Exists('packages\Fody.6.9.2\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Fody.6.9.2\build\Fody.targets'))" />
-  </Target>
-  <Import Project="packages\Fody.6.9.2\build\Fody.targets" Condition="Exists('packages\Fody.6.9.2\build\Fody.targets')" />
 </Project>
