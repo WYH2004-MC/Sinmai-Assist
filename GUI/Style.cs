@@ -1,5 +1,4 @@
-﻿using System.Windows.Forms;
-using Monitor;
+﻿using Monitor;
 using UnityEngine;
 
 namespace SinmaiAssist.GUI;
