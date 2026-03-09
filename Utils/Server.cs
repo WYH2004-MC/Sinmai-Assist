@@ -14,7 +14,7 @@ namespace SinmaiAssist.Utils
                 if (string.IsNullOrEmpty(title)) return "Unknown";
                 return SinmaiAssist.MainConfig.ModSetting.MaskTitleServerUrl ? MaskServerUri(title) : title;
             }
-            catch (Exception e) when (e is NullReferenceException || e is InvalidOperationException)
+            catch (Exception e) when (e is NullReferenceException || e is InvalidOperationException || e is UriFormatException)
             {
                 return "Unknown";
             }
@@ -27,11 +27,11 @@ namespace SinmaiAssist.Utils
                 return MaskHost(uriText);
             }
 
-            UriBuilder builder = new UriBuilder(uri)
-            {
-                Host = MaskHost(uri.Host)
-            };
-            return builder.Uri.ToString();
+            string maskedHost = MaskHost(uri.Host);
+            string hostForDisplay = uri.HostNameType == UriHostNameType.IPv6 ? $"[{maskedHost}]" : maskedHost;
+            string userInfo = string.IsNullOrEmpty(uri.UserInfo) ? string.Empty : uri.UserInfo + "@";
+            string port = uri.IsDefaultPort ? string.Empty : ":" + uri.Port;
+            return $"{uri.Scheme}://{userInfo}{hostForDisplay}{port}{uri.PathAndQuery}{uri.Fragment}";
         }
 
         private static string MaskHost(string host)
