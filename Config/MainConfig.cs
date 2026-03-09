@@ -70,6 +70,7 @@ public class MainConfig
         public bool SafeMode { get; set; } = false;
         public bool ShowInfo { get; set; } = true;
         public bool ShowPanel { get; set; } = true;
+        public bool MaskTitleServerUrl { get; set; } = true;
     }
     
     public class ChangeGameSettingsConfig

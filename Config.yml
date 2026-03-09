@@ -1,4 +1,7 @@
 ﻿common:
+  unityLogger:
+    enable: false
+    printToConsole: false
   autoBackupData: false
   infinityTimer: false
   infinityTimerLegacy: false
@@ -82,4 +85,4 @@ modSetting:
   safeMode: false
   showInfo: false
   showPanel: false
-  logUnity: false
+  maskTitleServerUrl: false

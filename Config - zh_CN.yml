@@ -1,4 +1,7 @@
 ﻿common:
+  unityLogger: # Unity日志
+    enable: false # 是否启用
+    printToConsole: false # 是否输出到控制台
   autoBackupData: false # 自动备份玩家数据
   infinityTimer: false # 无限计时器
   infinityTimerLegacy: false # 无限计时器(传统方案)
@@ -82,4 +85,4 @@ modSetting:
   safeMode: false # 启用安全模式
   showInfo: false # 显示信息
   showPanel: false # 显示面板
-  logUnity: false # 显示Unity日志到控制台
+  maskTitleServerUrl: false # 遮挡标题服务器Url
