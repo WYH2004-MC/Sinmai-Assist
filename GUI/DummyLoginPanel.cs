@@ -31,26 +31,5 @@ public class DummyLoginPanel
             if(SinmaiAssist.GameID != "SDGB")DummyAimeLogin.ReadCard("12312312312312312312", DummyLoginCode);
         }
         GUILayout.Label($"AMDaemon BootTime: {AMDaemon.Allnet.Auth.AuthTime}", MainGUI.Style.Text);
-        if (SinmaiAssist.GameID == "SDGB")
-        {
-            if (GUILayout.Button("UserId Logout", MainGUI.Style.Button))
-            {
-                PacketHelper.StartPacket(new UserLogout(ulong.Parse(DummyUserId), AMDaemon.Allnet.Auth.AuthTime, "", LogoutComplete,LogoutFailed));
-            }
-        }
-    }
-    
-    private static void LogoutComplete()
-    {
-        SoundManager.PlayVoice(Mai2.Voice_000001.Cue.VO_000012, 1);
-        GameMessageManager.SendMessage(0,$"Id: {DummyUserId} Logout Complete.");
-        GameMessageManager.SendMessage(1,$"Id: {DummyUserId} Logout Complete.");
-    }
-
-    private static void LogoutFailed(PacketStatus status)
-    {
-        SoundManager.PlaySE(Mai2.Mai2Cue.Cue.SE_ENTRY_AIME_ERROR, 1);
-        GameMessageManager.SendMessage(0,$"Id: {DummyUserId} Logout Failed.");
-        GameMessageManager.SendMessage(1,$"Id: {DummyUserId} Logout Failed.");
     }
 }
