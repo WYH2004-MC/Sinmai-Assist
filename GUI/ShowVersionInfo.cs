@@ -1,6 +1,8 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using MAI2.Util;
 using MAI2System;
+using MelonLoader;
 using SinmaiAssist.Utils;
 using UnityEngine;
 
@@ -8,6 +10,8 @@ namespace SinmaiAssist.GUI;
 
 public class ShowVersionInfo
 {
+
+    private static int _retryCount = 0;
     private static readonly StringBuilder VersionText = new StringBuilder();
 
     private static readonly GUIStyle TextShadow = new GUIStyle()
@@ -26,18 +30,38 @@ public class ShowVersionInfo
     
     public static void OnGUI()
     {
-        VersionText.Clear();
-        VersionText.AppendLine($"{BuildInfo.Name} {BuildInfo.Version} ({BuildInfo.CommitHash})");
-        VersionText.AppendLine("Powered by MelonLoader");
-        VersionText.AppendLine($"Client Version: {SinmaiAssist.GameID} {SinmaiAssist.GameVersion}");
-        VersionText.AppendLine(
-            $"Data Version: {Singleton<SystemConfig>.Instance.config.dataVersionInfo.versionNo.versionString} {Singleton<SystemConfig>.Instance.config.dataVersionInfo.versionNo.releaseNoAlphabet}");
-        VersionText.AppendLine($"Current Title Server: {Server.GetTitleServerUri()}");
-        VersionText.AppendLine($"Keychip: {AMDaemon.System.KeychipId}");
-        VersionText.AppendLine($"UserId: {User.GetUserIdString(0L)} | {User.GetUserIdString(1L)}");
-        if (SinmaiAssist.MainConfig.ModSetting.SafeMode)
-            VersionText.AppendLine("Safe Mode");
-        UnityEngine.GUI.Label(new Rect(10+2, 40+2, 500, 30), VersionText.ToString(), TextShadow);
-        UnityEngine.GUI.Label(new Rect(10, 40, 500, 30), VersionText.ToString(), TextStyle);
+        try
+        {
+            VersionText.Clear();
+            VersionText.AppendLine($"{BuildInfo.Name} {BuildInfo.Version} ({BuildInfo.CommitHash})");
+            VersionText.AppendLine("Powered by MelonLoader");
+            
+            if (_retryCount > 10)
+            {
+                VersionText.AppendLine("Failed to Show version info.");
+                VersionText.AppendLine("Please make sure you are running the unmodified game.");
+                VersionText.AppendLine("and make sure you are using the latest version of Sinmai-Assist.");
+                VersionText.AppendLine("if you think this is a bug, please report it to the developer.");
+                UnityEngine.GUI.Label(new Rect(10 + 2, 40 + 2, 500, 30), VersionText.ToString(), TextShadow);
+                UnityEngine.GUI.Label(new Rect(10, 40, 500, 30), VersionText.ToString(), TextStyle);
+                return;
+            }
+            
+            VersionText.AppendLine($"Client Version: {SinmaiAssist.GameID} {SinmaiAssist.GameVersion}");
+            VersionText.AppendLine(
+                $"Data Version: {Singleton<SystemConfig>.Instance.config.dataVersionInfo.versionNo.versionString} {Singleton<SystemConfig>.Instance.config.dataVersionInfo.versionNo.releaseNoAlphabet}");
+            VersionText.AppendLine($"Current Title Server: {Server.GetTitleServerUri()}");
+            VersionText.AppendLine($"Keychip: {AMDaemon.System.KeychipId}");
+            VersionText.AppendLine($"UserId: {User.GetUserIdString(0L)} | {User.GetUserIdString(1L)}");
+            if (SinmaiAssist.MainConfig.ModSetting.SafeMode)
+                VersionText.AppendLine("Safe Mode");
+            UnityEngine.GUI.Label(new Rect(10 + 2, 40 + 2, 500, 30), VersionText.ToString(), TextShadow);
+            UnityEngine.GUI.Label(new Rect(10, 40, 500, 30), VersionText.ToString(), TextStyle);
+        }
+        catch (Exception ex)
+        {
+            MelonLogger.Error(ex);
+            _retryCount++;
+        }
     }
 }
