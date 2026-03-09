@@ -562,16 +562,20 @@
   <ItemGroup>
     <None Include="Config.yml" />
     <Content Include="BeforeBuild.bat" />
+    <Content Include="BeforeBuild.sh" />
     <Content Include="FodyWeavers.xml" />
     <Content Include="FodyWeavers.xsd" />
     <Content Include="PostBuild.bat" />
+    <Content Include="PostBuild.sh" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>$(ProjectDir)PostBuild.bat</PostBuildEvent>
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <PostBuildEvent>"$(ProjectDir)PostBuild.bat"</PostBuildEvent>
+    <PreBuildEvent>"$(ProjectDir)BeforeBuild.bat"</PreBuildEvent>
   </PropertyGroup>
-  <PropertyGroup>
-    <PreBuildEvent>$(ProjectDir)BeforeBuild.bat</PreBuildEvent>
+  <PropertyGroup Condition="'$(OS)' != 'Windows_NT'">
+    <PostBuildEvent>/bin/sh "$(ProjectDir)PostBuild.sh"</PostBuildEvent>
+    <PreBuildEvent>/bin/sh "$(ProjectDir)BeforeBuild.sh"</PreBuildEvent>
   </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
