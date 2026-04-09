@@ -157,9 +157,9 @@ internal class FastSkip
             if (!breakNoteData.type.isBreakScore()) continue;
             
             bool flag = false;
+            NoteScore.EScoreType eScoreType = GetScoreType(breakNoteData.type);
             foreach (NoteJudge.ETiming eTiming in NoteArray)
             {
-                NoteScore.EScoreType eScoreType = GetScoreType(breakNoteData.type);
                 if (0m <= (decimal)(num2 - NoteScore.GetJudgeScore(eTiming, NoteScore.EScoreType.Break)) && 0m <= (decimal)(num3 - NoteScore.GetJudgeScore(eTiming, NoteScore.EScoreType.BreakBonus)))
                 {
                     num2 -= NoteScore.GetJudgeScore(eTiming, eScoreType);
@@ -252,16 +252,16 @@ internal class FastSkip
             }
         }
         
-        foreach (NoteData TapNoteData in noteList)
+        foreach (NoteData tapNoteData in noteList)
         {
-            if (TapNoteData.type.isTapScore())
+            if (tapNoteData.type.isTapScore())
             {
-                NoteScore.EScoreType eScoreType = GetScoreType(TapNoteData.type);
+                NoteScore.EScoreType eScoreType = GetScoreType(tapNoteData.type);
                 NoteJudge.ETiming eTiming6 = NoteArray[num4];
                 NoteJudge.ETiming eTiming7 = NoteArray[num5];
                 if (Force1Miss && !_Miss)
                 {
-                    __instance.SetResult(TapNoteData.indexNote, eScoreType, NoteJudge.ETiming.TooFast);
+                    __instance.SetResult(tapNoteData.indexNote, eScoreType, NoteJudge.ETiming.TooFast);
                     _Miss = true;
                     continue;
                 }
@@ -269,21 +269,21 @@ internal class FastSkip
                 {
                     num6 -= NoteScore.GetJudgeScore(eTiming7, eScoreType) - NoteScore.GetJudgeScore(eTiming6, eScoreType);
                     num2 -= NoteScore.GetJudgeScore(eTiming7, eScoreType);
-                    __instance.SetResult(TapNoteData.indexNote, eScoreType, eTiming7);
+                    __instance.SetResult(tapNoteData.indexNote, eScoreType, eTiming7);
                 }
                 else if (0m <= (decimal)(num2 - NoteScore.GetJudgeScore(eTiming6, eScoreType)))
                 {
                     num2 -= NoteScore.GetJudgeScore(eTiming6, eScoreType);
-                    __instance.SetResult(TapNoteData.indexNote, eScoreType, eTiming6);
+                    __instance.SetResult(tapNoteData.indexNote, eScoreType, eTiming6);
                 }
                 else if (0m < (decimal)num2)
                 {
                     num2 -= NoteScore.GetJudgeScore(eTiming6, eScoreType);
-                    __instance.SetResult(TapNoteData.indexNote, eScoreType, eTiming6);
+                    __instance.SetResult(tapNoteData.indexNote, eScoreType, eTiming6);
                 }
                 else
                 {
-                    __instance.SetResult(TapNoteData.indexNote, eScoreType, NoteJudge.ETiming.TooFast);
+                    __instance.SetResult(tapNoteData.indexNote, eScoreType, NoteJudge.ETiming.TooFast);
                     _Miss = true;
                 }
             }
@@ -312,9 +312,9 @@ internal class FastSkip
         
         if (SinmaiAssist.GameVersion >= 26000)
         {
-            return (NoteScore.EScoreType)_cachedNoteTypeMethod.Invoke(null, new object[] { type });
+            return (NoteScore.EScoreType)_cachedNoteTypeMethod.Invoke(null, [type]);
         }
         // 非160以上版本使用老方法，回传枚举
-        return (NoteScore.EScoreType)_cachedNoteTypeMethod.Invoke(null, new object[] { type.getEnum() });
+        return (NoteScore.EScoreType)_cachedNoteTypeMethod.Invoke(null, [type.getEnum()]);
     }
 }
