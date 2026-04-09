@@ -35,13 +35,6 @@ internal class FastSkip
     private static bool _isSkip = false;
     private static bool _Miss = false;
 
-    private delegate NoteScore.EScoreType NoteType2ScoreType_Old(NotesTypeID.Def type);
-    private delegate NoteScore.EScoreType NoteType2ScoreType_New(NotesTypeID type);
-    private static NoteType2ScoreType_Old _oldMethodDelegate;
-    private static NoteType2ScoreType_New _newMethodDelegate;
-    private static bool _isDelegateInitialized = false;
-    private static MethodInfo _cachedNoteTypeMethod;
-
     [HarmonyPostfix]
     [HarmonyPatch(typeof(GameProcess), "OnUpdate")]
     public static void Skip(GameProcess __instance)
@@ -162,7 +155,7 @@ internal class FastSkip
             if (!breakNoteData.type.isBreakScore()) continue;
             
             bool flag = false;
-            NoteScore.EScoreType eScoreType = GetScoreType(breakNoteData.type);
+            NoteScore.EScoreType eScoreType = GamePlayManager.NoteType2ScoreType(breakNoteData.type);
             foreach (NoteJudge.ETiming eTiming in NoteArray)
             {
                 if (0m <= (decimal)(num2 - NoteScore.GetJudgeScore(eTiming, NoteScore.EScoreType.Break)) && 0m <= (decimal)(num3 - NoteScore.GetJudgeScore(eTiming, NoteScore.EScoreType.BreakBonus)))
@@ -209,7 +202,7 @@ internal class FastSkip
         {
             if (slideNoteData.type.isSlideScore())
             {
-                NoteScore.EScoreType eScoreType = GetScoreType(slideNoteData.type);
+                NoteScore.EScoreType eScoreType = GamePlayManager.NoteType2ScoreType(slideNoteData.type);
                 NoteJudge.ETiming eTiming2 = NoteArray[num4];
                 NoteJudge.ETiming eTiming3 = NoteArray[num5];
                 if (0m <= (decimal)num6 && 0m <= (decimal)(num2 - NoteScore.GetJudgeScore(eTiming3, eScoreType)))
@@ -235,7 +228,7 @@ internal class FastSkip
         {
             if (holdData.type.isHoldScore())
             {
-                NoteScore.EScoreType eScoreType = GetScoreType(holdData.type);
+                NoteScore.EScoreType eScoreType = GamePlayManager.NoteType2ScoreType(holdData.type);
                 NoteJudge.ETiming eTiming4 = NoteArray[num4];
                 NoteJudge.ETiming eTiming5 = NoteArray[num5];
                 if (0m <= (decimal)num6 && 0m <= (decimal)(num2 - NoteScore.GetJudgeScore(eTiming5, eScoreType)))
@@ -261,7 +254,7 @@ internal class FastSkip
         {
             if (tapNoteData.type.isTapScore())
             {
-                NoteScore.EScoreType eScoreType = GetScoreType(tapNoteData.type);
+                NoteScore.EScoreType eScoreType = GamePlayManager.NoteType2ScoreType(tapNoteData.type);
                 NoteJudge.ETiming eTiming6 = NoteArray[num4];
                 NoteJudge.ETiming eTiming7 = NoteArray[num5];
                 if (Force1Miss && !_Miss)
@@ -294,51 +287,5 @@ internal class FastSkip
             }
         }
         return false;
-    }
-
-    private static NoteScore.EScoreType GetScoreType(NotesTypeID type)
-    {
-        if (!_isDelegateInitialized)
-        {
-            if (SinmaiAssist.GameVersion >= 26000)
-            {
-                MethodInfo newMethod = typeof(GamePlayManager).GetMethod(
-                    "NoteType2ScoreType", 
-                    BindingFlags.Public | BindingFlags.Static, 
-                    null, 
-                    new System.Type[] { typeof(NotesTypeID) }, 
-                    null);
-                
-                if (newMethod != null)
-                {
-                    _newMethodDelegate = (NoteType2ScoreType_New)Delegate.CreateDelegate(typeof(NoteType2ScoreType_New), newMethod);
-                }
-            }
-            else
-            {
-                MethodInfo oldMethod = typeof(GamePlayManager).GetMethod(
-                    "NoteType2ScoreType", 
-                    BindingFlags.Public | BindingFlags.Static, 
-                    null, 
-                    new System.Type[] { typeof(NotesTypeID.Def) }, 
-                    null);
-                
-                if (oldMethod != null)
-                {
-                    _oldMethodDelegate = (NoteType2ScoreType_Old)Delegate.CreateDelegate(typeof(NoteType2ScoreType_Old), oldMethod);
-                }
-            }
-        
-            _isDelegateInitialized = true;
-        }
-        
-        if (SinmaiAssist.GameVersion >= 26000)
-        {
-            return _newMethodDelegate(type);
-        }
-        else
-        {
-            return _oldMethodDelegate(type.getEnum());
-        }
     }
 }
