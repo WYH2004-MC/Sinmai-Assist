@@ -35,6 +35,11 @@ internal class FastSkip
     private static bool _isSkip = false;
     private static bool _Miss = false;
 
+    private delegate NoteScore.EScoreType NoteType2ScoreType_Old(NotesTypeID.Def type);
+    private delegate NoteScore.EScoreType NoteType2ScoreType_New(NotesTypeID type);
+    private static NoteType2ScoreType_Old _oldMethodDelegate;
+    private static NoteType2ScoreType_New _newMethodDelegate;
+    private static bool _isDelegateInitialized = false;
     private static MethodInfo _cachedNoteTypeMethod;
 
     [HarmonyPostfix]
@@ -293,28 +298,47 @@ internal class FastSkip
 
     private static NoteScore.EScoreType GetScoreType(NotesTypeID type)
     {
-        if (_cachedNoteTypeMethod == null)
+        if (!_isDelegateInitialized)
         {
-            // 根据游戏版本号判断返回Enum/Type
             if (SinmaiAssist.GameVersion >= 26000)
             {
-                _cachedNoteTypeMethod = typeof(GamePlayManager).GetMethod(
+                MethodInfo newMethod = typeof(GamePlayManager).GetMethod(
                     "NoteType2ScoreType", 
-                    new[] { typeof(NotesTypeID) });
+                    BindingFlags.Public | BindingFlags.Static, 
+                    null, 
+                    new System.Type[] { typeof(NotesTypeID) }, 
+                    null);
+                
+                if (newMethod != null)
+                {
+                    _newMethodDelegate = (NoteType2ScoreType_New)Delegate.CreateDelegate(typeof(NoteType2ScoreType_New), newMethod);
+                }
             }
             else
             {
-                _cachedNoteTypeMethod = typeof(GamePlayManager).GetMethod(
+                MethodInfo oldMethod = typeof(GamePlayManager).GetMethod(
                     "NoteType2ScoreType", 
-                    new[] { typeof(NotesTypeID.Def) });
+                    BindingFlags.Public | BindingFlags.Static, 
+                    null, 
+                    new System.Type[] { typeof(NotesTypeID.Def) }, 
+                    null);
+                
+                if (oldMethod != null)
+                {
+                    _oldMethodDelegate = (NoteType2ScoreType_Old)Delegate.CreateDelegate(typeof(NoteType2ScoreType_Old), oldMethod);
+                }
             }
+        
+            _isDelegateInitialized = true;
         }
         
         if (SinmaiAssist.GameVersion >= 26000)
         {
-            return (NoteScore.EScoreType)_cachedNoteTypeMethod.Invoke(null, [type]);
+            return _newMethodDelegate(type);
         }
-        // 非160以上版本使用老方法，回传枚举
-        return (NoteScore.EScoreType)_cachedNoteTypeMethod.Invoke(null, [type.getEnum()]);
+        else
+        {
+            return _oldMethodDelegate(type.getEnum());
+        }
     }
 }
