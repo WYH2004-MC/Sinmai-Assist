@@ -35,6 +35,8 @@ internal class FastSkip
     private static bool _isSkip = false;
     private static bool _Miss = false;
 
+    private static MethodInfo _cachedNoteTypeMethod;
+
     [HarmonyPostfix]
     [HarmonyPatch(typeof(GameProcess), "OnUpdate")]
     public static void Skip(GameProcess __instance)
@@ -119,7 +121,6 @@ internal class FastSkip
         }
     }
 
-
     [HarmonyPrefix]
     [HarmonyPatch(typeof(GameScoreList), "SetForceAchivement")]
     public static bool SetForceAchivement(int achivement, int dxscore, GameScoreList __instance)
@@ -150,32 +151,31 @@ internal class FastSkip
         };
         int monitorIndex = (int)typeof(GameScoreList).GetField("_monitorIndex", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
         NoteDataList noteList = NotesManager.Instance(monitorIndex).getReader().GetNoteList();
-        foreach (NoteData item in noteList)
+        
+        foreach (NoteData breakNoteData in noteList)
         {
-            if (!item.type.isBreakScore())
-            {
-                continue;
-            }
+            if (!breakNoteData.type.isBreakScore()) continue;
+            
             bool flag = false;
-            NoteJudge.ETiming[] array2 = NoteArray;
-            foreach (NoteJudge.ETiming eTiming in array2)
+            foreach (NoteJudge.ETiming eTiming in NoteArray)
             {
-                NoteScore.EScoreType eScoreType = GamePlayManager.NoteType2ScoreType(item.type.getEnum());
+                NoteScore.EScoreType eScoreType = GetScoreType(breakNoteData.type);
                 if (0m <= (decimal)(num2 - NoteScore.GetJudgeScore(eTiming, NoteScore.EScoreType.Break)) && 0m <= (decimal)(num3 - NoteScore.GetJudgeScore(eTiming, NoteScore.EScoreType.BreakBonus)))
                 {
                     num2 -= NoteScore.GetJudgeScore(eTiming, eScoreType);
                     num3 -= NoteScore.GetJudgeScore(eTiming, NoteScore.EScoreType.BreakBonus);
-                    __instance.SetResult(item.indexNote, eScoreType, eTiming);
+                    __instance.SetResult(breakNoteData.indexNote, eScoreType, eTiming);
                     flag = true;
                     break;
                 }
             }
             if (!flag)
             {
-                __instance.SetResult(item.indexNote, NoteScore.EScoreType.Break, NoteJudge.ETiming.TooFast);
+                __instance.SetResult(breakNoteData.indexNote, NoteScore.EScoreType.Break, NoteJudge.ETiming.TooFast);
                 _Miss = true;
             }
         }
+        
         int num4 = 0;
         int num5 = 0;
         long num6 = 0L;
@@ -199,92 +199,122 @@ internal class FastSkip
         {
             num4 = NoteArray.Length - 1;
         }
-        foreach (NoteData item2 in noteList)
+        
+        foreach (NoteData slideNoteData in noteList)
         {
-            if (item2.type.isSlideScore())
+            if (slideNoteData.type.isSlideScore())
             {
-                NoteScore.EScoreType eScoreType2 = GamePlayManager.NoteType2ScoreType(item2.type.getEnum());
+                NoteScore.EScoreType eScoreType = GetScoreType(slideNoteData.type);
                 NoteJudge.ETiming eTiming2 = NoteArray[num4];
                 NoteJudge.ETiming eTiming3 = NoteArray[num5];
-                if (0m <= (decimal)num6 && 0m <= (decimal)(num2 - NoteScore.GetJudgeScore(eTiming3, eScoreType2)))
+                if (0m <= (decimal)num6 && 0m <= (decimal)(num2 - NoteScore.GetJudgeScore(eTiming3, eScoreType)))
                 {
-                    num6 -= NoteScore.GetJudgeScore(eTiming3, eScoreType2) - NoteScore.GetJudgeScore(eTiming2, eScoreType2);
-                    num2 -= NoteScore.GetJudgeScore(eTiming3, eScoreType2);
-                    __instance.SetResult(item2.indexNote, eScoreType2, eTiming3);
+                    num6 -= NoteScore.GetJudgeScore(eTiming3, eScoreType) - NoteScore.GetJudgeScore(eTiming2, eScoreType);
+                    num2 -= NoteScore.GetJudgeScore(eTiming3, eScoreType);
+                    __instance.SetResult(slideNoteData.indexNote, eScoreType, eTiming3);
                 }
-                else if (0m <= (decimal)(num2 - NoteScore.GetJudgeScore(eTiming2, eScoreType2)))
+                else if (0m <= (decimal)(num2 - NoteScore.GetJudgeScore(eTiming2, eScoreType)))
                 {
-                    num2 -= NoteScore.GetJudgeScore(eTiming2, eScoreType2);
-                    __instance.SetResult(item2.indexNote, eScoreType2, eTiming2);
+                    num2 -= NoteScore.GetJudgeScore(eTiming2, eScoreType);
+                    __instance.SetResult(slideNoteData.indexNote, eScoreType, eTiming2);
                 }
                 else
                 {
-                    __instance.SetResult(item2.indexNote, eScoreType2, NoteJudge.ETiming.TooFast);
+                    __instance.SetResult(slideNoteData.indexNote, eScoreType, NoteJudge.ETiming.TooFast);
                     _Miss = true;
                 }
             }
         }
-        foreach (NoteData item3 in noteList)
+        
+        foreach (NoteData holdData in noteList)
         {
-            if (item3.type.isHoldScore())
+            if (holdData.type.isHoldScore())
             {
-                NoteScore.EScoreType eScoreType3 = GamePlayManager.NoteType2ScoreType(item3.type.getEnum());
+                NoteScore.EScoreType eScoreType = GetScoreType(holdData.type);
                 NoteJudge.ETiming eTiming4 = NoteArray[num4];
                 NoteJudge.ETiming eTiming5 = NoteArray[num5];
-                if (0m <= (decimal)num6 && 0m <= (decimal)(num2 - NoteScore.GetJudgeScore(eTiming5, eScoreType3)))
+                if (0m <= (decimal)num6 && 0m <= (decimal)(num2 - NoteScore.GetJudgeScore(eTiming5, eScoreType)))
                 {
-                    num6 -= NoteScore.GetJudgeScore(eTiming5, eScoreType3) - NoteScore.GetJudgeScore(eTiming4, eScoreType3);
-                    num2 -= NoteScore.GetJudgeScore(eTiming5, eScoreType3);
-                    __instance.SetResult(item3.indexNote, eScoreType3, eTiming5);
+                    num6 -= NoteScore.GetJudgeScore(eTiming5, eScoreType) - NoteScore.GetJudgeScore(eTiming4, eScoreType);
+                    num2 -= NoteScore.GetJudgeScore(eTiming5, eScoreType);
+                    __instance.SetResult(holdData.indexNote, eScoreType, eTiming5);
                 }
-                else if (0m <= (decimal)(num2 - NoteScore.GetJudgeScore(eTiming4, eScoreType3)))
+                else if (0m <= (decimal)(num2 - NoteScore.GetJudgeScore(eTiming4, eScoreType)))
                 {
-                    num2 -= NoteScore.GetJudgeScore(eTiming4, eScoreType3);
-                    __instance.SetResult(item3.indexNote, eScoreType3, eTiming4);
+                    num2 -= NoteScore.GetJudgeScore(eTiming4, eScoreType);
+                    __instance.SetResult(holdData.indexNote, eScoreType, eTiming4);
                 }
                 else
                 {
-                    __instance.SetResult(item3.indexNote, eScoreType3, NoteJudge.ETiming.TooFast);
+                    __instance.SetResult(holdData.indexNote, eScoreType, NoteJudge.ETiming.TooFast);
                     _Miss = true;
                 }
             }
         }
-        foreach (NoteData item4 in noteList)
+        
+        foreach (NoteData TapNoteData in noteList)
         {
-            if (item4.type.isTapScore())
+            if (TapNoteData.type.isTapScore())
             {
-                NoteScore.EScoreType eScoreType4 = GamePlayManager.NoteType2ScoreType(item4.type.getEnum());
+                NoteScore.EScoreType eScoreType = GetScoreType(TapNoteData.type);
                 NoteJudge.ETiming eTiming6 = NoteArray[num4];
                 NoteJudge.ETiming eTiming7 = NoteArray[num5];
                 if (Force1Miss && !_Miss)
                 {
-                    __instance.SetResult(item4.indexNote, eScoreType4, NoteJudge.ETiming.TooFast);
+                    __instance.SetResult(TapNoteData.indexNote, eScoreType, NoteJudge.ETiming.TooFast);
                     _Miss = true;
                     continue;
                 }
-                if (0m < (decimal)num6 && 0m <= (decimal)(num2 - NoteScore.GetJudgeScore(eTiming7, eScoreType4)))
+                if (0m < (decimal)num6 && 0m <= (decimal)(num2 - NoteScore.GetJudgeScore(eTiming7, eScoreType)))
                 {
-                    num6 -= NoteScore.GetJudgeScore(eTiming7, eScoreType4) - NoteScore.GetJudgeScore(eTiming6, eScoreType4);
-                    num2 -= NoteScore.GetJudgeScore(eTiming7, eScoreType4);
-                    __instance.SetResult(item4.indexNote, eScoreType4, eTiming7);
+                    num6 -= NoteScore.GetJudgeScore(eTiming7, eScoreType) - NoteScore.GetJudgeScore(eTiming6, eScoreType);
+                    num2 -= NoteScore.GetJudgeScore(eTiming7, eScoreType);
+                    __instance.SetResult(TapNoteData.indexNote, eScoreType, eTiming7);
                 }
-                else if (0m <= (decimal)(num2 - NoteScore.GetJudgeScore(eTiming6, eScoreType4)))
+                else if (0m <= (decimal)(num2 - NoteScore.GetJudgeScore(eTiming6, eScoreType)))
                 {
-                    num2 -= NoteScore.GetJudgeScore(eTiming6, eScoreType4);
-                    __instance.SetResult(item4.indexNote, eScoreType4, eTiming6);
+                    num2 -= NoteScore.GetJudgeScore(eTiming6, eScoreType);
+                    __instance.SetResult(TapNoteData.indexNote, eScoreType, eTiming6);
                 }
                 else if (0m < (decimal)num2)
                 {
-                    num2 -= NoteScore.GetJudgeScore(eTiming6, eScoreType4);
-                    __instance.SetResult(item4.indexNote, eScoreType4, eTiming6);
+                    num2 -= NoteScore.GetJudgeScore(eTiming6, eScoreType);
+                    __instance.SetResult(TapNoteData.indexNote, eScoreType, eTiming6);
                 }
                 else
                 {
-                    __instance.SetResult(item4.indexNote, eScoreType4, NoteJudge.ETiming.TooFast);
+                    __instance.SetResult(TapNoteData.indexNote, eScoreType, NoteJudge.ETiming.TooFast);
                     _Miss = true;
                 }
             }
         }
         return false;
+    }
+
+    private static NoteScore.EScoreType GetScoreType(NotesTypeID type)
+    {
+        if (_cachedNoteTypeMethod == null)
+        {
+            // 根据游戏版本号判断返回Enum/Type
+            if (SinmaiAssist.GameVersion >= 26000)
+            {
+                _cachedNoteTypeMethod = typeof(GamePlayManager).GetMethod(
+                    "NoteType2ScoreType", 
+                    new[] { typeof(NotesTypeID) });
+            }
+            else
+            {
+                _cachedNoteTypeMethod = typeof(GamePlayManager).GetMethod(
+                    "NoteType2ScoreType", 
+                    new[] { typeof(NotesTypeID.Def) });
+            }
+        }
+        
+        if (SinmaiAssist.GameVersion >= 26000)
+        {
+            return (NoteScore.EScoreType)_cachedNoteTypeMethod.Invoke(null, new object[] { type });
+        }
+        // 非160以上版本使用老方法，回传枚举
+        return (NoteScore.EScoreType)_cachedNoteTypeMethod.Invoke(null, new object[] { type.getEnum() });
     }
 }
