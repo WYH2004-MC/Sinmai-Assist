@@ -163,15 +163,25 @@ internal class FastSkip
 
         // 非满分路径
         decimal factor = targetAchive / 100.0m;
-        long budgetBase = (long)((decimal)__instance.ScoreTotal._allPerfectScore * (factor > 1.0m ? 1.0m : factor));
-        long budgetBonus = (long)((decimal)__instance.ScoreTotal._breakBonusScore * (targetAchive > 100.0m ? (targetAchive - 100.0m) : factor));
-        if (targetAchive == 100.0m) { budgetBase = __instance.ScoreTotal._allPerfectScore; budgetBonus = 0; }
+        long budgetBase;
+        long budgetBonus;
+        if (targetAchive > 100.0m)
+        {
+            budgetBase = (long)((decimal)__instance.ScoreTotal._allPerfectScore * ((targetAchive - 1.0m) * 0.01m));
+            budgetBonus = __instance.ScoreTotal._breakBonusScore;
+        }
+        else
+        {
+            budgetBase = (long)((decimal)__instance.ScoreTotal._allPerfectScore * factor);
+            budgetBonus = (long)((decimal)__instance.ScoreTotal._breakBonusScore * factor);
+        }
 
         NoteJudge.ETiming[] NoteArray = new NoteJudge.ETiming[7] {
             NoteJudge.ETiming.Critical, NoteJudge.ETiming.FastGreat, NoteJudge.ETiming.FastGreat2nd,
             NoteJudge.ETiming.LateGreat, NoteJudge.ETiming.LateGreat2nd, NoteJudge.ETiming.LateGreat3rd, NoteJudge.ETiming.LateGood
         };
 
+        bool forcedMissInBudgetPath = false;
         foreach (NoteData note in noteList)
         {
             if (MarkConnectSlideJudged(note)) continue;
@@ -181,6 +191,14 @@ internal class FastSkip
 
             if (st == NoteScore.EScoreType.End) {
                 __instance.SetResult(note.indexNote, st, NoteJudge.ETiming.Critical);
+                continue;
+            }
+
+            if (Force1Miss && !forcedMissInBudgetPath)
+            {
+                __instance.SetResult(note.indexNote, st, NoteJudge.ETiming.TooFast);
+                forcedMissInBudgetPath = true;
+                _Miss = true;
                 continue;
             }
 
