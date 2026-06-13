@@ -131,6 +131,7 @@ internal class FastSkip
         // 101满分路径
         if (targetAchive >= 101.0m)
         {
+            bool forcedMiss = false;
             foreach (NoteData note in noteList)
             {
                 if (MarkConnectSlideJudged(note)) continue;
@@ -140,13 +141,21 @@ internal class FastSkip
                 // 每个note的每个槽位只判定一次
                 if (!judgedSlots.Add(note.indexNote + "_" + st)) continue;
                 
+                NoteJudge.ETiming timing = NoteJudge.ETiming.Critical;
+                if (Force1Miss && !forcedMiss && st != NoteScore.EScoreType.End)
+                {
+                    timing = NoteJudge.ETiming.TooFast;
+                    forcedMiss = true;
+                    _Miss = true;
+                }
+
                 // End 类型特殊处理
-                __instance.SetResult(note.indexNote, st, NoteJudge.ETiming.Critical);
+                __instance.SetResult(note.indexNote, st, timing);
 
                 // Break
-                if (st == NoteScore.EScoreType.Break)
+                if (st == NoteScore.EScoreType.Break && timing != NoteJudge.ETiming.TooFast)
                 {
-                    __instance.SetResult(note.indexNote, NoteScore.EScoreType.BreakBonus, NoteJudge.ETiming.Critical);
+                    __instance.SetResult(note.indexNote, NoteScore.EScoreType.BreakBonus, timing);
                 }
             }
             return false;
@@ -155,7 +164,7 @@ internal class FastSkip
         // 非满分路径
         decimal factor = targetAchive / 100.0m;
         long budgetBase = (long)((decimal)__instance.ScoreTotal._allPerfectScore * (factor > 1.0m ? 1.0m : factor));
-        long budgetBonus = (long)((decimal)__instance.ScoreTotal._breakBonusScore * (targetAchive > 100.0m ? (targetAchive - 100.0m) : 0m));
+        long budgetBonus = (long)((decimal)__instance.ScoreTotal._breakBonusScore * (targetAchive > 100.0m ? (targetAchive - 100.0m) : factor));
         if (targetAchive == 100.0m) { budgetBase = __instance.ScoreTotal._allPerfectScore; budgetBonus = 0; }
 
         NoteJudge.ETiming[] NoteArray = new NoteJudge.ETiming[7] {
