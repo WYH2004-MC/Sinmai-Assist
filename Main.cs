@@ -195,6 +195,7 @@ namespace SinmaiAssist
             if (MainConfig.Cheat.ForceCurrentIsBest) Patch(typeof(ForceCurrentIsBest));
             if (MainConfig.Cheat.SetAllCharacterAsSameAndLock) Patch(typeof(SetAllCharacterAsSameAndLock));
             if (MainConfig.Cheat.RewriteLoginBonusStamp.Enable) Patch(typeof(RewriteLoginBonusStamp));
+            if (MainConfig.Cheat.LockMapStock.Enable) Patch(typeof(LockMapStock));
 
             // 默认加载项
             Patch(typeof(PrintUserData));
