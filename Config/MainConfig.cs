@@ -44,6 +44,7 @@ public class MainConfig
         public UnlockMasterConfig UnlockMaster { get; set; } = new UnlockMasterConfig();
         public UnlockUtageConfig UnlockUtage { get; set; } = new UnlockUtageConfig();
         public bool ResetLoginBonusRecord { get; set; } = false;
+        public LockMapStockConfig LockMapStock { get; set; } = new LockMapStockConfig();
         public bool ForceCurrentIsBest { get; set; } = false;
         public bool SetAllCharacterAsSameAndLock { get; set; } = false;
         public RewriteLoginBonusStampConfig RewriteLoginBonusStamp { get; set; } = new RewriteLoginBonusStampConfig();
@@ -150,5 +151,12 @@ public class MainConfig
     {
         public bool Enable { get; set; } = true;
         public bool PrintToConsole { get; set; } = true;
+    }
+
+    public class LockMapStockConfig
+    {
+        public bool Enable { get; set; } = false;
+        public bool SaveToUserData { get; set; } = false;
+        public int LockValue { get; set; } = 999;
     }
 }

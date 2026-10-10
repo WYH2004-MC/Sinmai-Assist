@@ -63,6 +63,10 @@ cheat:
   rewriteLoginBonusStamp: # 重写每日登录奖励记录
     enable: false # 是否启用
     point: 0 # 登录奖励点数
+  lockMapStock: # 锁定跑图距离存量(未用完的距离缓冲)
+    enable: false # 是否启用
+    saveToUserData: false # 上传数据时也携带锁定的数值
+    lockValue: 999 # 锁定的距离数值
 
 fix:
   disableEnvironmentCheck: false # 禁用运行环境检查

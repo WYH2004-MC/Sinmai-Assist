@@ -63,6 +63,10 @@ cheat:
   rewriteLoginBonusStamp: 
     enable: false 
     point: 0
+  lockMapStock:
+    enable: false
+    saveToUserData: false
+    lockValue: 999
 
 fix:
   disableEnvironmentCheck: false

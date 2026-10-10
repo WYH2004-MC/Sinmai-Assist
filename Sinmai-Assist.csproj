@@ -305,6 +305,7 @@
     <Compile Include="Cheat\ChartController.cs" />
     <Compile Include="Cheat\FastSkip.cs" />
     <Compile Include="Cheat\ForceCurrentIsBest.cs" />
+    <Compile Include="Cheat\LockMapStock.cs" />
     <Compile Include="Cheat\ResetLoginBonusRecord.cs" />
     <Compile Include="Cheat\RewriteLoginBonusStamp.cs" />
     <Compile Include="Cheat\SetAllCharacterAsSameAndLock.cs" />
