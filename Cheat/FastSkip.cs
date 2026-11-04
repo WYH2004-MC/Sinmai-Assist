@@ -7,6 +7,7 @@ using Monitor;
 using Process;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
@@ -127,6 +128,7 @@ internal class FastSkip
         int monitorIndex = (int)typeof(GameScoreList).GetField("_monitorIndex", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
         NoteDataList noteList = NotesManager.Instance(monitorIndex).getReader().GetNoteList();
         HashSet<string> judgedSlots = new HashSet<string>();
+        List<(NoteData note, NoteScore.EScoreType scoreType, NoteJudge.ETiming timing)> judgments = new List<(NoteData, NoteScore.EScoreType, NoteJudge.ETiming)>();
 
         // 101满分路径
         if (targetAchive >= 101.0m)
@@ -149,71 +151,75 @@ internal class FastSkip
                     _Miss = true;
                 }
 
-                // End 类型特殊处理
-                __instance.SetResult(note.indexNote, st, timing);
-
-                // Break
-                if (st == NoteScore.EScoreType.Break && timing != NoteJudge.ETiming.TooFast)
-                {
-                    __instance.SetResult(note.indexNote, NoteScore.EScoreType.BreakBonus, timing);
-                }
+                judgments.Add((note, st, timing));
             }
-            return false;
-        }
-
-        // 非满分路径
-        decimal factor = targetAchive / 100.0m;
-        long budgetBase;
-        long budgetBonus;
-        if (targetAchive > 100.0m)
-        {
-            budgetBase = (long)((decimal)__instance.ScoreTotal._allPerfectScore * ((targetAchive - 1.0m) * 0.01m));
-            budgetBonus = __instance.ScoreTotal._breakBonusScore;
         }
         else
         {
-            budgetBase = (long)((decimal)__instance.ScoreTotal._allPerfectScore * factor);
-            budgetBonus = (long)((decimal)__instance.ScoreTotal._breakBonusScore * factor);
+            // 非满分路径
+            decimal factor = targetAchive / 100.0m;
+            long budgetBase;
+            long budgetBonus;
+            if (targetAchive > 100.0m)
+            {
+                budgetBase = (long)((decimal)__instance.ScoreTotal._allPerfectScore * ((targetAchive - 1.0m) * 0.01m));
+                budgetBonus = __instance.ScoreTotal._breakBonusScore;
+            }
+            else
+            {
+                budgetBase = (long)((decimal)__instance.ScoreTotal._allPerfectScore * factor);
+                budgetBonus = (long)((decimal)__instance.ScoreTotal._breakBonusScore * factor);
+            }
+
+            NoteJudge.ETiming[] NoteArray = new NoteJudge.ETiming[7] {
+                NoteJudge.ETiming.Critical, NoteJudge.ETiming.FastGreat, NoteJudge.ETiming.FastGreat2nd,
+                NoteJudge.ETiming.LateGreat, NoteJudge.ETiming.LateGreat2nd, NoteJudge.ETiming.LateGreat3rd, NoteJudge.ETiming.LateGood
+            };
+
+            bool forcedMissInBudgetPath = false;
+            foreach (NoteData note in noteList)
+            {
+                if (MarkConnectSlideJudged(note)) continue;
+                if (note.indexNote < 0) continue;
+                NoteScore.EScoreType st = GamePlayManager.NoteType2ScoreType(note.type);
+                if (!judgedSlots.Add(note.indexNote + "_" + st)) continue;
+
+                if (st == NoteScore.EScoreType.End) {
+                    judgments.Add((note, st, NoteJudge.ETiming.Critical));
+                    continue;
+                }
+
+                if (Force1Miss && !forcedMissInBudgetPath)
+                {
+                    judgments.Add((note, st, NoteJudge.ETiming.TooFast));
+                    forcedMissInBudgetPath = true;
+                    _Miss = true;
+                    continue;
+                }
+
+                bool flag = false;
+                foreach (NoteJudge.ETiming eTiming in NoteArray) {
+                    long cBase = NoteScore.GetJudgeScore(eTiming, st);
+                    long cBonus = (st == NoteScore.EScoreType.Break) ? NoteScore.GetJudgeScore(eTiming, NoteScore.EScoreType.BreakBonus) : 0;
+                    if (budgetBase >= cBase && budgetBonus >= cBonus) {
+                        budgetBase -= cBase; budgetBonus -= cBonus;
+                        judgments.Add((note, st, eTiming));
+                        flag = true; break;
+                    }
+                }
+                if (!flag) { judgments.Add((note, st, NoteJudge.ETiming.TooFast)); _Miss = true; }
+            }
         }
 
-        NoteJudge.ETiming[] NoteArray = new NoteJudge.ETiming[7] {
-            NoteJudge.ETiming.Critical, NoteJudge.ETiming.FastGreat, NoteJudge.ETiming.FastGreat2nd,
-            NoteJudge.ETiming.LateGreat, NoteJudge.ETiming.LateGreat2nd, NoteJudge.ETiming.LateGreat3rd, NoteJudge.ETiming.LateGood
-        };
-
-        bool forcedMissInBudgetPath = false;
-        foreach (NoteData note in noteList)
+        // 判定分配保持原顺序，结算按时间提交；同一时刻由 OrderBy 保留原顺序。
+        foreach (var judgment in judgments.OrderBy(result =>
+                     result.note.type.isSlide() || result.note.type.isHold() ? result.note.end.msec : result.note.time.msec))
         {
-            if (MarkConnectSlideJudged(note)) continue;
-            if (note.indexNote < 0) continue;
-            NoteScore.EScoreType st = GamePlayManager.NoteType2ScoreType(note.type);
-            if (!judgedSlots.Add(note.indexNote + "_" + st)) continue;
-
-            if (st == NoteScore.EScoreType.End) {
-                __instance.SetResult(note.indexNote, st, NoteJudge.ETiming.Critical);
-                continue;
-            }
-
-            if (Force1Miss && !forcedMissInBudgetPath)
+            __instance.SetResult(judgment.note.indexNote, judgment.scoreType, judgment.timing);
+            if (judgment.scoreType == NoteScore.EScoreType.Break && judgment.timing != NoteJudge.ETiming.TooFast)
             {
-                __instance.SetResult(note.indexNote, st, NoteJudge.ETiming.TooFast);
-                forcedMissInBudgetPath = true;
-                _Miss = true;
-                continue;
+                __instance.SetResult(judgment.note.indexNote, NoteScore.EScoreType.BreakBonus, judgment.timing);
             }
-
-            bool flag = false;
-            foreach (NoteJudge.ETiming eTiming in NoteArray) {
-                long cBase = NoteScore.GetJudgeScore(eTiming, st);
-                long cBonus = (st == NoteScore.EScoreType.Break) ? NoteScore.GetJudgeScore(eTiming, NoteScore.EScoreType.BreakBonus) : 0;
-                if (budgetBase >= cBase && budgetBonus >= cBonus) {
-                    budgetBase -= cBase; budgetBonus -= cBonus;
-                    __instance.SetResult(note.indexNote, st, eTiming);
-                    if (st == NoteScore.EScoreType.Break) __instance.SetResult(note.indexNote, NoteScore.EScoreType.BreakBonus, eTiming);
-                    flag = true; break;
-                }
-            }
-            if (!flag) { __instance.SetResult(note.indexNote, st, NoteJudge.ETiming.TooFast); _Miss = true; }
         }
         return false;
     }
